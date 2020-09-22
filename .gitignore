@@ -1,0 +1,8 @@
+# Project exclude paths
+/onlineexam-api-commons/target/
+/onlineexam-consumer-login80/target/
+/onlineexam-consumer-register81/target/
+/onlineexam-gateway-gateway9527/target/
+/onlineexam-provider-login8001/target/
+/onlineexam-provider-login8002/target/
+/onlineexam-provider-register9001/target/
