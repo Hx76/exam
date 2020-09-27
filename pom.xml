@@ -21,7 +21,6 @@
         <module>onlineexam-provider-personalinformation8500</module>
         <module>onlineexam-consumer-question84</module>
         <module>onlineexam-provider-question9500</module>
-        <module>onlineexam-consumer-api</module>
         <module>onlineexam-consumer-score85</module>
         <module>onlineexam-provider-score7001</module>
         <module>onlineexam-gateway-gateway9527</module>

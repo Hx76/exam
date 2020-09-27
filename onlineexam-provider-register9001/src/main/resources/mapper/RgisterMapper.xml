@@ -6,7 +6,6 @@
         values (#{email},HEX(AES_ENCRYPT(${password},'hx76')))
     </insert>
 
-
     <select id="checkEmail" resultType="java.lang.String">
         select email from user where email=#{email}
     </select>
