@@ -48,17 +48,17 @@ public class ShiroConfig {
         factoryBean.setSecurityManager(manager);
         return factoryBean;
     }
-    //DefaultWebSecurityManger
-    @Bean(name = "manager")
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("userRealm") UserRealm userRealm){
-        DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
-        manager.setRealm(userRealm);
-        return manager;
-    }
-    //创建realm对象
-    @Bean
-    public UserRealm userRealm(){
-        return new UserRealm();
-    }
+//    //DefaultWebSecurityManger
+//    @Bean(name = "manager")
+//    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("userRealm") UserRealm userRealm){
+//        DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
+//        manager.setRealm(userRealm);
+//        return manager;
+//    }
+//    //创建realm对象
+//    @Bean
+//    public UserRealm userRealm(){
+//        return new UserRealm();
+//    }
 
 }
