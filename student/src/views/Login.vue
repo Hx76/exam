@@ -9,7 +9,7 @@
         <el-input type="email" v-model="ruleForm.email" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="密码:" prop="pass">
-        <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="验证码:" prop="code">
         <el-input style="width: 74%;float: left" v-model="ruleForm.code"></el-input>
@@ -51,7 +51,7 @@ export default {
     return {
       ruleForm: {
         email: '',
-        pass: '',
+        password: '',
         code: '',
         codeEmail: '点击刷新',
         test: ''
@@ -75,7 +75,7 @@ export default {
         return false
       }
           const _this = this
-          axios.get('http://localhost:80/login/' + _this.ruleForm.email + '/' + _this.ruleForm.pass).then(function (resp) {
+          axios.post('http://localhost:80/login',this.ruleForm).then(function (resp) {
             _this.ruleForm.test = resp.data['message']
             if (resp.data['message'] === '该邮箱未注册') {
               alert("该邮箱未注册！")

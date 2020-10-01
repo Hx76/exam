@@ -1,10 +1,11 @@
 package com.onlineexam.controller;
 
+import com.onlineexam.entities.User;
 import com.onlineexam.utils.CommonResult;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
@@ -19,5 +20,17 @@ public class UserController {
     @GetMapping(value = "/login/{email}/{password}")
         public CommonResult confirm(@PathVariable String email, @PathVariable String password){
         return restTemplate.getForObject(LOGIN_URL+"/provider/login/"+email+"/"+password,CommonResult.class);
+    }
+    @PostMapping(value = "/login")
+    public CommonResult confirm(@RequestBody User user){
+        System.out.println("信息："+user.getEmail()+"密码："+user.getPassword());
+        return restTemplate.postForObject(LOGIN_URL+"/provider/login",user,CommonResult.class);
+    }
+
+    @RequestMapping("/logout")
+    public String logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "login";
     }
 }

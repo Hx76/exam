@@ -5,4 +5,12 @@
     <select id="checkPassword" resultType="java.lang.String">
         select AES_DECRYPT(UNHEX(password),'hx76') from user where email = #{email};
     </select>
+
+    <select id="queryByEmail" resultType="com.onlineexam.entities.User">
+        select * from user where email = #{email};
+    </select>
+
+    <select id="getPassword" resultType="java.lang.String">
+        select AES_DECRYPT(UNHEX(password),'hx76') from user where email = #{email};
+    </select>
 </mapper>
