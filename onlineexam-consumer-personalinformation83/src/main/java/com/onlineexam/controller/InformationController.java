@@ -16,9 +16,9 @@ public class InformationController {
     @Resource
     private RestTemplate restTemplate;
 
-    @GetMapping(value = "/information/show/{username}/{email}")
-    public CommonResult showInformation(@PathVariable String username,@PathVariable String email){
-        return restTemplate.getForObject(INFORMATION_URL+"/provider/information/show/"+username+"/"+email,CommonResult.class);
+    @GetMapping(value = "/information/show/{email}")
+    public CommonResult showInformation(@PathVariable String email){
+        return restTemplate.getForObject(INFORMATION_URL+"/provider/information/show/"+email,CommonResult.class);
     }
 
     @GetMapping(value = "/information/update/{username}/{email}")

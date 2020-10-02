@@ -1,20 +1,22 @@
 <template>
-  <div>
-    <el-row>
-      <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
-        <el-card class="box-card">
+  <div style="width: 70%;margin-left: 15%" >
+    <el-row style="margin-top: 1%">
+      <el-col :span="2" v-for="(o, index) in 9" :key="o" :offset="index > 0 ? 3 : 0" style="width: 32%;margin-left: 1%">
+        <el-card class="box-card" style="margin-top: 5%;width: 100%">
           <div slot="header" class="clearfix">
-            <span>卡片名称</span>
-            <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+            <span>考试名称</span>
+            <br/>
+            <span>考试id</span>
           </div>
-          <div v-for="o in 4" :key="o" class="text item">
-            {{'列表内容 ' + o }}
-          </div>
+          <span>考试开始时间：2020/10/1</span>
+          <br/>
+          <span>考试时间：90分钟</span>
+          <br/>
+          <el-button type="text">加入考试</el-button>
         </el-card>
-
       </el-col>
     </el-row>
-    <el-pagination
+    <el-pagination style="margin-top: 2%"
         background
         layout="prev, pager, next"
         :total="1000">
@@ -35,33 +37,5 @@ export default {
 </script>
 
 <style scoped>
-  .time {
-    font-size: 13px;
-    color: #999;
-  }
 
-  .bottom {
-    margin-top: 13px;
-    line-height: 12px;
-  }
-
-  .button {
-    padding: 0;
-    float: right;
-  }
-
-  .image {
-    width: 100%;
-    display: block;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-
-  .clearfix:after {
-    clear: both
-  }
 </style>

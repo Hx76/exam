@@ -1,10 +1,9 @@
 <template>
-  <div>
+  <div style="background: #e4f0ef">
     <Navigation></Navigation>
     <Search></Search>
     <ExamList></ExamList>
-    <button @click="student()">student</button>
-    <button @click="teacher()">teacher</button>
+    <Footer></Footer>
   </div>
 
 </template>
@@ -16,9 +15,10 @@ import Navigation from "@/views/Navigation";
 import ExamList from "@/views/ExamList";
 import Login from "@/views/Login";
 import Search from "@/views/Search";
+import Footer from "@/views/Footer";
 export default {
   name: 'Home',
-  components: {Search, Login, ExamList, Navigation},
+  components: {Footer, Search, Login, ExamList, Navigation},
   methods:{
     create(){
 
@@ -53,4 +53,5 @@ export default {
     margin:0;
     padding:0;
   }
+
 </style>

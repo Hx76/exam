@@ -1,10 +1,9 @@
 package com.onlineexam.controller;
 
+import com.onlineexam.entities.Exam;
 import com.onlineexam.utils.CommonResult;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
@@ -16,23 +15,23 @@ public class ExamController {
     @Resource
     private RestTemplate restTemplate;
 
-    @GetMapping(value = "/exam/showAll")
-    public CommonResult showAllExam(){
-        return restTemplate.getForObject(EXAM_URL+"/provider/exam/showAll",CommonResult.class);
+    @GetMapping(value = "/exam/showAll/{currentPage}/{pageSize}")
+    public CommonResult showAllExam(@PathVariable int currentPage,@PathVariable int pageSize){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/showAll/"+currentPage+"/"+pageSize,CommonResult.class);
     }
 
-    @GetMapping(value = "/exam/update/{examSerialNumber}")
-    public CommonResult updateInformation(@PathVariable Integer examSerialNumber){
-        return restTemplate.getForObject(EXAM_URL+"/provider/information/show/",CommonResult.class);
+    @PostMapping(value = "/exam/update")
+    public CommonResult updateInformation(@RequestBody Exam exam){
+        return restTemplate.postForObject(EXAM_URL+"/provider/exam",exam,CommonResult.class);
     }
 
-    @GetMapping(value = "/exam/create/{email}")
-    public CommonResult showInformation(@PathVariable String username, @PathVariable String email, @PathVariable String password){
-        return restTemplate.getForObject(EXAM_URL+"/provider/information/show/"+username+"/"+email+"/"+password,CommonResult.class);
+    @PostMapping(value = "/exam/create")
+    public CommonResult showInformation(@RequestBody Exam exam){
+        return restTemplate.postForObject(EXAM_URL+"/provider/exam/create",exam,CommonResult.class);
     }
 
-    @GetMapping(value = "/information/update/{username}/{email}/{password}")
-    public CommonResult updateInformation(@PathVariable String username,@PathVariable String email, @PathVariable String password){
-        return restTemplate.getForObject(EXAM_URL+"/provider/information/show/"+username+"/"+email+"/"+password,CommonResult.class);
+    @GetMapping(value = "/exam/showByUser/{email}")
+    public CommonResult updateInformation(@PathVariable String email){
+        return restTemplate.getForObject(EXAM_URL+"/provider/information/show/"+email,CommonResult.class);
     }
 }

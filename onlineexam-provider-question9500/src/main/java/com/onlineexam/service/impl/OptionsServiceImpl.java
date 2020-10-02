@@ -14,17 +14,22 @@ public class OptionsServiceImpl implements OptionsService {
     private OptionsDao dao;
 
     @Override
-    public List<Options> showOption(String questionId) {
+    public List<Options> showOption(Integer questionId) {
         return dao.showOption(questionId);
     }
 
     @Override
-    public Integer updateOption(String optionId, String option, String optionNumber) {
-        return dao.updateOption(optionId, option, optionNumber);
+    public Integer updateOption(Options options) {
+        return dao.updateOption(options);
     }
 
     @Override
-    public Integer deleteOption(String optionId) {
+    public Integer deleteOption(Integer optionId) {
         return dao.deleteOption(optionId);
+    }
+
+    @Override
+    public Integer addOption(Options options) {
+        return dao.addOption(options);
     }
 }

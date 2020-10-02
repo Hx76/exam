@@ -14,7 +14,7 @@ public class InformationController {
     InformationService service;
 
     @GetMapping(value = "/provider/information/show/{email}")
-    public CommonResult getPaymentById(@PathVariable String email){
+    public CommonResult showUserInformation(@PathVariable String email){
         String userName = service.showInformation(email);
         if (userName==null){
             return new CommonResult(510,"用户名为空","用户名");
@@ -24,7 +24,7 @@ public class InformationController {
     }
 
     @GetMapping(value = "/provider/information/update/{username}/{email}")
-    public CommonResult getPaymentById(@PathVariable String username,@PathVariable String email){
+    public CommonResult updateUserInformation(@PathVariable String username,@PathVariable String email){
         service.updateInformation(username,email);
         return new CommonResult(510,"修改成功","8500");
     }

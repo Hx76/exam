@@ -11,8 +11,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Question implements Serializable {
     private Integer id;
-    private String questionBody;
-    private String typeId;
-    private String examId;
+    private String question_body;
+    private String type_id;
+    private String creator;
 
 }

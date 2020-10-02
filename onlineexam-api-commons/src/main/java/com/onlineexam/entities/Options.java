@@ -12,5 +12,5 @@ import java.io.Serializable;
 public class Options implements Serializable {
     private Integer id;
     private String option;
-    private String optionNumber;
+    private String option_number;
 }

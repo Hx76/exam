@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface InformationDao {
     String showInformation(@Param("email") String email);
-    String updateInformation(@Param("username") String username, @Param("email") String email);
+    int updateInformation(@Param("username") String username, @Param("email") String email);
 }

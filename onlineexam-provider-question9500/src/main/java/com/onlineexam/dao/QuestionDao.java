@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface QuestionDao {
     List<Question> showAll();
-    List<Question> showQuestionByUser(@Param("email") String email, String password);
-    List<Question> showQuestionByExam(@Param("email") String email, String password);
-    Integer updateQuestion(@Param("email") String email, String password);
-    Integer deleteQuestion(@Param("email") String email, String password);
+    int countQuestions();
+    List<Question> showQuestionByExam(@Param("examId") Integer examId);
+    Integer updateQuestion(Question question);
+    Integer deleteQuestion(@Param("questionId") Integer questionId);
 }

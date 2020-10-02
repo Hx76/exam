@@ -3,6 +3,12 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "@/views/Login";
 import Register from "@/views/Register";
+import UserInfo from "@/views/UserInfo";
+import ExamList from "@/views/ExamList";
+import Exam from "@/views/Exam";
+import ExamManage from "@/views/ExamManage";
+import QuestionManage from "@/views/QuestionManage";
+import Question from "@/views/Question";
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,6 +21,36 @@ const routes = [
     path: '/home',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/userInfo',
+    name: 'userInfo',
+    component: UserInfo
+  },
+  {
+    path: '/examList',
+    name: 'examList',
+    component: ExamList
+  },
+  {
+    path: '/examManage',
+    name: 'examManage',
+    component: ExamManage
+  },
+  {
+    path: '/questionManage',
+    name: 'questionManage',
+    component: QuestionManage
+  },
+  {
+    path: '/exam',
+    name: 'exam',
+    component: Exam
+  },
+  {
+    path: '/question',
+    name: 'question',
+    component: Question
   },
   {
     path: '/register',

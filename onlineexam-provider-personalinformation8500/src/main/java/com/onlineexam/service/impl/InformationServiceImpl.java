@@ -17,6 +17,8 @@ public class InformationServiceImpl implements InformationService {
 
     @Override
     public String updateInformation(String username, String email) {
-        return dao.updateInformation(username, email);
+        int num = dao.updateInformation(username, email);
+        System.out.println(num);
+        return "成功";
     }
 }
