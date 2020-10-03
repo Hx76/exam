@@ -10,4 +10,5 @@ public interface QuestionService {
     List<Question> showQuestionByExam(@Param("examId") Integer examId);
     Integer updateQuestion(Question question);
     Integer deleteQuestion(@Param("questionId") Integer questionId);
+    Integer countAll();
 }

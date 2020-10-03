@@ -34,4 +34,9 @@ public class QuestionController {
     public CommonResult deleteQuestion(@PathVariable Integer questionId){
         return restTemplate.getForObject(QUESTION_URL+"/provider/question/delete/"+questionId,CommonResult.class);
     }
+
+    @GetMapping(value = "/question/countAll")
+    public CommonResult countQuestion(){
+        return restTemplate.getForObject(QUESTION_URL+"/provider/question/countAll",CommonResult.class);
+    }
 }

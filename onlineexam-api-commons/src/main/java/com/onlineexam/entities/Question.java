@@ -14,5 +14,5 @@ public class Question implements Serializable {
     private String question_body;
     private String type_id;
     private String creator;
-
+    private Integer score;
 }

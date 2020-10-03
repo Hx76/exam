@@ -1,112 +1,131 @@
 <template>
   <div style="background: #f0f2f5;">
     <Navigation></Navigation>
-      <div style="width: 70%;margin-left: 15%;margin-top: 1%;background: #fff;height: 900px">
-        <label style="width: 10%;margin-top: 2%;margin-left: 5%">问题编号：</label>
-        <el-input style="width: 37%;margin-top: 2%;margin-left: 1%"></el-input>
-        <el-button style="width: 10%;margin-left: 1%">搜索</el-button>
-        <el-button style="margin-left: 1%;margin-top: 2%;background: #00aeff;color: #e4f0ef;width: 10%" @click="dialogVisible = true">+ 新建</el-button>
-        <el-dialog
-            title="创建问题"
-            :visible.sync="dialogVisible"
-            width="40%"
-            :before-close="handleClose">
-          <div>
-            <el-form :model="form">
-              <el-form-item label="题干:" :label-width="formLabelWidth">
-                <el-input  autocomplete="off"></el-input>
-              </el-form-item>
-            </el-form>
-          </div>
-          <div>
-            <el-form>
-              <el-form-item label="题目类型:" :label-width="formLabelWidth">
-                <el-select  placeholder="请选择题目类型">
-                  <el-option label="选择题" value="shanghai"></el-option>
-                  <el-option label="判断题" value="beijing"></el-option>
-                  <el-option label="填空题" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-form>
-          </div>
-          <div>
-            <el-form :model="form">
-              <el-form-item label="选项1:" :label-width="formLabelWidth">
-                <el-input  autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="选项2:" :label-width="formLabelWidth">
-                <el-input  autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="选项3:" :label-width="formLabelWidth">
-                <el-input  autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="选项4:" :label-width="formLabelWidth">
-                <el-input  autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="答案:" :label-width="formLabelWidth">
-                <el-select  placeholder="请选择答案">
-                  <el-option label="A" value="shanghai"></el-option>
-                  <el-option label="B" value="beijing"></el-option>
-                  <el-option label="C" value="beijing"></el-option>
-                  <el-option label="D" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-form>
-          </div>
+    <div style="width: 70%;margin-left: 15%;margin-top: 1%;background: #fff;height: 900px">
+      <label style="width: 10%;margin-top: 2%;margin-left: 5%">问题编号：</label>
+      <el-input style="width: 37%;margin-top: 2%;margin-left: 1%"></el-input>
+      <el-button style="width: 10%;margin-left: 1%">搜索</el-button>
+      <el-button style="margin-left: 1%;margin-top: 2%;background: #00aeff;color: #e4f0ef;width: 10%"
+                 @click="dialogVisible = true">+ 新建
+      </el-button>
+      <el-dialog
+          title="创建问题"
+          :visible.sync="dialogVisible"
+          width="40%"
+          :before-close="handleClose">
+        <div>
+          <el-form :model="formData">
+            <el-form-item label="题干:">
+              <el-input autocomplete="off" v-model="formData.question_body"></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div>
+          <el-form>
+            <el-form-item label="题目类型:">
+              <el-select v-model="formData.type_id" placeholder="请选择题目类型">
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div>
+          <el-form :model="formData">
+            <el-form-item label="选项1:">
+              <el-input autocomplete="off" v-model="formData.options"></el-input>
+            </el-form-item>
+            <el-form-item label="选项2:" :label-width="formLabelWidth">
+              <el-input autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="选项3:" :label-width="formLabelWidth">
+              <el-input autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="选项4:" :label-width="formLabelWidth">
+              <el-input autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="答案:" :label-width="formLabelWidth">
+              <el-select placeholder="请选择答案">
+                <el-option label="选项1" value="shanghai"></el-option>
+                <el-option label="选项2" value="beijing"></el-option>
+                <el-option label="选项3" value="beijing"></el-option>
+                <el-option label="选项4" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="分值:">
+              <el-input autocomplete="off" v-model="formData.score"></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
 
-          <span slot="footer" class="dialog-footer">
+        <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="dialogVisible = true">确 定</el-button>
   </span>
-        </el-dialog>
-        <el-divider style="margin-top: 1%"></el-divider>
-        <el-table
-            :data="tableData"
-            style="width: 100%">
-          <el-table-column
-              prop="date"
-              type="selection">
-            <el-checkbox></el-checkbox>
-          </el-table-column>
-          <el-table-column
-              prop="date"
-              label="序号"
-              width="180">
-          </el-table-column>
-          <el-table-column
-              prop="name"
-              label="题干"
-              width="180">
-          </el-table-column>
-          <el-table-column
-              prop="address"
-              label="分数">
-          </el-table-column>
-          <el-table-column
-              prop="address"
-              label="创建人">
-          </el-table-column>
-          <el-table-column
-            prop="address"
+      </el-dialog>
+      <el-divider style="margin-top: 1%"></el-divider>
+      <el-table
+          :data="tableData"
+          style="width: 100%">
+        <el-table-column
+            type="selection">
+          <el-checkbox></el-checkbox>
+        </el-table-column>
+        <el-table-column
+            prop="id"
+            label="序号"
+            width="180">
+        </el-table-column>
+        <el-table-column
+            prop="question_body"
+            label="题干"
+            width="180">
+        </el-table-column>
+        <el-table-column
+            prop="score"
+            label="分数">
+        </el-table-column>
+        <el-table-column
+            prop="creator"
+            label="创建人">
+        </el-table-column>
+        <el-table-column
+            prop="type_id"
             label="题型">
         </el-table-column>
-          <el-table-column
-              prop="address"
-              label="更新时间">
-          </el-table-column>
-          <el-table-column
-              prop="address"
-              label="操作">
-            <p>详情</p>
-            <p>删除</p>
-          </el-table-column>
-        </el-table>
-        <el-pagination style="margin-top: 2%"
-                       background
-                       layout="prev, pager, next"
-                       :total="1000">
-        </el-pagination>
-      </div>
+        <el-table-column
+            label="操作">
+          <el-button type="text">详情</el-button>
+          <el-button type="text" @click="centerDialogVisible = true">删除</el-button>
+
+          <el-dialog
+              title="提示"
+              :visible.sync="centerDialogVisible"
+              width="30%"
+              append-to-body
+            >
+            <span>确定要删除该条数据吗？</span>
+            <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+  </span>
+          </el-dialog>
+
+        </el-table-column>
+      </el-table>
+      <el-pagination style="margin-top: 2%"
+                     background
+                     layout="prev, pager, next"
+                     page-size=8
+                     :total="total"
+                     @current-change="page"
+      >
+      </el-pagination>
+    </div>
     <Footer/>
   </div>
 
@@ -115,29 +134,52 @@
 <script>
 import Navigation from "@/views/Navigation";
 import Footer from "@/views/Footer";
+
 export default {
   name: "QuestionManage",
   components: {Footer, Navigation},
+  created() {
+    const _this = this
+    axios.get('http://localhost:84/question/countAll').then(function (resp) {
+      _this.total = resp.data['data']
+      console.log(resp.data)
+    })
+    axios.get('http://localhost:84/question/showAll/1/8').then(function (resp) {
+      _this.tableData = resp.data['data']
+    })
+  },
   data() {
     return {
       dialogVisible: false,
+      centerDialogVisible: false,
       active: 0,
+      total: 0,
+      options: [{
+        value: '选项1',
+        label: '选择题'
+      }, {
+        value: '选项2',
+        label: '判断题'
+      }, {
+        value: '选项3',
+        label: '填空题'
+      }],
+      value: '',
+      formData: [{
+        question_body: '',
+        score: '',
+        creator: '',
+        type_id: '',
+        option: [],
+        answer: ''
+      }]
+      ,
       tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
+        id: '',
+        question_body: '',
+        score: '',
+        creator: '',
+        type_id: '',
       }]
     }
   },
@@ -147,11 +189,31 @@ export default {
           .then(_ => {
             done();
           })
-          .catch(_ => {});
+          .catch(_ => {
+          });
     },
-    next() {
-      if (this.active++ > 2) this.active = 0;
-    }
+
+    page(currentPage) {
+      const _this = this
+      axios.get('http://localhost:84/question/countAll').then(function (resp) {
+        _this.total = resp.data['data']
+        console.log(resp.data)
+      })
+      axios.get('http://localhost:84/question/showAll/' + currentPage + '/8').then(function (resp) {
+        _this.tableData = resp.data['data']
+
+        if (resp.data['data']['type_id'] === 1) {
+
+          _this.tableData.type_id = '选择题'
+        } else if (_this.tableData.type_id === 2) {
+          _this.tableData.type_id = '判断题'
+        } else {
+          _this.tableData.type_id = '填空题'
+        }
+      })
+    },
+
+
   }
 
 }

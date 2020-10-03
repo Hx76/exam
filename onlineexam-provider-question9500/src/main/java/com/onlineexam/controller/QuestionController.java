@@ -38,4 +38,11 @@ public class QuestionController {
         return new CommonResult(12,"yes","");
     }
 
+    @GetMapping(value = "/provider/question/countAll")
+    public CommonResult countQuestion(){
+        Integer num = service.countAll();
+        System.out.println(num);
+        return new CommonResult(12,"yes",num);
+    }
+
 }

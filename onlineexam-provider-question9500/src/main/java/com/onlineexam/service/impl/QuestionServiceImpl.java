@@ -20,6 +20,16 @@ public class QuestionServiceImpl implements QuestionService {
         PageHelper.startPage(currentPage, pageSize);
         List<Question> questions = dao.showAll();
         System.out.println(questions);
+        for (int i=0;i<questions.size();i++){
+            Question question = questions.get(i);
+            if (question.getType_id().equals("1")){
+                question.setType_id("选择题");
+            }else if (question.getType_id().equals("2")){
+                question.setType_id("判断题");
+            }else {
+                question.setType_id("填空题");
+            }
+        }
         int countNums = dao.countQuestions();
         PageBean<Question> pageData = new PageBean<>(currentPage, pageSize, countNums);
         pageData.setItems(questions);
@@ -39,6 +49,11 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Integer deleteQuestion(Integer questionId) {
         return dao.deleteQuestion(questionId);
+    }
+
+    @Override
+    public Integer countAll() {
+        return dao.countQuestions();
     }
 
 }

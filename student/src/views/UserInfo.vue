@@ -5,7 +5,7 @@
       <el-row class="tac">
         <el-col :span="12" style="width: 30%">
           <el-menu
-              default-active="2"
+              default-active="1"
               class="el-menu-vertical-demo"
               @open="handleOpen"
               @close="handleClose">
@@ -19,10 +19,10 @@
           <h1 style="float: left;margin-top: 1%">基本设置</h1>
           <div style="margin-top: 10%">
             <p style="margin-top: 1%;float: left">姓名</p>
-            <el-input></el-input>
+            <el-input v-model="userInfo.name"></el-input>
             <p style="float: left;margin-top: 1%">邮箱</p>
-            <el-input></el-input>
-            <el-button style="margin-top: 1%">保存</el-button>
+            <el-input v-model="userInfo.email" disabled="disabled"></el-input>
+            <el-button style="margin-top: 1%" @click="save()">保存</el-button>
           </div>
         </el-col>
       </el-row>
@@ -36,7 +36,28 @@ import Navigation from "@/views/Navigation";
 import Footer from "@/views/Footer";
 export default {
   name: "UserInfo",
-  components: {Footer, Navigation}
+  components: {Footer, Navigation},
+  data() {
+    return {
+      userInfo: {
+        name: '用户',
+        email: '邮箱'
+      }
+    };
+  },
+  created(){
+    this.userInfo.name = this.$route.params.username
+    this.userInfo.email = this.$route.params.email
+  },
+  methods: {
+    save(){
+      const _this = this
+      axios.post('http://localhost:83/information/update/'+_this.userInfo.name+'/'+
+      _this.userInfo.email).then(function (resp) {
+
+      })
+    }
+  }
 }
 </script>
 

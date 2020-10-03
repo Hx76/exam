@@ -17,9 +17,12 @@
       </el-col>
     </el-row>
     <el-pagination style="margin-top: 2%"
-        background
-        layout="prev, pager, next"
-        :total="1000">
+                   background
+                   layout="prev, pager, next"
+                   page-size=9
+                   :total="total"
+                   @current-change="page"
+    >
     </el-pagination>
   </div>
 
@@ -28,9 +31,25 @@
 <script>
 export default {
   name: "ExamList",
+  created() {
+    const _this = this
+    axios.get('http://localhost:84/question/countAll').then(function (resp) {
+      _this.total = resp.data['data']
+      console.log(resp.data)
+    })
+    axios.get('http://localhost:84/question/showAll/1/8').then(function (resp) {
+      _this.tableData = resp.data['data']
+    })
+  },
   data() {
     return {
-      currentDate: new Date()
+      currentDate: new Date(),
+      total: 0,
+      examInfo: [
+        {
+
+        }
+      ]
     };
   }
 }
