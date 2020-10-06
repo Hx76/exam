@@ -12,7 +12,23 @@
           <br/>
           <span>考试时间：90分钟</span>
           <br/>
-          <el-button type="text">加入考试</el-button>
+          <el-button type="text" @click="dialogVisible=true">加入考试</el-button>
+          <el-dialog
+              title="提示"
+              :visible.sync="dialogVisible"
+              width="30%"
+              append-to-body
+              :before-close="handleClose">
+            <el-form :model="form">
+              <el-form-item label="请输入考试邀请码:">
+                <el-input v-model="key" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="goToExam">确 定</el-button>
+  </span>
+          </el-dialog>
         </el-card>
       </el-col>
     </el-row>
@@ -29,8 +45,10 @@
 </template>
 
 <script>
+import Navigation from "@/views/Navigation";
 export default {
   name: "ExamList",
+  components: {Navigation},
   created() {
     const _this = this
     axios.get('http://localhost:84/question/countAll').then(function (resp) {
@@ -45,12 +63,30 @@ export default {
     return {
       currentDate: new Date(),
       total: 0,
+      dialogVisible: false,
+      key: '',
       examInfo: [
         {
 
         }
       ]
     };
+  },
+  methods:{
+    goToExam(){
+      if (this.key==='123456'){
+        this.$router.replace('/exam')
+      }else {
+        alert("邀请码错误");
+      }
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+    }
   }
 }
 </script>

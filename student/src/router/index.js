@@ -9,6 +9,7 @@ import Exam from "@/views/Exam";
 import ExamManage from "@/views/ExamManage";
 import QuestionManage from "@/views/QuestionManage";
 import Question from "@/views/Question";
+import MyExam from "@/views/MyExam";
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,6 +17,11 @@ const routes = [
     path: '/',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/myExam',
+    name: 'myExam',
+    component: MyExam
   },
   {
     path: '/home',

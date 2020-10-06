@@ -70,7 +70,7 @@ export default {
       this.$router.replace('/myExam')
     },
     goToExamList(){
-      this.$router.replace('/examList')
+      this.$router.replace('/home')
     }
   }
 }
