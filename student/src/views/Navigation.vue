@@ -10,7 +10,7 @@
       active-text-color="#ffd04b">
 
     <el-menu-item index="1"></el-menu-item>
-    <el-menu-item index="2">
+    <el-menu-item index="2" @click="goToExamList()">
       <template slot="title">线上考试系统</template>
     </el-menu-item>
     <el-menu-item index="3" @click="goToExamManage()">考试管理</el-menu-item>
@@ -68,6 +68,9 @@ export default {
     },
     goToMyExam(){
       this.$router.replace('/myExam')
+    },
+    goToExamList(){
+      this.$router.replace('/examList')
     }
   }
 }

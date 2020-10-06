@@ -99,7 +99,61 @@
         </el-table-column>
         <el-table-column
             label="操作">
-          <el-button type="text">详情</el-button>
+          <el-button type="text" @click="updateDialogVisible = true">详情</el-button>
+          <el-dialog title="题目详情" :visible.sync="updateDialogVisible" append-to-body>
+            <div>
+              <el-form :model="dialogData">
+                <el-form-item  label="题干:">
+                  <el-input autocomplete="off" v-model="dialogVisible.question_body"></el-input>
+                </el-form-item>
+              </el-form>
+            </div>
+            <div>
+              <el-form>
+                <el-form-item label="题目类型:">
+                  <el-select v-model="dialogData.type_id" placeholder="请选择题目类型">
+                    <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-form>
+            </div>
+            <div>
+              <el-form :model="dialogData">
+                <el-form-item label="选项1:">
+                  <el-input autocomplete="off" v-model="dialogData.options"></el-input>
+                </el-form-item>
+                <el-form-item label="选项2:" :label-width="formLabelWidth">
+                  <el-input autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="选项3:" :label-width="formLabelWidth">
+                  <el-input autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="选项4:" :label-width="formLabelWidth">
+                  <el-input autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="答案:" :label-width="formLabelWidth">
+                  <el-select placeholder="请选择答案">
+                    <el-option label="选项1" value="shanghai"></el-option>
+                    <el-option label="选项2" value="beijing"></el-option>
+                    <el-option label="选项3" value="beijing"></el-option>
+                    <el-option label="选项4" value="beijing"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="分值:">
+                  <el-input autocomplete="off" v-model="dialogData.score"></el-input>
+                </el-form-item>
+              </el-form>
+            </div>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="updateDialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="updateDialogVisible = false">确 定</el-button>
+            </div>
+          </el-dialog>
           <el-button type="text" @click="centerDialogVisible = true">删除</el-button>
 
           <el-dialog
@@ -110,11 +164,10 @@
             >
             <span>确定要删除该条数据吗？</span>
             <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-  </span>
+              <el-button @click="centerDialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="deleteQuestion()">确 定</el-button>
+             </span>
           </el-dialog>
-
         </el-table-column>
       </el-table>
       <el-pagination style="margin-top: 2%"
@@ -122,8 +175,7 @@
                      layout="prev, pager, next"
                      page-size=8
                      :total="total"
-                     @current-change="page"
-      >
+                     @current-change="page">
       </el-pagination>
     </div>
     <Footer/>
@@ -150,6 +202,7 @@ export default {
   },
   data() {
     return {
+      updateDialogVisible: false,
       dialogVisible: false,
       centerDialogVisible: false,
       active: 0,
@@ -172,8 +225,15 @@ export default {
         type_id: '',
         option: [],
         answer: ''
-      }]
-      ,
+      }],
+      dialogData:[{
+        question_body: '1',
+        score: '5',
+        creator: '4',
+        type_id: '5',
+        option: [],
+        answer: '7'
+      }],
       tableData: [{
         id: '',
         question_body: '',
@@ -212,8 +272,9 @@ export default {
         }
       })
     },
-
-
+    deleteQuestion(){
+      this.centerDialogVisible = false
+    }
   }
 
 }
