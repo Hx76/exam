@@ -9,55 +9,41 @@
                @click="dialogVisible = true">+ 新建
     </el-button>
     <el-dialog
-        title="创建问题"
+        title="创建考试"
         :visible.sync="dialogVisible"
         width="40%"
         :before-close="handleClose">
       <div>
         <el-form :model="formData">
-          <el-form-item label="题干:">
+          <el-form-item label="考试名称:">
             <el-input autocomplete="off" v-model="formData.question_body"></el-input>
           </el-form-item>
         </el-form>
       </div>
       <div>
-        <el-form>
-          <el-form-item label="题目类型:">
-            <el-select v-model="formData.type_id" placeholder="请选择题目类型">
-              <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </div>
-      <div>
         <el-form :model="formData">
-          <el-form-item label="选项1:">
+          <el-form-item label="考试时间:">
             <el-input autocomplete="off" v-model="formData.options"></el-input>
           </el-form-item>
-          <el-form-item label="选项2:" :label-width="formLabelWidth">
+          <el-form-item label="开始时间:" :label-width="formLabelWidth">
             <el-input autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="选项3:" :label-width="formLabelWidth">
+          <el-form-item label="选择题总分:" :label-width="formLabelWidth">
             <el-input autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="选项4:" :label-width="formLabelWidth">
+          <el-form-item label="判断题总分:" :label-width="formLabelWidth">
             <el-input autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="答案:" :label-width="formLabelWidth">
-            <el-select placeholder="请选择答案">
-              <el-option label="选项1" value="shanghai"></el-option>
-              <el-option label="选项2" value="beijing"></el-option>
-              <el-option label="选项3" value="beijing"></el-option>
-              <el-option label="选项4" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="分值:">
+          <el-form-item label="填空题总分:" :label-width="formLabelWidth">
             <el-input autocomplete="off" v-model="formData.score"></el-input>
+          </el-form-item>
+          <el-form-item label="选择题目:">
+            <el-select>
+              <el-option label="第一题" value="shanghai"></el-option>
+              <el-option label="第二题" value="beijing"></el-option>
+              <el-option label="第三题" value="beijing"></el-option>
+              <el-option label="第四题" value="beijing"></el-option>
+            </el-select>
           </el-form-item>
         </el-form>
       </div>

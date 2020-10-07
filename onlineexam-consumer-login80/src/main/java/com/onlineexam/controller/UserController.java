@@ -33,4 +33,5 @@ public class UserController {
         subject.logout();
         return "login";
     }
+
 }

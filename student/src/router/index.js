@@ -10,6 +10,8 @@ import ExamManage from "@/views/ExamManage";
 import QuestionManage from "@/views/QuestionManage";
 import Question from "@/views/Question";
 import MyExam from "@/views/MyExam";
+import MyCreatedExam from "@/views/MyCreatedExam";
+import Rank from "@/views/Rank";
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,6 +24,16 @@ const routes = [
     path: '/myExam',
     name: 'myExam',
     component: MyExam
+  },
+  {
+    path: '/myCreatedExam',
+    name: 'myCreatedExam',
+    component: MyCreatedExam
+  },
+  {
+    path: '/rank',
+    name: 'rank',
+    component: Rank
   },
   {
     path: '/home',
