@@ -18,7 +18,8 @@ const routes = [
   {
     path: '/',
     name: 'login',
-    component: Login
+    component: Login,
+    meta: '登录'
   },
   {
     path: '/myExam',
@@ -38,7 +39,8 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: Home
+    component: Home,
+    meta: '首页'
   },
   {
     path: '/userInfo',
