@@ -67,6 +67,7 @@ export default {
       key: '',
       examInfo: [
         {
+          id: 0,
 
         }
       ]
