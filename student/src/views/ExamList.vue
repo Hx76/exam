@@ -68,7 +68,6 @@ export default {
       examInfo: [
         {
           id: 0,
-
         }
       ]
     };
