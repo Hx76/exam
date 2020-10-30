@@ -276,7 +276,7 @@ export default {
       this.centerDialogVisible = false
     }
   }
-tr
+
 }
 </script>
 
