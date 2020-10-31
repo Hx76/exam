@@ -16,9 +16,9 @@ public class ExamServiceImpl implements ExamService {
     @Resource
     private ExamDao dao;
 
-
     @Override
     public List<Exam> showAllExam(int currentPage,int pageSize) {
+        System.out.println(currentPage+"hahahahahha"+pageSize);
         PageHelper.startPage(currentPage, pageSize);
         List<Exam> exams = dao.showAllExam();
         System.out.println(exams);
