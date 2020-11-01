@@ -30,8 +30,8 @@ public class ExamController {
 //
 //    }
 //
-//    @GetMapping(value = "/provider/exam/showByUser/{email}")
-//    public CommonResult updateInformation(@PathVariable String email){
-//
-//    }
+    @GetMapping(value = "/provider/exam/showByUser/{email}")
+    public CommonResult updateInformation(@PathVariable String email){
+        return new CommonResult(10,"","");
+    }
 }
