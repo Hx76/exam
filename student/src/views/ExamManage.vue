@@ -233,6 +233,9 @@ export default {
       }],
       tableData: [{
         id: '',
+        name: '',
+        duration: '',
+        start_time: '',
         question_body: '',
         score: '',
         creator: '',
