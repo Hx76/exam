@@ -8,22 +8,23 @@
       <el-button style="margin-left: 1%;margin-top: 2%;background: #00aeff;color: #e4f0ef;width: 10%"
                  @click="dialogVisible = true">+ 新建
       </el-button>
+
       <el-dialog
           title="创建问题"
           :visible.sync="dialogVisible"
           width="40%"
           :before-close="handleClose">
         <div>
-          <el-form :model="formData">
+          <el-form :model="dialogData">
             <el-form-item label="题干:">
-              <el-input autocomplete="off" v-model="formData.question_body"></el-input>
+              <el-input autocomplete="off" v-model="dialogData.body"></el-input>
             </el-form-item>
           </el-form>
         </div>
         <div>
           <el-form>
             <el-form-item label="题目类型:">
-              <el-select v-model="formData.type_id" placeholder="请选择题目类型">
+              <el-select v-model="dialogData.type" placeholder="请选择题目类型">
                 <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -35,29 +36,39 @@
           </el-form>
         </div>
         <div>
-          <el-form :model="formData">
-            <el-form-item label="选项1:">
-              <el-input autocomplete="off" v-model="formData.options"></el-input>
+          <el-form :model="dialogData">
+            <el-form-item
+                v-for="item in dialogData.option"
+                :key="item.option_id"
+                :value="item.option_body">
+              <el-input v-model="item.option_body"></el-input>
             </el-form-item>
-            <el-form-item label="选项2:" :label-width="formLabelWidth">
-              <el-input autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="选项3:" :label-width="formLabelWidth">
-              <el-input autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="选项4:" :label-width="formLabelWidth">
-              <el-input autocomplete="off"></el-input>
-            </el-form-item>
+<!--            <el-form-item label="选项1:">-->
+<!--              <el-input autocomplete="off" v-model="dialogData.option[0].option_body1"></el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="选项2:" :label-width="formLabelWidth">-->
+<!--              <el-input autocomplete="off" v-model="dialogData.option[1].option_body2"></el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="选项3:" :label-width="formLabelWidth">-->
+<!--              <el-input autocomplete="off" v-model="dialogData.option[2].option_body3"></el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="选项4:" :label-width="formLabelWidth">-->
+<!--              <el-input autocomplete="off" v-model="dialogData.option[3].option_body4"></el-input>-->
+<!--            </el-form-item>-->
+          </el-form>
+          <el-form :model="dialogData">
             <el-form-item label="答案:" :label-width="formLabelWidth">
-              <el-select placeholder="请选择答案">
-                <el-option label="选项1" value="shanghai"></el-option>
-                <el-option label="选项2" value="beijing"></el-option>
-                <el-option label="选项3" value="beijing"></el-option>
-                <el-option label="选项4" value="beijing"></el-option>
+              <el-select placeholder="请选择答案" v-model="dialogData.answers">
+                <el-option
+                    v-for="item in answer_options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="分值:">
-              <el-input autocomplete="off" v-model="formData.score"></el-input>
+              <el-input autocomplete="off" v-model="dialogData.scores"></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -99,19 +110,21 @@
         </el-table-column>
         <el-table-column
             label="操作">
-          <el-button type="text" @click="updateDialogVisible = true">详情</el-button>
+          <template slot-scope="scope">
+          <el-button type="text" @click="updateQuestion(scope.row)">详情</el-button>
+
           <el-dialog title="题目详情" :visible.sync="updateDialogVisible" append-to-body>
             <div>
               <el-form :model="dialogData">
                 <el-form-item  label="题干:">
-                  <el-input autocomplete="off" v-model="dialogVisible.question_body"></el-input>
+                  <el-input autocomplete="off"></el-input>
                 </el-form-item>
               </el-form>
             </div>
             <div>
               <el-form>
                 <el-form-item label="题目类型:">
-                  <el-select v-model="dialogData.type_id" placeholder="请选择题目类型">
+                  <el-select v-model="dialogData.type" placeholder="请选择题目类型">
                     <el-option
                         v-for="item in options"
                         :key="item.value"
@@ -125,7 +138,7 @@
             <div>
               <el-form :model="dialogData">
                 <el-form-item label="选项1:">
-                  <el-input autocomplete="off" v-model="dialogData.options"></el-input>
+                  <el-input autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="选项2:" :label-width="formLabelWidth">
                   <el-input autocomplete="off"></el-input>
@@ -145,7 +158,7 @@
                   </el-select>
                 </el-form-item>
                 <el-form-item label="分值:">
-                  <el-input autocomplete="off" v-model="dialogData.score"></el-input>
+                  <el-input autocomplete="off" v-model="dialogData.scores"></el-input>
                 </el-form-item>
               </el-form>
             </div>
@@ -155,7 +168,7 @@
             </div>
           </el-dialog>
           <el-button type="text" @click="centerDialogVisible = true">删除</el-button>
-
+          </template>
           <el-dialog
               title="提示"
               :visible.sync="centerDialogVisible"
@@ -202,20 +215,35 @@ export default {
   },
   data() {
     return {
+      test: true,
       updateDialogVisible: false,
       dialogVisible: false,
       centerDialogVisible: false,
       active: 0,
       total: 0,
+      option_number: 0,
       options: [{
-        value: '选项1',
+        value: '选择题',
         label: '选择题'
       }, {
-        value: '选项2',
+        value: '判断题',
         label: '判断题'
       }, {
-        value: '选项3',
+        value: '填空题',
         label: '填空题'
+      }],
+      answer_options: [{
+        value: '选项1',
+        label: '选项1'
+      }, {
+        value: '选项2',
+        label: '选项2'
+      }, {
+        value: '选项3',
+        label: '选项3'
+      },{
+        value: '选项4',
+        label: '选项4'
       }],
       value: '',
       formData: [{
@@ -223,24 +251,53 @@ export default {
         score: '',
         creator: '',
         type_id: '',
-        option: [],
         answer: ''
       }],
-      dialogData:[{
-        question_body: '1',
-        score: '5',
-        creator: '4',
-        type_id: '5',
-        option: [],
-        answer: '7'
-      }],
-      tableData: [{
-        id: '',
-        question_body: '',
-        score: '',
-        creator: '',
-        type_id: '',
-      }]
+      dialogData:{
+        body: '123456',
+        type: '',
+        option: [{
+            value: '选项1',
+            option_id:'',
+            option_body: '',
+            disable: false
+          },
+          {
+            option_id:'',
+            option_body: '',
+            disable: false
+          },
+          {
+            option_id:'',
+            option_body: '',
+            disable: false
+          },
+          {
+            option_id:'',
+            option_body: '',
+            disable: false
+          }],
+        answers: '',
+        scores: ''
+      }
+    }
+  },
+  watch: {
+    'dialogData.type'(val, oldVal) {
+      console.log("inputVal = " + val + " , oldValue = " + oldVal)
+      if (val==='判断题'){
+        this.dialogData.option[2].disable="disabled";
+        this.dialogData.option[3].disable="disabled";
+      }else if(val==='选择题'){
+        this.dialogData.option[2].disable="";
+        this.dialogData.option[3].disable="";
+        this.dialogData.option[0].disable="";
+        this.dialogData.option[1].disable="";
+      }else{
+        this.dialogData.option[1].disable="disabled";
+        this.dialogData.option[2].disable="disabled";
+        this.dialogData.option[3].disable="disabled";
+      }
     }
   },
   methods: {
@@ -252,7 +309,6 @@ export default {
           .catch(_ => {
           });
     },
-
     page(currentPage) {
       const _this = this
       axios.get('http://localhost:84/question/countAll').then(function (resp) {
@@ -261,9 +317,7 @@ export default {
       })
       axios.get('http://localhost:84/question/showAll/' + currentPage + '/8').then(function (resp) {
         _this.tableData = resp.data['data']
-
         if (resp.data['data']['type_id'] === 1) {
-
           _this.tableData.type_id = '选择题'
         } else if (_this.tableData.type_id === 2) {
           _this.tableData.type_id = '判断题'
@@ -274,7 +328,14 @@ export default {
     },
     deleteQuestion(){
       this.centerDialogVisible = false
+    },
+    updateQuestion(e){
+      this.updateDialogVisible = true
+      const rowInfo = JSON.stringify(e);
+
+
     }
+
   }
 
 }

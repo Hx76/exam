@@ -20,6 +20,11 @@ public class ExamController {
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/showAll/"+currentPage+"/"+pageSize,CommonResult.class);
     }
 
+    @GetMapping(value = "/exam/countAll")
+    public CommonResult countQuestion(){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/countAll",CommonResult.class);
+    }
+
     @PostMapping(value = "/exam/update")
     public CommonResult updateInformation(@RequestBody Exam exam){
         return restTemplate.postForObject(EXAM_URL+"/provider/exam",exam,CommonResult.class);

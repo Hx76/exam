@@ -20,6 +20,13 @@ public class ExamController {
         return new CommonResult(10,"yes",exams);
     }
 
+    @GetMapping(value = "/provider/exam/countAll")
+    public CommonResult countQuestion(){
+        Integer num = service.countAll();
+        System.out.println(num);
+        return new CommonResult(12,"yes",num);
+    }
+
 //    @PostMapping(value = "/provider/exam/update")
 //    public CommonResult updateInformation(@RequestBody Exam exam){
 //

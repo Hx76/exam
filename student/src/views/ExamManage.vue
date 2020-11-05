@@ -67,12 +67,12 @@
           width="80">
       </el-table-column>
       <el-table-column
-          prop="question_body"
+          prop="name"
           label="考试名称"
           width="180">
       </el-table-column>
       <el-table-column
-          prop="score"
+          prop="start_time"
           label="开始时间">
       </el-table-column>
       <el-table-column
@@ -80,19 +80,19 @@
           label="创建人">
       </el-table-column>
       <el-table-column
-          prop="type_id"
+          prop="duration"
           label="时长">
       </el-table-column>
       <el-table-column
-          prop="type_id"
+          prop="state"
           label="状态">
       </el-table-column>
       <el-table-column
-          prop="type_id"
+          prop="total_points"
           label="总分">
       </el-table-column>
       <el-table-column
-          prop="type_id"
+          prop="number_of_people"
           label="参加人数">
       </el-table-column>
       <el-table-column
@@ -189,11 +189,11 @@ export default {
   components: {Footer, Navigation},
   created() {
     const _this = this
-    axios.get('http://localhost:84/question/countAll').then(function (resp) {
+    axios.get('http://localhost:82/exam/countAll').then(function (resp) {
       _this.total = resp.data['data']
       console.log(resp.data)
     })
-    axios.get('http://localhost:84/question/showAll/1/8').then(function (resp) {
+    axios.get('http://localhost:82/exam/showAll/1/8').then(function (resp) {
       _this.tableData = resp.data['data']
     })
   },
@@ -236,10 +236,11 @@ export default {
         name: '',
         duration: '',
         start_time: '',
-        question_body: '',
-        score: '',
         creator: '',
-        type_id: '',
+        state: '',
+        total_points: '',
+        creation_time: '',
+        number_of_people: ''
       }]
     }
   },
@@ -255,11 +256,11 @@ export default {
 
     page(currentPage) {
       const _this = this
-      axios.get('http://localhost:84/question/countAll').then(function (resp) {
+      axios.get('http://localhost:82/exam/countAll').then(function (resp) {
         _this.total = resp.data['data']
         console.log(resp.data)
       })
-      axios.get('http://localhost:84/question/showAll/' + currentPage + '/8').then(function (resp) {
+      axios.get('http://localhost:82/exam/showAll/' + currentPage + '/8').then(function (resp) {
         _this.tableData = resp.data['data']
 
         if (resp.data['data']['type_id'] === 1) {

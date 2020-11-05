@@ -34,6 +34,11 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
+    public Integer countAll() {
+        return dao.countExams();
+    }
+
+    @Override
     public Integer updateExam(Exam exam) {
         return dao.updateExam(exam);
     }
