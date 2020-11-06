@@ -194,15 +194,6 @@ export default {
       })
       axios.get('http://localhost:84/question/showAll/' + currentPage + '/8').then(function (resp) {
         _this.tableData = resp.data['data']
-
-        if (resp.data['data']['type_id'] === 1) {
-
-          _this.tableData.type_id = '选择题'
-        } else if (_this.tableData.type_id === 2) {
-          _this.tableData.type_id = '判断题'
-        } else {
-          _this.tableData.type_id = '填空题'
-        }
       })
     },
     deleteQuestion(){
