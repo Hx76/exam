@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.onlineexam.dao.OptionsDao">
+    <insert id="addOption">
+        insert into options (`option`,option_number,question_id)
+        values #{options}
+    </insert>
+    <update id="updateOption">
+        update options
+        set `option`=#{options},`option_number`=#{options}
+        where `id`=#{options}
+    </update>
+    <delete id="deleteOption">
+        delete
+        from options
+        where id=#{optionId}
+    </delete>
+    <select id="showOption" resultType="com.onlineexam.entities.Options">
+        select * from options where question_id = #{questionId}
+    </select>
+</mapper>

@@ -1,0 +1,29 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: payment_routh1
+          uri: lb://nacos-login-provider
+          predicates:
+            - Path=/provider/login/**/**
+        - id: payment_routh2
+          uri: lb://nacos-login-consumer
+          predicates:
+            - Path=/login/**/**
+
+
+
+
+
+
