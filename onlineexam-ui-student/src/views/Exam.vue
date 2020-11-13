@@ -8,7 +8,6 @@
         background-color="#00aeff"
         text-color="#fff"
         active-text-color="#ffd04b">
-
       <el-menu-item index="1" class="logo"></el-menu-item>
       <el-menu-item index="2">
         <template slot="title">第一次考试</template>
@@ -19,12 +18,18 @@
       </el-menu-item>
     </el-menu>
     <el-menu
-        default-active="2"
+        default-active="1"
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
         style="float: left">
       <el-submenu index="1">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span>考试说明</span>
+        </template>
+      </el-submenu>
+      <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span>选择题</span>
@@ -35,7 +40,7 @@
           <el-menu-item index="1-3">题目3</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="2">
+      <el-submenu index="3">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span>判断题</span>
@@ -46,7 +51,7 @@
           <el-menu-item index="1-3">题目3</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="3">
+      <el-submenu index="4">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span>填空题</span>
@@ -78,7 +83,24 @@
 
 <script>
 export default {
-  name: "Exam"
+  name: "Exam",
+  created() {
+    this.exam_id = this.$route.params.examId
+    console.log(this.exam_id)
+  },
+  data() {
+    return {
+      exam_id: 0,
+      description: '这是第一次考试，大家加油',
+      selectionQuestionNumber: 1,
+      judgeQuestionNumber: 1,
+      fillingQuestionNumber: 1,
+
+    };
+  },
+  methods:{
+
+  }
 }
 </script>
 

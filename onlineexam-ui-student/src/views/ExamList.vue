@@ -1,77 +1,75 @@
 <template>
   <div style="width: 70%;margin-left: 15%" >
-    <el-table
-        :data="tableData"
-        style="width: 100%">
-      <el-table-column
-          type="selection">
-        <el-checkbox></el-checkbox>
-      </el-table-column>
-      <el-table-column
-          prop="id"
-          label="序号"
-          width="80">
-      </el-table-column>
-      <el-table-column
-          prop="name"
-          label="考试名称"
-          width="180">
-      </el-table-column>
-      <el-table-column
-          prop="start_time"
-          label="开始时间">
-      </el-table-column>
-      <el-table-column
-          prop="creator"
-          label="创建人">
-      </el-table-column>
-      <el-table-column
-          prop="duration"
-          label="时长">
-      </el-table-column>
-      <el-table-column
-          prop="state"
-          label="状态">
-      </el-table-column>
-      <el-table-column
-          prop="total_points"
-          label="总分">
-      </el-table-column>
-      <el-table-column
-          prop="number_of_people"
-          label="参加人数">
-      </el-table-column>
-      <el-table-column
-          label="操作">
-        <el-button type="text" @click="dialogVisible = true">加入考试</el-button>
-      </el-table-column>
-    </el-table>
-    <el-dialog
-        title="提示"
-        :visible.sync="dialogVisible"
-        width="30%"
-        append-to-body
-        :before-close="handleClose">
-      <el-form :model="form">
-        <el-form-item label="请输入考试邀请码:">
-          <el-input v-model="key" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
+            <el-table
+                :data="tableData"
+                style="width: 100%">
+              <el-table-column
+                  type="selection">
+                <el-checkbox></el-checkbox>
+              </el-table-column>
+              <el-table-column
+                  prop="id"
+                  label="序号"
+                  width="80">
+              </el-table-column>
+              <el-table-column
+                  prop="name"
+                  label="考试名称"
+                  width="180">
+              </el-table-column>
+              <el-table-column
+                  prop="start_time"
+                  label="开始时间">
+              </el-table-column>
+              <el-table-column
+                  prop="creator"
+                  label="创建人">
+              </el-table-column>
+              <el-table-column
+                  prop="duration"
+                  label="时长">
+              </el-table-column>
+              <el-table-column
+                  prop="state"
+                  label="状态">
+              </el-table-column>
+              <el-table-column
+                  prop="total_points"
+                  label="总分">
+              </el-table-column>
+              <el-table-column
+                  label="操作">
+                <template slot-scope="scope">
+                <el-button type="text" @click="joinExam(scope.row)">加入考试</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-dialog
+                title="提示"
+                :visible.sync="dialogVisible"
+                width="30%"
+                append-to-body
+                :before-close="handleClose">
+              <el-form :model="form">
+                <el-form-item label="请输入考试邀请码:">
+                  <el-input v-model="inputKey" autocomplete="off"></el-input>
+                </el-form-item>
+              </el-form>
+              <span slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible = false">取 消</el-button>
               <el-button type="primary" @click="goToExam">确 定</el-button>
             </span>
-    </el-dialog>
-    <el-pagination style="margin-top: 2%"
-                   background
-                   layout="prev, pager, next"
-                   page-size=9
-                   :total="total"
-                   @current-change="page">
-    </el-pagination>
+            </el-dialog>
+            <el-pagination style="margin-top: 2%"
+                           background
+                           layout="prev, pager, next"
+                           page-size=9
+                           :total="total"
+                           @current-change="page">
+            </el-pagination>
 
-  </div>
 
+          </div>
 </template>
 
 <script>
@@ -94,7 +92,9 @@ export default {
       currentDate: new Date(),
       total: 0,
       dialogVisible: false,
-      key: '',
+      key: 0,
+      inputKey: 0,
+      exam_id: '',
       tableData: [{
         id: '',
         name: '',
@@ -110,8 +110,23 @@ export default {
     };
   },
   methods:{
+    joinExam(e){
+      var rowInfo = JSON.stringify(e);
+      var json = eval('(' + rowInfo + ')');
+      this.key = json.exam_serial_number
+      this.exam_id = json.exam_serial_number;
+      console.log('dddd'+this.key)
+      this.dialogVisible=true
+
+    },
     goToExam(){
-      if (this.key==='123456'){
+      console.log(this.inputKey+"="+this.key)
+      if (this.key==this.inputKey){
+        this.$router.push({
+          path: "/exam",
+          name: "exam",
+          params: { examId: this.exam_id}
+        });
         this.$router.replace('/exam')
       }else {
         alert("邀请码错误");

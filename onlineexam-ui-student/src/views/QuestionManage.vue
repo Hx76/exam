@@ -159,9 +159,9 @@
               </div>
 
               <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = true">确 定</el-button>
-  </span>
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = true">确 定</el-button>
+              </span>
             </el-dialog>
           <el-button type="text" @click="centerDialogVisible = true">删除</el-button>
           </template>
