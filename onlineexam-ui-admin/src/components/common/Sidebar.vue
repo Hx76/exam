@@ -142,7 +142,11 @@ export default {
                         {
                             index: '404',
                             title: '服务监控'
-                        }
+                        },
+                      {
+                        index: '405',
+                        title: '集群监控'
+                      }
                     ]
                 },
             ]
