@@ -160,7 +160,6 @@
             width="30%"
             append-to-body
         >
-          <br>
           <span>确定要删除该条数据吗？</span>
           <span slot="footer" class="dialog-footer">
               <el-button @click="centerDialogVisible = false">取 消</el-button>
