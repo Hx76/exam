@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       exam_id: 0,
-      description: '这是第一次考试，大家加油',
+      description: '这是第一次考试，',
       selectionQuestionNumber: 1,
       judgeQuestionNumber: 1,
       fillingQuestionNumber: 1,
