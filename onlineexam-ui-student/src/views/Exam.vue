@@ -95,7 +95,7 @@ export default {
       selectionQuestionNumber: 1,
       judgeQuestionNumber: 1,
       fillingQuestionNumber: 1,
-      desc: '距离考试开始还有：'
+      desc: '距离考试开始还有10：'
     };
   },
   methods:{
