@@ -2,7 +2,7 @@
   <div>
   <Navigation></Navigation>
   <div style="width: 70%;margin-left: 15%;margin-top: 1%;background: #fff;height: 900px">
-    <label style="width: 10%;margin-top: 2%;margin-left: 5%">考试啊编号：</label>
+    <label style="width: 10%;margin-top: 2%;margin-left: 5%">考试编号：</label>
     <el-input style="width: 37%;margin-top: 2%;margin-left: 1%"></el-input>
     <el-button style="width: 10%;margin-left: 1%">搜索</el-button>
     <el-button style="margin-left: 1%;margin-top: 2%;background: #00aeff;color: #e4f0ef;width: 10%"
