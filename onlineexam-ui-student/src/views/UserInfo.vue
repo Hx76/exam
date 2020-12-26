@@ -11,7 +11,7 @@
               @close="handleClose">
             <el-menu-item index="1">
               <i class="el-icon-menu"></i>
-              <span slot="title">个人信息啊</span>
+              <span slot="title">个人信息</span>
             </el-menu-item>
           </el-menu>
         </el-col>
