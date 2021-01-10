@@ -11,7 +11,7 @@
 
     <el-menu-item index="1"></el-menu-item>
     <el-menu-item index="2" @click="goToExamList()">
-      <template slot="title">线上考试系统</template>
+      <template slot="title">线上考试的系统</template>
     </el-menu-item>
     <el-menu-item index="3" @click="goToExamManage()">考试管理</el-menu-item>
     <el-menu-item index="4" @click="goToQuestionManage()">问题管理</el-menu-item>
