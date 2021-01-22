@@ -23,7 +23,7 @@
             <el-input v-model="userInfo.name"></el-input>
             <p style="float: left;margin-top: 1%">邮箱</p>
             <el-input v-model="userInfo.email" disabled="disabled"></el-input>
-            <el-button style="margin-top: 1%" @click="save()">保存</el-button>
+            <el-button style="margin-top: 1%" @click="save()">保存好了</el-button>
           </div>
         </el-col>
       </el-row>
