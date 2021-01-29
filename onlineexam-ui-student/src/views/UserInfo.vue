@@ -26,17 +26,7 @@
             <el-button style="margin-top: 1%" @click="save()">保存好了1</el-button>
           </div>
         </el-col>
-        <el-col style="width: 69%;margin-left: 1%">
-          <h1 style="float: left;margin-top: 1%">基本设置</h1>
-          <h1 style="float: left;margin-top: 1%">基本设置</h1>
-          <div style="margin-top: 10%">
-            <p style="margin-top: 1%;float: left">姓名</p>
-            <el-input v-model="userInfo.name"></el-input>
-            <p style="float: left;margin-top: 1%">邮箱</p>
-            <el-input v-model="userInfo.email" disabled="disabled"></el-input>
-            <el-button style="margin-top: 1%" @click="save()">保存好了1</el-button>
-          </div>
-        </el-col>
+
 
       </el-row>
     </div>
