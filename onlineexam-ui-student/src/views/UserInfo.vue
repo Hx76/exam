@@ -31,6 +31,7 @@
       </el-row>
     </div>
     <Footer style="margin-top: 20%"></Footer>
+    <Footer style="margin-top: 20%"></Footer><Footer style="margin-top: 20%"></Footer>
   </div>
 </template>
 
