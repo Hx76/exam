@@ -41,7 +41,7 @@ export default {
       activeIndex: '2',
       userInfo: {
         userName: '用户',
-        email: '邮箱0'
+        email: '邮箱'
       }
     };
   },
