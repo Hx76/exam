@@ -76,6 +76,9 @@
         <br>
         <el-radio :label="9">D. 4</el-radio>
         <br>
+        <br>
+        <el-radio :label="9">D. 4</el-radio>
+        <br>
       </el-radio-group>
     </div>
   </div>
