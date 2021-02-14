@@ -265,7 +265,7 @@ export default {
 
         if (resp.data['data']['type_id'] === 1) {
 
-          _this.tableData.type_id = '选择题'
+          _this.tableData.type_id = '选择题完形填空'
         } else if (_this.tableData.type_id === 2) {
           _this.tableData.type_id = '判断题'
         } else {
