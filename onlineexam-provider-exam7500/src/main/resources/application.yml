@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://81.70.169.162:3306/onlineexam?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: Hx947769582..
+    password: hx947769582
     type: com.alibaba.druid.pool.DruidDataSource
 
 mybatis:
