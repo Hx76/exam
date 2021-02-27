@@ -18,4 +18,9 @@ public class ExamQuestionController {
         List<Exam> exams = service.showAllExam(currentPage,pageSize);
         return new CommonResult(10,"yes",exams);
     }
+    @GetMapping(value = "/provider/exam/showAll/{currentPage}/{pageSize}")
+    public CommonResult showAllExam(@PathVariable int currentPage, @PathVariable int pageSize){
+        List<Exam> exams = service.showAllExam(currentPage,pageSize);
+        return new CommonResult(10,"yes",exams);
+    }
 }
