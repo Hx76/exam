@@ -20,9 +20,9 @@ public class QuestionController {
         return new CommonResult(12,"yes",questions);
     }
 
-    @GetMapping(value = "/provider/question/showByExam/{examId}")
-    public CommonResult showQuestionByExam(@PathVariable Integer examId){
-        List<Question> questions = service.showQuestionByExam(examId);
+    @GetMapping(value = "/provider/question/showQuestionById/{questionId}")
+    public CommonResult showQuestionById(@PathVariable Integer questionId){
+        List<Question> questions = service.showQuestionByExam(questionId);
         return new CommonResult(12,"yes",questions);
     }
 

@@ -17,8 +17,8 @@ public class ExamQuestionController {
     @Resource
     private RestTemplate restTemplate;
 
-    @GetMapping(value = "/exam/showQuestion/{serialNumber}")
-    public CommonResult showAllExam(@PathVariable int serialNumber){
-        return restTemplate.getForObject(EXAM_URL+"/provider/exam/showQuestion/"+serialNumber,CommonResult.class);
+    @GetMapping(value = "/exam/showExamQuestion/{serialNumber}")
+    public CommonResult showExamQuestion(@PathVariable int serialNumber){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/showExamQuestion/"+serialNumber,CommonResult.class);
     }
 }

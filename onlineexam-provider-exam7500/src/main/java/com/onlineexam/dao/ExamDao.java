@@ -14,5 +14,6 @@ public interface ExamDao {
     List<Exam> showExamByUser(@Param("email") String email);
     Integer updateExam(Exam exam);
     Integer addExam(Exam exam);
+    List<Integer> showExamQuestion(int serialNumber);
 
 }

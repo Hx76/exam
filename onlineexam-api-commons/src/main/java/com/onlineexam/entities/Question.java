@@ -15,4 +15,5 @@ public class Question implements Serializable {
     private String type_id;
     private String creator;
     private Integer score;
+    private Options[] options;
 }

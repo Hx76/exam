@@ -20,9 +20,9 @@ public class QuestionController {
         return restTemplate.getForObject(QUESTION_URL+"/provider/question/showAll/"+currentPage+"/"+pageSize,CommonResult.class);
     }
 
-    @GetMapping(value = "/question/showByExam/{examId}")
-    public CommonResult showQuestionByExam(@PathVariable Integer examId){
-        return restTemplate.getForObject(QUESTION_URL+"/provider/question/showByExamId/"+examId,CommonResult.class);
+    @GetMapping(value = "/question/showQuestionById/{questionId}")
+    public CommonResult showQuestionByExam(@PathVariable Integer questionId){
+        return restTemplate.getForObject(QUESTION_URL+"/provider/question/showQuestionById/"+questionId,CommonResult.class);
     }
 
     @PostMapping(value = "/question/update")

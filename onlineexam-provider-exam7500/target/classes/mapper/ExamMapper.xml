@@ -16,4 +16,7 @@
     <select id="showExamByUser" resultType="com.onlineexam.entities.Exam">
         select * from examination_paper,exam where email=#{email}
     </select>
+    <select id="showExamQuestion" resultType="java.lang.Integer">
+        select question_id from exam_question where exam_serial_number=#{serialNumber}
+    </select>
 </mapper>
