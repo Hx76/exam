@@ -57,7 +57,7 @@
               </el-form>
               <span slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="goToExam">确 定</el-button>
+              <el-button type="primary" @click="goToExam()">确 定</el-button>
             </span>
             </el-dialog>
             <el-pagination style="margin-top: 2%"
@@ -95,6 +95,7 @@ export default {
       key: 0,
       inputKey: 0,
       exam_id: '',
+      question_length: 0,
       tableData: [{
         id: '',
         name: '',
@@ -121,16 +122,27 @@ export default {
     },
     goToExam(){
       console.log(this.inputKey+"="+this.key)
-      if (this.key==this.inputKey){
-        this.$router.push({
-          path: "/exam",
-          name: "exam",
-          params: { examId: this.exam_id}
-        });
-        this.$router.replace('/exam')
-      }else {
-        alert("邀请码错误");
-      }
+      const _this = this
+      axios.get('http://localhost:82/exam/showExamQuestion/'+this.inputKey).then(function (resp) {
+        console.log(resp.data)
+        console.log(resp.data['data'].length+'.......')
+        _this.question_length=resp.data['data'].length
+        console.log('1111'+_this.question_length)
+        if (_this.question_length!==0){
+          console.log('go to here')
+          _this.$router.push({
+            path: "/exam",
+            name: "exam",
+            params: { examId: _this.exam_id}
+          });
+          _this.$router.replace('/exam')
+        }else {
+          alert("邀请码错误");
+        }
+      })
+      console.log(this.question_length)
+
+
     },
     handleClose(done) {
       this.$confirm('确认关闭？')

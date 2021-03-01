@@ -63,6 +63,12 @@
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
+    <div>
+      <h1>考试名称</h1>
+      <h2>考试时间：12：00-13：00</h2>
+      <h2>满分：100</h2>
+      <h2>考试介绍：不能抄袭欧</h2>
+    </div>
     <div style="float: left;margin-left: 5%;font-size: 30px">
       <h4>单选题</h4>
       <label>1+1=?</label>
@@ -76,8 +82,6 @@
         <br>
         <el-radio :label="9">D. 4</el-radio>
         <br>
-
-
       </el-radio-group>
     </div>
   </div>
