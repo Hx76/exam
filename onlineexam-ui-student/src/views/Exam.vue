@@ -1,7 +1,6 @@
 <template>
   <div>
     <el-menu
-        :default-active="activeIndex2"
         class="el-menu-demo"
         mode="horizontal"
         @select="handleSelect"
@@ -17,73 +16,51 @@
         <el-button type="text" style="color: #e4f0ef">倒计时还有90分钟0秒</el-button>
       </el-menu-item>
     </el-menu>
-    <el-menu
-        default-active="1"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
-        style="float: left">
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>考试说明</span>
-        </template>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>选择题</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="1-1">题目1</el-menu-item>
-          <el-menu-item index="1-2">题目2</el-menu-item>
-          <el-menu-item index="1-3">题目3</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="3">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>判断题</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="1-1">题目1</el-menu-item>
-          <el-menu-item index="1-2">题目2</el-menu-item>
-          <el-menu-item index="1-3">题目3</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="4">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>填空题</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="1-1">题目1</el-menu-item>
-          <el-menu-item index="1-2">题目2</el-menu-item>
-          <el-menu-item index="1-3">题目3</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-    </el-menu>
-    <div>
-      <h1>考试名称</h1>
-      <h2>考试时间：12：00-13：00</h2>
-      <h2>满分：100</h2>
-      <h2>考试介绍：不能抄袭欧</h2>
-    </div>
-    <div style="float: left;margin-left: 5%;font-size: 30px">
-      <h4>单选题</h4>
-      <label>1+1=?</label>
-      <br>
-      <el-radio-group style="margin-top: 10%;font-size: 30px">
-        <el-radio :label="3">A. 1</el-radio>
+    <el-container style="border: 0px solid #eee">
+      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+        <el-menu router :default-openeds="['1','2','3']">
+          <el-submenu index="1">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>选择题</span>
+            </template>
+            <el-menu-item v-for="(item2,index1) in this.selectionQuestionNumber" @onclick="test()">
+              第{{item2.id}}题
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>判断题</span>
+            </template>
+            <el-menu-item v-for="(item2,index2) in this.judgeQuestionNumber">
+              第{{item2.id}}题
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="3">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>填空题</span>
+            </template>
+            <el-menu-item v-for="(item2,index3) in this.fillingQuestionNumber">
+              第{{item2.id}}题
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
+      <div style="float: left;margin-left: 5%;font-size: 30px" >
+        <h4>单选题</h4>
+        <label>1+1=?</label>
         <br>
-        <el-radio :label="6">B. 2</el-radio>
-        <br>
-        <el-radio :label="9">C. 3</el-radio>
-        <br>
-        <el-radio :label="9">D. 4</el-radio>
-        <br>
-      </el-radio-group>
-    </div>
+        <el-radio-group style="margin-top: 10%;font-size: 30px">
+          <el-radio v-for="(item2,index1) in this.selectionQuestionNumber">
+            <h2>A.</h2>
+            <h2>1</h2>
+            <br>
+          </el-radio>
+        </el-radio-group>
+      </div>
+      </el-container>
   </div>
 </template>
 
@@ -97,15 +74,24 @@ export default {
   data() {
     return {
       exam_id: 0,
+      flug: 'none',
       description: '这是考试，',
-      selectionQuestionNumber: 1,
-      judgeQuestionNumber: 1,
-      fillingQuestionNumber: 1,
+      selectionQuestionNumber: [
+        {id: 1},
+        {id: 2}],
+      judgeQuestionNumber: [
+        {id: 1},
+        {id: 2}],
+      fillingQuestionNumber: [
+        {id: 1},
+        {id: 2}],
       desc: '距离考试开始还有10：'
     };
   },
   methods:{
+    test(){
 
+    }
   }
 }
 </script>
