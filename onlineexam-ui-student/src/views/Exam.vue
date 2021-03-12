@@ -24,8 +24,8 @@
               <i class="el-icon-location"></i>
               <span>选择题</span>
             </template>
-            <el-menu-item v-for="(item2,index1) in this.selectionQuestionNumber" @onclick="test()">
-              第{{item2.id}}题
+            <el-menu-item v-for="(item2,index1) in this.selectionQuestionNumber" v-on:click="test(index1)">
+              第{{index1+1}}题
             </el-menu-item>
           </el-submenu>
           <el-submenu index="2">
@@ -33,8 +33,8 @@
               <i class="el-icon-location"></i>
               <span>判断题</span>
             </template>
-            <el-menu-item v-for="(item2,index2) in this.judgeQuestionNumber">
-              第{{item2.id}}题
+            <el-menu-item v-for="(item2,index2) in this.judgeQuestionNumber" v-on:click="test1(index2)">
+              第{{index2+1}}题
             </el-menu-item>
           </el-submenu>
           <el-submenu index="3">
@@ -42,23 +42,28 @@
               <i class="el-icon-location"></i>
               <span>填空题</span>
             </template>
-            <el-menu-item v-for="(item2,index3) in this.fillingQuestionNumber">
-              第{{item2.id}}题
+            <el-menu-item v-for="(item2,index3) in this.fillingQuestionNumber" v-on:click="test2(index3)">
+              第{{index3+1}}题
             </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
       <div style="float: left;margin-left: 5%;font-size: 30px" >
-        <h4>单选题</h4>
-        <label>1+1=?</label>
+        <h4>{{this.question_type}}</h4>
+        <label>题目：{{this.question_body}}</label>
         <br>
-        <el-radio-group style="margin-top: 10%;font-size: 30px">
-          <el-radio v-for="(item2,index1) in this.selectionQuestionNumber">
-            <h2>A.</h2>
-            <h2>1</h2>
-            <br>
-          </el-radio>
+        <br>
+       <el-radio-group v-if="selectionQuestionShow">
+         <el-radio label="A.">A.{{this.selectionQuestionOptions.A}}</el-radio>
+         <el-radio label="B.">B.{{this.selectionQuestionOptions.B}}</el-radio>
+         <el-radio label="C.">C.{{this.selectionQuestionOptions.C}}</el-radio>
+         <el-radio label="D.">D.{{this.selectionQuestionOptions.D}}</el-radio>
+       </el-radio-group>
+        <el-radio-group v-if="judgeQuestionShow">
+          <el-radio label="✔"></el-radio>
+          <el-radio label="✖"></el-radio>
         </el-radio-group>
+        <input v-model="fillingQuestionAnswer" v-if="fillingQuestionShow"></input>
       </div>
       </el-container>
   </div>
@@ -70,32 +75,94 @@ export default {
   created() {
     this.exam_id = this.$route.params.examId
     console.log(this.exam_id)
+    const _this = this
+    axios.get('http://localhost:82/exam/showExamTime/'+_this.exam_id).then(function (resp) {
+      _this.exam_time = resp.data['data']
+      console.log('that'+_this.exam_time)
+    })
+    axios.get('http://localhost:84/question/showSelectionQuestion/'+_this.exam_id).then(function (resp) {
+      _this.selectionQuestionNumber = resp.data['data']
+    })
+    axios.get('http://localhost:84/question/showJudgeQuestion/'+_this.exam_id).then(function (resp) {
+      _this.judgeQuestionNumber = resp.data['data']
+
+    })
+    axios.get('http://localhost:84/question/showFillingQuestion/'+_this.exam_id).then(function (resp) {
+      _this.fillingQuestionNumber = resp.data['data']
+    })
   },
   data() {
     return {
       exam_id: 0,
-      flug: 'none',
+      selectionQuestionShow: true,
+      fillingQuestionShow: false,
+      judgeQuestionShow: false,
       description: '这是考试，',
-      selectionQuestionNumber: [
-        {id: 1},
-        {id: 2}],
+      exam_time: '',
+      question_type:'选择题',
+      question_body:'题目',
+      fillingQuestionAnswer:'',
+      selectionQuestionOptions: {
+        A: '1',
+        B: '2',
+        C: '3',
+        D: '4'
+      },
+      selectionQuestionNumber: [{
+        id: 1,
+        question_body: '',
+        options:{A: '',B: '',C: '',D: ''},
+        answer: '',
+        score:0
+      }],
       judgeQuestionNumber: [
-        {id: 1},
-        {id: 2}],
+        {id: 1,question_body: '',options:{A: '✔',B: '✖'},answer: '',score:0},
+      ],
       fillingQuestionNumber: [
-        {id: 1},
-        {id: 2}],
+        {id: 1,question_body: '',options:{A: ''},answer: '',score:0},
+        ],
       desc: '距离考试开始还有10：'
     };
   },
   methods:{
-    test(){
-
-    }
+    test(index){
+      this.question_type = '选择题'
+      console.log(this.question_type)
+      this.question_body = this.selectionQuestionNumber[index].question_body
+      this.selectionQuestionShow = true
+      this.fillingQuestionShow = false
+      this.judgeQuestionShow = false
+      const _this = this
+      axios.get('http://localhost:84/options/show/'+_this.selectionQuestionNumber[index].id).then(function (resp) {
+        _this.selectionQuestionOptions.A = resp.data['data'][0].option
+        _this.selectionQuestionOptions.B = resp.data['data'][1].option
+        _this.selectionQuestionOptions.C = resp.data['data'][2].option
+        _this.selectionQuestionOptions.D = resp.data['data'][3].option
+        console.log(_this.selectionQuestionOptions.A)
+      })
+    },
+    test1(index){
+      this.question_type = '判断题'
+      console.log(this.question_type)
+      this.question_body = this.judgeQuestionNumber[index].question_body
+      this.selectionQuestionShow = false
+      this.fillingQuestionShow = false
+      this.judgeQuestionShow = true
+    },
+    test2(index){
+      this.question_type = '填空题'
+      console.log(this.question_type)
+      this.question_body = this.fillingQuestionNumber[index].question_body
+      this.selectionQuestionShow = false
+      this.fillingQuestionShow = true
+      this.judgeQuestionShow = false
+    },
   }
 }
 </script>
 
 <style scoped>
-
+.el-radio /deep/ .el-radio__label{
+  font-size:30px !important;
+}
 </style>

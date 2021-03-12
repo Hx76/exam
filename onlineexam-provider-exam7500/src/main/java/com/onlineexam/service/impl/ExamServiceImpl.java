@@ -9,6 +9,7 @@ import com.onlineexam.utils.PageBean;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -46,5 +47,10 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public Integer addExam(Exam exam) {
         return dao.addExam(exam);
+    }
+
+    @Override
+    public Date showExamTime(int examId) {
+        return dao.showExamTime(examId);
     }
 }

@@ -11,9 +11,30 @@
         select * from question
     </select>
     <select id="showQuestionByExam" resultType="com.onlineexam.entities.Question">
-        select * from exam_question where exam_id=#{examId}
+
     </select>
     <select id="countQuestions" resultType="java.lang.Integer">
         select COUNT(*) from question
+    </select>
+    <select id="getAnswer" resultType="java.lang.String">
+        select correct_option from answer where question_id=#{questionId}
+    </select>
+    <select id="showSelectionQuestion" resultType="com.onlineexam.entities.Question">
+        select * from question,exam_question
+        where type_id=1
+          and exam_serial_number=#{examId}
+          and exam_question.question_id = question.id
+    </select>
+    <select id="showJudgeQuestion" resultType="com.onlineexam.entities.Question">
+        select * from question,exam_question
+        where type_id=2
+          and exam_serial_number=#{examId}
+          and exam_question.question_id = question.id
+    </select>
+    <select id="showFillingQuestion" resultType="com.onlineexam.entities.Question">
+        select * from question,exam_question
+        where type_id=3
+          and exam_serial_number=#{examId}
+          and exam_question.question_id = question.id
     </select>
 </mapper>

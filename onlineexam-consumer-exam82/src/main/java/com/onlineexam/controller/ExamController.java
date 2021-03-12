@@ -15,6 +15,11 @@ public class ExamController {
     @Resource
     private RestTemplate restTemplate;
 
+    @GetMapping(value = "/exam/showExamTime/{examId}")
+    public CommonResult showExamTime(@PathVariable int examId){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/showExamTime/"+examId,CommonResult.class);
+    }
+
     @GetMapping(value = "/exam/showAll/{currentPage}/{pageSize}")
     public CommonResult showAllExam(@PathVariable int currentPage,@PathVariable int pageSize){
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/showAll/"+currentPage+"/"+pageSize,CommonResult.class);

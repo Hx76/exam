@@ -7,12 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @RestController
 public class ExamController {
     @Resource
     private ExamService service;
+
+    @GetMapping(value = "/provider/exam/showExamTime/{examId}")
+    public CommonResult showExamTime(@PathVariable int examId){
+        Date examTime = service.showExamTime(examId);
+        return new CommonResult(10,"yes",examTime);
+    }
 
     @GetMapping(value = "/provider/exam/showAll/{currentPage}/{pageSize}")
     public CommonResult showAllExam(@PathVariable int currentPage, @PathVariable int pageSize){

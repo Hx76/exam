@@ -11,4 +11,7 @@ public interface QuestionService {
     Integer updateQuestion(Question question);
     Integer deleteQuestion(@Param("questionId") Integer questionId);
     Integer countAll();
+    List<Question> showSelectionQuestion(@Param("examId") Integer examId);
+    List<Question> showJudgeQuestion(@Param("examId") Integer examId);
+    List<Question> showFillingQuestion(@Param("examId") Integer examId);
 }

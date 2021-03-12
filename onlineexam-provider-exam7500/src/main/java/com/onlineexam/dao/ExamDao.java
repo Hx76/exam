@@ -1,10 +1,12 @@
 package com.onlineexam.dao;
 
 import com.onlineexam.entities.Exam;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -15,5 +17,6 @@ public interface ExamDao {
     Integer updateExam(Exam exam);
     Integer addExam(Exam exam);
     List<Integer> showExamQuestion(int serialNumber);
+    Date showExamTime(@Param("examId") int examId);
 
 }

@@ -15,6 +15,21 @@ public class QuestionController {
     @Resource
     private RestTemplate restTemplate;
 
+    @GetMapping(value = "/question/showSelectionQuestion/{examId}")
+    public CommonResult showSelectionQuestion(@PathVariable int examId){
+        return restTemplate.getForObject(QUESTION_URL+"/provider/question/showSelectionQuestion/"+examId,CommonResult.class);
+    }
+
+    @GetMapping(value = "/question/showJudgeQuestion/{examId}")
+    public CommonResult showJudgeQuestion(@PathVariable int examId){
+        return restTemplate.getForObject(QUESTION_URL+"/provider/question/showJudgeQuestion/"+examId,CommonResult.class);
+    }
+
+    @GetMapping(value = "/question/showFillingQuestion/{examId}")
+    public CommonResult showFillingQuestion(@PathVariable int examId){
+        return restTemplate.getForObject(QUESTION_URL+"/provider/question/showFillingQuestion/"+examId,CommonResult.class);
+    }
+
     @GetMapping(value = "/question/showAll/{currentPage}/{pageSize}")
     public CommonResult showAll(@PathVariable int currentPage,@PathVariable int pageSize){
         return restTemplate.getForObject(QUESTION_URL+"/provider/question/showAll/"+currentPage+"/"+pageSize,CommonResult.class);

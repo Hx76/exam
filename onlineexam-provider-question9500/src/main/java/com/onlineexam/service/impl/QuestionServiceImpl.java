@@ -5,6 +5,7 @@ import com.onlineexam.dao.QuestionDao;
 import com.onlineexam.entities.Question;
 import com.onlineexam.service.QuestionService;
 import com.onlineexam.utils.PageBean;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -54,6 +55,24 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Integer countAll() {
         return dao.countQuestions();
+    }
+
+    @Override
+    public List<Question> showSelectionQuestion(@Param("examId") Integer examId) {
+        List<Question> selectionQuestions = dao.showSelectionQuestion(examId);
+        return selectionQuestions;
+    }
+
+    @Override
+    public List<Question> showJudgeQuestion(@Param("examId") Integer examId) {
+        List<Question> judgeQuestions = dao.showJudgeQuestion(examId);
+        return judgeQuestions;
+    }
+
+    @Override
+    public List<Question> showFillingQuestion(@Param("examId") Integer examId) {
+        List<Question> FillingQuestions = dao.showFillingQuestion(examId);
+        return FillingQuestions;
     }
 
 }

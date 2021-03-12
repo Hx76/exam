@@ -14,6 +14,24 @@ public class QuestionController {
     @Resource
     private QuestionService service;
 
+    @GetMapping(value = "/provider/question/showSelectionQuestion/{examId}")
+    public CommonResult showSelectionQuestion(@PathVariable int examId){
+        List<Question> questions = service.showSelectionQuestion(examId);
+        return new CommonResult(12,"yes",questions);
+    }
+
+    @GetMapping(value = "/provider/question/showJudgeQuestion/{examId}")
+    public CommonResult showJudgeQuestion(@PathVariable int examId){
+        List<Question> questions = service.showJudgeQuestion(examId);
+        return new CommonResult(12,"yes",questions);
+    }
+
+    @GetMapping(value = "/provider/question/showFillingQuestion/{examId}")
+    public CommonResult showFillingQuestion(@PathVariable int examId){
+        List<Question> questions = service.showFillingQuestion(examId);
+        return new CommonResult(12,"yes",questions);
+    }
+
     @GetMapping("/provider/question/showAll/{currentPage}/{pageSize}")
     public CommonResult showAll(@PathVariable int currentPage,@PathVariable int pageSize){
         List<Question> questions = service.showAll(currentPage, pageSize);
