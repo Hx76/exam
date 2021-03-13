@@ -32,7 +32,7 @@ export default {
   created() {
     this.activeIndex=this.$route.params.activeIndex
     const _this = this
-    axios.post('http://localhost:80/login/getUser').then(function (resp) {
+    axios.post('http://localhost:82/exam/getUser').then(function (resp) {
       _this.userInfo.userName = resp.data['data']
     })
   },

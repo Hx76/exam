@@ -20,7 +20,47 @@ spring:
         - id: payment_routh2
           uri: lb://nacos-login-consumer
           predicates:
-            - Path=/login/**/**
+            - Path=/register/**/**
+        - id: payment_routh3
+          uri: lb://nacos-login-provider
+          predicates:
+            - Path=/provider/register/**/**
+        - id: payment_routh4
+          uri: lb://nacos-register-consumer
+          predicates:
+            - Path=/register/**/**
+        - id: payment_routh5
+          uri: lb://nacos-exam-provider
+          predicates:
+            - Path=/provider/exam/**/**
+        - id: payment_routh6
+          uri: lb://nacos-exam-consumer
+          predicates:
+            - Path=/exam/**/**
+        - id: payment_routh7
+          uri: lb://nacos-question-provider
+          predicates:
+            - Path=/provider/question/**/**
+        - id: payment_routh8
+          uri: lb://nacos-question-consumer
+          predicates:
+            - Path=/question/**/**
+        - id: payment_routh9
+          uri: lb://nacos-score-provider
+          predicates:
+            - Path=/provider/score/**/**
+        - id: payment_routh10
+          uri: lb://nacos-score-consumer
+          predicates:
+            - Path=/score/**/**
+        - id: payment_routh11
+          uri: lb://nacos-personalinformation-provider
+          predicates:
+            - Path=/provider/personalinformation/**/**
+        - id: payment_routh12
+          uri: lb://nacos-personalinformation-consumer
+          predicates:
+            - Path=/personalinformation/**/**
 
 
 

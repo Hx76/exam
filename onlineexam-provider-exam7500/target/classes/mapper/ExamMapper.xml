@@ -19,4 +19,7 @@
     <select id="showExamQuestion" resultType="java.lang.Integer">
         select question_id from exam_question where exam_serial_number=#{serialNumber}
     </select>
+    <select id="showExamTime" resultType="java.util.Date">
+        select start_time from exam where exam_serial_number=#{examId}
+    </select>
 </mapper>

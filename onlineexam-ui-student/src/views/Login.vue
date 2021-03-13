@@ -77,6 +77,7 @@ export default {
           const _this = this
           axios.post('http://localhost:80/login',this.ruleForm).then(function (resp) {
             _this.ruleForm.test = resp.data['message']
+            sessionStorage.setItem("token",resp.data['data']);
             if (resp.data['message'] === '该邮箱未注册') {
               alert("该邮箱未注册！")
             } else if (resp.data['message'] === "密码错误") {

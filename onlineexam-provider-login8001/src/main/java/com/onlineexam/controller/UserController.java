@@ -1,6 +1,7 @@
 package com.onlineexam.controller;
 
 import com.onlineexam.entities.User;
+import com.onlineexam.util.JwtUtil;
 import com.onlineexam.utils.CommonResult;
 import com.onlineexam.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -51,7 +54,12 @@ public class UserController {
             UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getEmail(), user.getPassword());
             //执行登录的方法 没有异常就成功了
             subject.login(usernamePasswordToken);
-            return new CommonResult(200,"密码正确","8001");
+            Map<String,String> paylod = new HashMap<>();
+            paylod.put("email",user.getEmail());
+            paylod.put("password",user.getPassword());
+            String token = JwtUtil.getToken(paylod);
+            System.out.println("token:"+token);
+            return new CommonResult(200,"密码正确",token);
         } catch (UnknownAccountException e) {
             /**
              * 异常信息

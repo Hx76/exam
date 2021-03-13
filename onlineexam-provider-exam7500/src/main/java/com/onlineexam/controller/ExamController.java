@@ -29,6 +29,7 @@ public class ExamController {
 
     @GetMapping(value = "/provider/exam/countAll")
     public CommonResult countQuestion(){
+
         Integer num = service.countAll();
         System.out.println(num);
         return new CommonResult(12,"yes",num);
@@ -48,4 +49,6 @@ public class ExamController {
     public CommonResult updateInformation(@PathVariable String email){
         return new CommonResult(10,"","");
     }
+
+
 }

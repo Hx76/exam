@@ -26,7 +26,8 @@ public class ExamController {
     }
 
     @GetMapping(value = "/exam/countAll")
-    public CommonResult countQuestion(){
+    public CommonResult countQuestion(@RequestHeader("token") String token){
+        System.out.println("token:"+token);
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/countAll",CommonResult.class);
     }
 
@@ -43,5 +44,10 @@ public class ExamController {
     @GetMapping(value = "/exam/showByUser/{email}")
     public CommonResult updateInformation(@PathVariable String email){
         return restTemplate.getForObject(EXAM_URL+"/provider/information/show/"+email,CommonResult.class);
+    }
+
+    @GetMapping(value = "/exam/getUser")
+    public CommonResult getUser(){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/getUser",CommonResult.class);
     }
 }

@@ -78,12 +78,19 @@ export default {
   name: "ExamList",
   components: {Navigation},
   created() {
+    console.log(sessionStorage.getItem('token'))
     const _this = this
-    axios.get('http://localhost:82/exam/countAll').then(function (resp) {
+    axios.get(
+          'http://localhost:9527/provider/exam/countAll',
+
+    ).then(function (resp) {
+      console.log("bushibabushiba")
       _this.total = resp.data['data']
       console.log(resp.data)
+    }).catch(function (err){
+
     })
-    axios.get('http://localhost:82/exam/showAll/1/8').then(function (resp) {
+    axios.get('http://localhost:9527/exam/showAll/1/8').then(function (resp) {
       _this.tableData = resp.data['data']
     })
   },
