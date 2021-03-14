@@ -82,7 +82,11 @@ export default {
     const _this = this
     axios.get(
           'http://localhost:9527/provider/exam/countAll',
-
+        {
+          params: {
+            token: sessionStorage.getItem('token')
+          }
+        }
     ).then(function (resp) {
       console.log("bushibabushiba")
       _this.total = resp.data['data']
@@ -90,7 +94,12 @@ export default {
     }).catch(function (err){
 
     })
-    axios.get('http://localhost:9527/exam/showAll/1/8').then(function (resp) {
+    axios.get('http://localhost:9527/exam/showAll/1/8',
+        {
+          params: {
+            token: sessionStorage.getItem('token')
+          }
+        }).then(function (resp) {
       _this.tableData = resp.data['data']
     })
   },
@@ -130,7 +139,12 @@ export default {
     goToExam(){
       console.log(this.inputKey+"="+this.key)
       const _this = this
-      axios.get('http://localhost:82/exam/showExamQuestion/'+this.inputKey).then(function (resp) {
+      axios.get('http://localhost:9527/exam/showExamQuestion/'+this.inputKey,
+          {
+            params: {
+              token: sessionStorage.getItem('token')
+            }
+          }).then(function (resp) {
         console.log(resp.data)
         console.log(resp.data['data'].length+'.......')
         _this.question_length=resp.data['data'].length
@@ -160,11 +174,21 @@ export default {
     },
     page(currentPage) {
       const _this = this
-      axios.get('http://localhost:82/exam/countAll').then(function (resp) {
+      axios.get('http://localhost:9527/exam/countAll',
+          {
+            params: {
+              token: sessionStorage.getItem('token')
+            }
+          }).then(function (resp) {
         _this.total = resp.data['data']
         console.log(resp.data)
       })
-      axios.get('http://localhost:82/exam/showAll/' + currentPage + '/8').then(function (resp) {
+      axios.get('http://localhost:9527/exam/showAll/' + currentPage + '/8',
+          {
+            params: {
+              token: sessionStorage.getItem('token')
+            }
+          }).then(function (resp) {
         _this.tableData = resp.data['data']
 
         if (resp.data['data']['type_id'] === 1) {

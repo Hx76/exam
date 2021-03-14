@@ -17,4 +17,5 @@ public interface QuestionDao {
     List<Question> showJudgeQuestion(@Param("examId") Integer examId);
     List<Question> showFillingQuestion(@Param("examId") Integer examId);
     String getAnswer(Integer questionId);
+    String getPerm(@Param("email") String email);
 }

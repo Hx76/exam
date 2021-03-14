@@ -200,17 +200,39 @@ export default {
   name: "QuestionManage",
   components: {Footer, Navigation},
   created() {
+    console.log("邮箱："+this.userInfo.email)
+    console.log(this.userInfo.userName)
     const _this = this
-    axios.get('http://localhost:84/question/countAll').then(function (resp) {
-      _this.total = resp.data['data']
+    axios.get('http://localhost:9527/question/countAll',
+        {
+          params:{
+            token: sessionStorage.getItem('token')
+          }
+        }).then(function (resp) {
+          if (resp.data['message']!=="没有权限"){
+            console.log(resp.data['message'])
+            _this.total = resp.data['data']
+          }else {
+            alert("没有权限！")
+          }
+
       console.log(resp.data)
     })
-    axios.get('http://localhost:84/question/showAll/1/8').then(function (resp) {
+    axios.get('http://localhost:9527/question/showAll/1/8',
+        {
+          params:{
+            token: sessionStorage.getItem('token')
+          }
+        }).then(function (resp) {
       _this.tableData = resp.data['data']
     })
   },
   data() {
     return {
+      userInfo: {
+        userName: '用户',
+        email: '',
+      },
       formLabelWidth: 10,
       test: true,
       updateDialogVisible: false,
@@ -351,7 +373,7 @@ export default {
       const _this = this
       axios.get('http://localhost:84/question/countAll').then(function (resp) {
         _this.total = resp.data['data']
-        console.log(resp.data)
+        console.log("zhelizheli"+resp.data)
       })
       axios.get('http://localhost:84/question/showAll/' + currentPage + '/8').then(function (resp) {
         _this.tableData = resp.data['data']

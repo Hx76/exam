@@ -18,5 +18,8 @@ public interface ExamDao {
     Integer addExam(Exam exam);
     List<Integer> showExamQuestion(int serialNumber);
     Date showExamTime(@Param("examId") int examId);
+    String getUserName(@Param("email") String email);
+    Integer countMyExam(@Param("email") String email);
+
 
 }

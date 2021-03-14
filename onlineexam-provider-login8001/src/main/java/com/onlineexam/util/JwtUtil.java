@@ -28,7 +28,7 @@ public class JwtUtil {
         final JWTCreator.Builder builder = JWT.create();
         map.forEach(builder::withClaim);
         String token = builder.withExpiresAt(instance.getTime())
-                .sign(Algorithm.HMAC256(SIGN));
+                .sign(Algorithm.HMAC384(SIGN));
         System.out.println(token);
         return token;
     }

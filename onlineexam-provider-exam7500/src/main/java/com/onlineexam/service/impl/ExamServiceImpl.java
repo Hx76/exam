@@ -30,11 +30,6 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public List<Exam> showExamByUser(String email) {
-        return dao.showExamByUser(email);
-    }
-
-    @Override
     public Integer countAll() {
         return dao.countExams();
     }
@@ -52,5 +47,27 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public Date showExamTime(int examId) {
         return dao.showExamTime(examId);
+    }
+
+    @Override
+    public String getUserName(String email) {
+        return dao.getUserName(email);
+    }
+
+    @Override
+    public Integer countMyExam(String email) {
+        return dao.countMyExam(email);
+    }
+
+    @Override
+    public List<Exam> showMyExam(int currentPage, int pageSize, String email) {
+        System.out.println(currentPage+"hahahahahha"+pageSize);
+        PageHelper.startPage(currentPage, pageSize);
+        List<Exam> exams = dao.showExamByUser(email);
+        System.out.println(exams);
+        int countNums = dao.countExams();
+        PageBean<Exam> pageData = new PageBean<>(currentPage, pageSize, countNums);
+        pageData.setItems(exams);
+        return pageData.getItems();
     }
 }

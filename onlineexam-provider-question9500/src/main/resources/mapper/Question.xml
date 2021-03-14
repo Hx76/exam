@@ -37,4 +37,7 @@
           and exam_serial_number=#{examId}
           and exam_question.question_id = question.id
     </select>
+    <select id="getPerm" resultType="java.lang.String">
+        select perm from user where email=#{email}
+    </select>
 </mapper>

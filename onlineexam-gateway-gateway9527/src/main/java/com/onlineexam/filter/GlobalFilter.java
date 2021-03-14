@@ -1,5 +1,8 @@
 package com.onlineexam.filter;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.factory.rewrite.CachedBodyOutputMessage;
 import org.springframework.cloud.gateway.support.BodyInserterContext;
@@ -26,19 +29,9 @@ import java.net.URISyntaxException;
 
 @Component
 public class GlobalFilter implements org.springframework.cloud.gateway.filter.GlobalFilter, Ordered {
-    public GlobalFilter() throws URISyntaxException {
-    }
+    private static final String SIGN = "hx76";
 
-    public Boolean ifPermission(URI uri){
-        String uri1 = uri.toString();
-        System.out.println(uri1);
-        String[] words = uri1.split("/");
-        for (String word : words) {
-            System.out.println(word);
-            if (word == "login"||word == "register");
-            return true;
-        }
-        return false;
+    public GlobalFilter() throws URISyntaxException {
     }
 
     @Override
@@ -46,13 +39,12 @@ public class GlobalFilter implements org.springframework.cloud.gateway.filter.Gl
         ServerHttpRequest request = exchange.getRequest();
         System.out.println(request.getMethod());
         if (request.getMethod() == HttpMethod.POST) {
+            System.out.println("是POST啊");
             return chain.filter(exchange);
         }
         String token = exchange.getRequest().getQueryParams().getFirst("token");
         System.out.println(exchange.getRequest().getURI());
-        if (ifPermission(exchange.getRequest().getURI())){
-            return chain.filter(exchange);
-        }
+        getTokenInfo(token);
         if (token == null){
             System.out.println("没有token");
             exchange.getResponse().setStatusCode(HttpStatus.NOT_ACCEPTABLE);
@@ -60,6 +52,14 @@ public class GlobalFilter implements org.springframework.cloud.gateway.filter.Gl
         }
         return chain.filter(exchange);
     }
+
+    public static DecodedJWT getTokenInfo(String token){
+        DecodedJWT verify = JWT.require(Algorithm.HMAC384(SIGN)).build().verify(token);
+        System.out.println(verify.getClaim("email").asString());
+        System.out.println(verify.getClaim("password").asString());
+        return verify;
+    }
+
 
     /**
      * 加载过滤器的顺序，越小越靠前

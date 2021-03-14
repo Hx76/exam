@@ -14,4 +14,5 @@ public interface QuestionService {
     List<Question> showSelectionQuestion(@Param("examId") Integer examId);
     List<Question> showJudgeQuestion(@Param("examId") Integer examId);
     List<Question> showFillingQuestion(@Param("examId") Integer examId);
+    String getPerm(@Param("email") String email);
 }

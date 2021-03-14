@@ -11,7 +11,7 @@
       <el-menu-item index="2">
         <template slot="title">第一次考试</template>
       </el-menu-item>
-      <el-menu-item index="3" style="float: right"><el-button >交卷</el-button></el-menu-item>
+      <el-menu-item index="3" style="float: right"><el-button v-on:click="submitPaper()">交卷</el-button></el-menu-item>
       <el-menu-item index="4" style="float: right">
         <el-button type="text" style="color: #e4f0ef">倒计时还有90分钟0秒</el-button>
       </el-menu-item>
@@ -53,13 +53,13 @@
         <label>题目：{{this.question_body}}</label>
         <br>
         <br>
-       <el-radio-group v-if="selectionQuestionShow">
-         <el-radio label="A.">A.{{this.selectionQuestionOptions.A}}</el-radio>
-         <el-radio label="B.">B.{{this.selectionQuestionOptions.B}}</el-radio>
-         <el-radio label="C.">C.{{this.selectionQuestionOptions.C}}</el-radio>
-         <el-radio label="D.">D.{{this.selectionQuestionOptions.D}}</el-radio>
+       <el-radio-group v-if="selectionQuestionShow" v-model="selectionAnswer">
+         <el-radio :label="0">A.{{this.selectionQuestionOptions.A}}</el-radio>
+         <el-radio :label="1" >B.{{this.selectionQuestionOptions.B}}</el-radio>
+         <el-radio :label="2">C.{{this.selectionQuestionOptions.C}}</el-radio>
+         <el-radio :label="3">D.{{this.selectionQuestionOptions.D}}</el-radio>
        </el-radio-group>
-        <el-radio-group v-if="judgeQuestionShow">
+        <el-radio-group v-if="judgeQuestionShow" v-model="judgeQuestionShow">
           <el-radio label="✔"></el-radio>
           <el-radio label="✖"></el-radio>
         </el-radio-group>
@@ -93,6 +93,9 @@ export default {
   },
   data() {
     return {
+      selectionAnswer: {1:''},
+      judgeAnswer: {1:''},
+      fillingAnswer: {1:''},
       exam_id: 0,
       selectionQuestionShow: true,
       fillingQuestionShow: false,
@@ -101,7 +104,6 @@ export default {
       exam_time: '',
       question_type:'选择题',
       question_body:'题目',
-      fillingQuestionAnswer:'',
       selectionQuestionOptions: {
         A: '1',
         B: '2',
@@ -142,6 +144,7 @@ export default {
       })
     },
     test1(index){
+      console.log(this.selectionAnswer)
       this.question_type = '判断题'
       console.log(this.question_type)
       this.question_body = this.judgeQuestionNumber[index].question_body
@@ -157,6 +160,20 @@ export default {
       this.fillingQuestionShow = true
       this.judgeQuestionShow = false
     },
+    submitPaper(){
+      const _this = this
+      axios.post('http://localhost:82/exam/sumbmit/'+_this.exam_id+"/"
+          +_this.selectionAnswer+"/"
+          +_this.judgeQuestionShow+"/"
+          +_this.fillingAnswer,{
+        params:{
+          token: sessionStorage.getItem('token')
+        }
+      }).then(function (resp) {
+        _this.exam_time = resp.data['data']
+        console.log('that'+_this.exam_time)
+      })
+    }
   }
 }
 </script>

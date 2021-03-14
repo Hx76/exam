@@ -25,10 +25,19 @@ public class ExamController {
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/showAll/"+currentPage+"/"+pageSize,CommonResult.class);
     }
 
+    @GetMapping(value = "/exam/showMyExam/{currentPage}/{pageSize}/{email}")
+    public CommonResult showMyExam(@PathVariable int currentPage,@PathVariable int pageSize,@PathVariable String email){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/showMyExam/"+currentPage+"/"+pageSize+"/"+email,CommonResult.class);
+    }
+
     @GetMapping(value = "/exam/countAll")
-    public CommonResult countQuestion(@RequestHeader("token") String token){
-        System.out.println("token:"+token);
+    public CommonResult countQuestion(){
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/countAll",CommonResult.class);
+    }
+
+    @GetMapping(value = "/exam/countMyExam/{email}")
+    public CommonResult countQuestion(@PathVariable String email){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/countMyExam/"+email,CommonResult.class);
     }
 
     @PostMapping(value = "/exam/update")
@@ -46,8 +55,8 @@ public class ExamController {
         return restTemplate.getForObject(EXAM_URL+"/provider/information/show/"+email,CommonResult.class);
     }
 
-    @GetMapping(value = "/exam/getUser")
-    public CommonResult getUser(){
-        return restTemplate.getForObject(EXAM_URL+"/provider/exam/getUser",CommonResult.class);
+    @GetMapping(value = "/exam/getUserName/{email}")
+    public CommonResult getUserName(@PathVariable String email){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/getUserName/"+email,CommonResult.class);
     }
 }

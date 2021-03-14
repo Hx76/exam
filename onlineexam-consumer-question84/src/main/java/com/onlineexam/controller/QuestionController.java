@@ -50,8 +50,13 @@ public class QuestionController {
         return restTemplate.getForObject(QUESTION_URL+"/provider/question/delete/"+questionId,CommonResult.class);
     }
 
+    @GetMapping(value = "/question/countAll/{email}")
+    public CommonResult countQuestion(@PathVariable String email){
+        return restTemplate.getForObject(QUESTION_URL+"/provider/question/countAll/"+email,CommonResult.class);
+    }
+
     @GetMapping(value = "/question/countAll")
-    public CommonResult countQuestion(){
+    public CommonResult countAll(){
         return restTemplate.getForObject(QUESTION_URL+"/provider/question/countAll",CommonResult.class);
     }
 }

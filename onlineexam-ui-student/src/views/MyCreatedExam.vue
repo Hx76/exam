@@ -125,16 +125,30 @@ export default {
   components: {Footer, Navigation},
   created() {
     const _this = this
-    axios.get('http://localhost:84/question/countAll').then(function (resp) {
+    axios.get('http://localhost:9527/exam/countMyExam'+_this.userInfo.email,
+        {
+          params: {
+            token: sessionStorage.getItem('token')
+          }
+        }).then(function (resp) {
       _this.total = resp.data['data']
       console.log(resp.data)
     })
-    axios.get('http://localhost:84/question/showAll/1/8').then(function (resp) {
+    axios.get('http://localhost:9527/exam/showMyExam/1/8'+_this.userInfo.email,
+        {
+          params: {
+            token: sessionStorage.getItem('token')
+          }
+        }).then(function (resp) {
       _this.tableData = resp.data['data']
     })
   },
   data() {
     return {
+      userInfo: {
+        userName: '用户',
+        email: '',
+      },
       updateDialogVisible: false,
       dialogVisible: false,
       centerDialogVisible: false,

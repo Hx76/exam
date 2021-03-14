@@ -72,6 +72,7 @@ export default {
   name: "MyExam",
   components: {Footer, Navigation},
   created() {
+
     const _this = this
     axios.get('http://localhost:84/question/countAll').then(function (resp) {
       _this.total = resp.data['data']
@@ -83,6 +84,10 @@ export default {
   },
   data() {
     return {
+      userInfo: {
+        userName: '用户',
+        email: '',
+      },
       updateDialogVisible: false,
       dialogVisible: false,
       centerDialogVisible: false,

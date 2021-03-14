@@ -56,11 +56,19 @@ public class QuestionController {
         return new CommonResult(12,"yes","");
     }
 
-    @GetMapping(value = "/provider/question/countAll")
-    public CommonResult countQuestion(){
+    @GetMapping(value = "/provider/question/countAll/{email}")
+    public CommonResult countQuestion(@PathVariable String email){
         Integer num = service.countAll();
         System.out.println(num);
-        return new CommonResult(12,"yes",num);
+        String str = service.getPerm(email);
+        return new CommonResult(12,str,num);
+    }
+
+    @GetMapping(value = "/provider/question/countAll")
+    public CommonResult countAll(){
+        Integer num = service.countAll();
+        System.out.println(num);
+        return new CommonResult(12,"123",num);
     }
 
 }

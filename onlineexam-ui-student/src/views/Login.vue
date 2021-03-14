@@ -1,5 +1,6 @@
 <template>
-  <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+  <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"
+           label-width="100px" class="demo-ruleForm">
     <h1 align="center" style="font-size: 40px;margin-top: 5%">线上考试系统</h1>
     <div style="width: 30%;margin-left: 35%;margin-top: 5%">
       <el-form-item label="邮箱:" prop="email" :rules="[
@@ -84,6 +85,12 @@ export default {
               alert("密码错误")
             } else {
               alert("登陆成功")
+              _this.$router.push({
+                path: "/home",
+                name: "home",
+                params: { activeIndex: '2',
+                          email: _this.ruleForm.email}
+              });
               _this.$router.replace('/home')
             }
           })

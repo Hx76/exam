@@ -27,10 +27,22 @@ public class ExamController {
         return new CommonResult(10,"yes",exams);
     }
 
+    @GetMapping(value = "/provider/exam/showMyExam/{currentPage}/{pageSize}/{email}")
+    public CommonResult showMyExam(@PathVariable int currentPage, @PathVariable int pageSize,@PathVariable String email){
+        List<Exam> exams = service.showMyExam(currentPage,pageSize,email);
+        return new CommonResult(10,"yes",exams);
+    }
+
     @GetMapping(value = "/provider/exam/countAll")
     public CommonResult countQuestion(){
-
         Integer num = service.countAll();
+        System.out.println(num);
+        return new CommonResult(12,"yes",num);
+    }
+
+    @GetMapping(value = "/provider/exam/countMyExam/{email}")
+    public CommonResult countMyExam(@PathVariable String email){
+        Integer num = service.countMyExam(email);
         System.out.println(num);
         return new CommonResult(12,"yes",num);
     }
@@ -50,5 +62,10 @@ public class ExamController {
         return new CommonResult(10,"","");
     }
 
+    @GetMapping(value = "/provider/exam/getUserName/{email}")
+    public CommonResult getUserName(@PathVariable String email){
+        String userName = service.getUserName(email);
+        return new CommonResult(12,"yes",userName);
+    }
 
 }

@@ -14,12 +14,20 @@
         select COUNT(*) from exam
     </select>
     <select id="showExamByUser" resultType="com.onlineexam.entities.Exam">
-        select * from examination_paper,exam where email=#{email}
+        select * from exam,user where user.username=exam.creator
+                                         and user.email=#{email}
     </select>
     <select id="showExamQuestion" resultType="java.lang.Integer">
         select question_id from exam_question where exam_serial_number=#{serialNumber}
     </select>
     <select id="showExamTime" resultType="java.util.Date">
         select start_time from exam where exam_serial_number=#{examId}
+    </select>
+    <select id="getUserName" resultType="java.lang.String">
+        select username from user where email=#{email}
+    </select>
+    <select id="countMyExam" resultType="java.lang.Integer">
+        select COUNT(*) from exam,user where user.username=exam.creator
+                                         and user.email=#{email}
     </select>
 </mapper>

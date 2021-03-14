@@ -75,4 +75,16 @@ public class QuestionServiceImpl implements QuestionService {
         return FillingQuestions;
     }
 
+    @Override
+    public String getPerm(String email) {
+        String str = dao.getPerm(email);
+        System.out.println("权限结果"+str);
+        if (str.equals("student")){
+            return "没有权限";
+        }else {
+            return "权限通过";
+        }
+
+    }
+
 }

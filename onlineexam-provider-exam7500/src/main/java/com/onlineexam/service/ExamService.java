@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface ExamService {
     List<Exam> showAllExam(int currentPage,int pageSize);
-    List<Exam> showExamByUser(@Param("email") String email);
     Integer countAll();
     Integer updateExam(Exam exam);
     Integer addExam(Exam exam);
     Date showExamTime(@Param("examId") int examId);
+    String getUserName(@Param("email") String email);
+    Integer countMyExam(@Param("email") String email);
+    List<Exam> showMyExam(int currentPage,int pageSize,String email);
 }
