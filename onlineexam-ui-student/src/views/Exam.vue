@@ -53,17 +53,17 @@
         <label>题目：{{this.question_body}}</label>
         <br>
         <br>
-       <el-radio-group v-if="selectionQuestionShow" v-model="selectionAnswer">
+       <el-radio-group v-if="selectionQuestionShow" v-model="selectionQuestionNumber[indexOfQuestion].submitAnswer">
          <el-radio :label="0">A.{{this.selectionQuestionOptions.A}}</el-radio>
          <el-radio :label="1" >B.{{this.selectionQuestionOptions.B}}</el-radio>
          <el-radio :label="2">C.{{this.selectionQuestionOptions.C}}</el-radio>
          <el-radio :label="3">D.{{this.selectionQuestionOptions.D}}</el-radio>
        </el-radio-group>
-        <el-radio-group v-if="judgeQuestionShow" v-model="judgeQuestionShow">
+        <el-radio-group v-if="judgeQuestionShow" v-model="judgeQuestionNumber[indexOfQuestion].submitAnswer">
           <el-radio label="✔"></el-radio>
           <el-radio label="✖"></el-radio>
         </el-radio-group>
-        <input v-model="fillingQuestionAnswer" v-if="fillingQuestionShow"></input>
+        <input v-model="fillingQuestionNumber[indexOfQuestion].submitAnswer" v-if="fillingQuestionShow"></input>
       </div>
       </el-container>
   </div>
@@ -74,6 +74,8 @@ export default {
   name: "Exam",
   created() {
     this.exam_id = this.$route.params.examId
+    this.userInfo.email = this.$route.params.email
+    this.userInfo.userName = this.$route.params.userName
     console.log(this.exam_id)
     const _this = this
     axios.get('http://localhost:82/exam/showExamTime/'+_this.exam_id).then(function (resp) {
@@ -93,6 +95,11 @@ export default {
   },
   data() {
     return {
+      userInfo: {
+        userName: '用户',
+        email: '',
+      },
+      indexOfQuestion: 0,
       selectionAnswer: {1:''},
       judgeAnswer: {1:''},
       fillingAnswer: {1:''},
@@ -110,24 +117,32 @@ export default {
         C: '3',
         D: '4'
       },
+      question:[{
+        question_id: 1,
+        answer: '',
+        score: 0,
+        submitAnswer: ''
+      }],
       selectionQuestionNumber: [{
         id: 1,
         question_body: '',
         options:{A: '',B: '',C: '',D: ''},
         answer: '',
-        score:0
+        score: 0,
+        submitAnswer: 0
       }],
       judgeQuestionNumber: [
-        {id: 1,question_body: '',options:{A: '✔',B: '✖'},answer: '',score:0},
+        {id: 1,question_body: '',options:{A: '✔',B: '✖'},answer: '',score:0,submitAnswer: 0},
       ],
       fillingQuestionNumber: [
-        {id: 1,question_body: '',options:{A: ''},answer: '',score:0},
+        {id: 1,question_body: '',options:{A: ''},answer: '',score:0,submitAnswer: 0},
         ],
       desc: '距离考试开始还有10：'
     };
   },
   methods:{
     test(index){
+      this.indexOfQuestion=index
       this.question_type = '选择题'
       console.log(this.question_type)
       this.question_body = this.selectionQuestionNumber[index].question_body
@@ -144,6 +159,7 @@ export default {
       })
     },
     test1(index){
+      this.indexOfQuestion=index
       console.log(this.selectionAnswer)
       this.question_type = '判断题'
       console.log(this.question_type)
@@ -153,6 +169,7 @@ export default {
       this.judgeQuestionShow = true
     },
     test2(index){
+      this.indexOfQuestion=index
       this.question_type = '填空题'
       console.log(this.question_type)
       this.question_body = this.fillingQuestionNumber[index].question_body
@@ -161,11 +178,57 @@ export default {
       this.judgeQuestionShow = false
     },
     submitPaper(){
+      console.log("邮箱"+this.userInfo.email)
+      for (let i = 0;i<this.selectionQuestionNumber.length;i++){
+        var temp = {question_id: 1,
+          answer: '',
+          score: 0,
+          submitAnswer: ''};
+        temp.question_id=this.selectionQuestionNumber[i].id
+        console.log("问题id："+temp.question_id)
+        temp.answer=this.selectionQuestionNumber[i].answer
+        console.log("问题答案："+temp.answer)
+        temp.score=this.selectionQuestionNumber[i].score
+        console.log("问题分数："+temp.score)
+        temp.submitAnswer=this.selectionQuestionNumber[i].submitAnswer
+        console.log("问题提交答案："+temp.submitAnswer)
+        this.question.push(temp)
+      }
+      for (let i = 0;i<this.judgeQuestionNumber.length;i++){
+        var temp = {question_id: 1,
+          answer: '',
+          score: 0,
+          submitAnswer: ''};
+        temp.question_id=this.judgeQuestionNumber[i].id
+        console.log("问题id："+temp.question_id)
+        temp.answer=this.judgeQuestionNumber[i].answer
+        console.log("问题答案："+temp.answer)
+        temp.score=this.judgeQuestionNumber[i].score
+        console.log("问题分数："+temp.score)
+        temp.submitAnswer=this.judgeQuestionNumber[i].submitAnswer
+        console.log("问题提交答案："+temp.submitAnswer)
+        this.question.push(temp)
+      }
+      for (let i = 0;i<this.fillingQuestionNumber.length;i++){
+        var temp = {question_id: 1,
+          answer: '',
+          score: 0,
+          submitAnswer: ''};
+        temp.question_id=this.fillingQuestionNumber[i].id
+        console.log("问题id："+temp.question_id)
+        temp.answer=this.fillingQuestionNumber[i].answer
+        console.log("问题答案："+temp.answer)
+        temp.score=this.fillingQuestionNumber[i].score
+        console.log("问题分数："+temp.score)
+        temp.submitAnswer=this.fillingQuestionNumber[i].submitAnswer
+        console.log("问题提交答案："+temp.submitAnswer)
+        this.question.push(temp)
+      }
+      console.log("这里这里啊"+this.question.length)
       const _this = this
-      axios.post('http://localhost:82/exam/sumbmit/'+_this.exam_id+"/"
-          +_this.selectionAnswer+"/"
-          +_this.judgeQuestionShow+"/"
-          +_this.fillingAnswer,{
+      axios.post('http://localhost:82/exam/submit/'+_this.exam_id+"/"+_this.userInfo.email,
+          _this.question,
+         {
         params:{
           token: sessionStorage.getItem('token')
         }
@@ -173,6 +236,13 @@ export default {
         _this.exam_time = resp.data['data']
         console.log('that'+_this.exam_time)
       })
+      _this.$router.push({
+        path: "/home",
+        name: "home",
+        params: { activeIndex: '2',username: _this.userInfo.userName,email: _this.userInfo.email}
+      });
+      console.log("exam出来的"+_this.userInfo.userName)
+      _this.$router.replace('/home')
     }
   }
 }

@@ -1,6 +1,7 @@
 package com.onlineexam.dao;
 
 import com.onlineexam.entities.Exam;
+import com.onlineexam.entities.SubmitQuestion;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,6 +21,7 @@ public interface ExamDao {
     Date showExamTime(@Param("examId") int examId);
     String getUserName(@Param("email") String email);
     Integer countMyExam(@Param("email") String email);
-
+    Integer submit(Integer id,String answer, @Param("email") String email, @Param("examId") String examId);
+    Integer submitScore(@Param("email") String email, @Param("examId") String examId,Integer score,Integer sumScore);
 
 }

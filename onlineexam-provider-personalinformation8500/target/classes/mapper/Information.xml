@@ -8,4 +8,11 @@
     <select id="showInformation" resultType="java.lang.String">
         select username from user where email=#{email}
     </select>
+    <select id="showAllUsers" resultType="com.onlineexam.entities.User">
+        select * from user
+    </select>
+    <select id="countAll" resultType="java.lang.Integer">
+        select COUNT(*) from user
+    </select>
+
 </mapper>

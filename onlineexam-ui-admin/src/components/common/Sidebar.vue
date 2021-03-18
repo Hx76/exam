@@ -63,72 +63,23 @@ export default {
                 },
                 {
                     icon: 'el-icon-lx-cascades',
-                    index: 'table',
+                    index: 'userManage',
                     title: '用户管理'
                 },
                 {
-                    icon: 'el-icon-lx-copy',
-                    index: 'tabs',
-                    title: '消息管理'
-                },
-                {
-                    icon: 'el-icon-lx-calendar',
-                    index: '3',
-                    title: '表单相关',
-                    subs: [
-                        {
-                            index: 'form',
-                            title: '基本表单'
-                        },
-                        {
-                            index: '3-2',
-                            title: '三级菜单',
-                            subs: [
-                                {
-                                    index: 'editor',
-                                    title: '富文本编辑器'
-                                },
-                                {
-                                    index: 'markdown',
-                                    title: 'markdown编辑器'
-                                }
-                            ]
-                        },
-                        {
-                            index: 'upload',
-                            title: '文件上传'
-                        }
-                    ]
-                },
-                {
-                    icon: 'el-icon-lx-emoji',
-                    index: 'icon',
-                    title: '题库管理'
-                },
-                {
-                    icon: 'el-icon-pie-chart',
-                    index: 'charts',
+                    icon: 'el-icon-tickets',
+                    index: 'examManage',
                     title: '考试管理'
                 },
                 {
-                    icon: 'el-icon-rank',
-                    index: '6',
-                    title: '成绩管理',
-                    subs: [
-                        {
-                            index: 'drag',
-                            title: '拖拽列表'
-                        },
-                        {
-                            index: 'dialog',
-                            title: '拖拽弹框'
-                        }
-                    ]
+                    icon: 'el-icon-pie-chart',
+                    index: 'QuestionManage',
+                    title: '题库管理'
                 },
                 {
                     icon: 'el-icon-lx-global',
-                    index: 'i18n',
-                    title: '日志管理'
+                    index: 'scoreManage',
+                    title: '成绩管理'
                 },
                 {
                     icon: 'el-icon-lx-warn',
@@ -137,15 +88,15 @@ export default {
                     subs: [
                         {
                             index: 'permission',
-                            title: '在线用户'
+                            title: '流量监控'
                         },
                         {
                             index: '404',
                             title: '服务监控'
                         },
                       {
-                        index: '405',
-                        title: '集群监控'
+                        index: '403',
+                        title: '索引管理'
                       }
                     ]
                 },

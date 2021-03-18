@@ -12,7 +12,6 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,10 +43,10 @@ public class UserController {
         return new CommonResult(777,"没有权限",null);
     }
 
+
     @PostMapping(value = "/provider/login")
     public CommonResult login(@RequestBody User user){
         try {
-            System.out.println("收到的信息："+user.getEmail()+","+user.getPassword());
             //获取当前的用户
             Subject subject = SecurityUtils.getSubject();
             //封装用户的登录数据
@@ -59,6 +58,7 @@ public class UserController {
             paylod.put("password",user.getPassword());
             String token = JwtUtil.getToken(paylod);
             System.out.println("token:"+token);
+            userService.updateClientInfo(user);
             return new CommonResult(200,"密码正确",token);
         } catch (UnknownAccountException e) {
             /**

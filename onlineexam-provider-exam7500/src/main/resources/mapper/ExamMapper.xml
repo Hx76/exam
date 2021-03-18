@@ -4,6 +4,13 @@
     <insert id="addExam">
 
     </insert>
+    <insert id="submit">
+        insert into examination_paper(email, exam_id, question_id, answer) values (#{email},#{examId},#{param1},#{param2})
+    </insert>
+    <insert id="submitScore">
+        insert into score(exam_id, email, score,sum_score) VALUES (#{examId},#{email},#{param3},#{param4})
+    </insert>
+
     <update id="updateExam">
 
     </update>

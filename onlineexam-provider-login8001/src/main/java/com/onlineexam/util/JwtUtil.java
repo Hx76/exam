@@ -10,16 +10,7 @@ import java.util.Map;
 
 public class JwtUtil {
     private static final String SIGN = "hx76";
-    /**
-     * 生成token head.payload.sing
-     *         String token = JWT.create()
-     *                 .withClaim("email","123")
-     *                 .withClaim("password","456")
-     *                 //指定令牌失效时间
-     *                 .withExpiresAt(instance.getTime())
-     *                 //签名
-     *                 .sign(Algorithm.HMAC256(SIGN));
-     */
+
     public static String getToken(Map<String,String> map){
         Calendar instance = Calendar.getInstance();
         //设置令牌失效时间,默认7天过期

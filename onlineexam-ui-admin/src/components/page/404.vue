@@ -1,14 +1,8 @@
 <template>
-  <div class="error-page">
-      <div class="error-code">4<span>0</span>4</div>
-      <div class="error-desc">啊哦~ 你所访问的页面不存在</div>
-      <div class="error-handle">
-          <router-link to="/">
-            <el-button type="primary" size="large">返回首页</el-button>
-          </router-link>
-          <el-button class="error-btn" type="primary" size="large" @click="goBack">返回上一页</el-button>
-      </div>
+  <div style="height: 900px;width: 1200px">
+    <iframe src="http://192.168.191.1:8848/nacos/index.html#/configurationManagement?dataId=&group=&appName=&namespace=" style="height: 900px;width: 1000px"></iframe>
   </div>
+
 </template>
 
 <script>

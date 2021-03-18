@@ -3,28 +3,18 @@ package com.onlineexam.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.onlineexam.entities.ClientInfo;
+import com.onlineexam.utils.GetClientInfo;
+import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.factory.rewrite.CachedBodyOutputMessage;
-import org.springframework.cloud.gateway.support.BodyInserterContext;
-import org.springframework.cloud.gateway.support.DefaultServerRequest;
 import org.springframework.core.Ordered;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyInserter;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
-import java.net.URI;
 import java.net.URISyntaxException;
 
 @Component
@@ -37,6 +27,25 @@ public class GlobalFilter implements org.springframework.cloud.gateway.filter.Gl
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
+        UserAgent userAgent = UserAgent.parseUserAgentString(String.valueOf(request.getHeaders()));
+        String os = userAgent.getOperatingSystem().getName();
+
+        //操作系统类型
+        System.out.println("操作系统："+os);
+        String clientType = userAgent.getOperatingSystem().getDeviceType().toString();
+        //客户端类型  手机、电脑、平板
+        String ip = GetClientInfo.getIpAddr(request);
+        System.out.println("ip:"+ip);
+        //请求i
+        String browser = userAgent.getBrowser().toString();
+        System.out.println(clientType+os+browser);
+        //浏览器类型
+        ClientInfo.getInstance().setIp(ip);
+        ClientInfo.getInstance().setOS(os);
+        ClientInfo.getInstance().setClientType(clientType);
+        System.out.println(ClientInfo.getInstance().getOS());
+        System.out.println(ClientInfo.getInstance().getIp());
+        System.out.println(ClientInfo.getInstance().getClientType());
         System.out.println(request.getMethod());
         if (request.getMethod() == HttpMethod.POST) {
             System.out.println("是POST啊");
@@ -44,7 +53,7 @@ public class GlobalFilter implements org.springframework.cloud.gateway.filter.Gl
         }
         String token = exchange.getRequest().getQueryParams().getFirst("token");
         System.out.println(exchange.getRequest().getURI());
-        getTokenInfo(token);
+
         if (token == null){
             System.out.println("没有token");
             exchange.getResponse().setStatusCode(HttpStatus.NOT_ACCEPTABLE);

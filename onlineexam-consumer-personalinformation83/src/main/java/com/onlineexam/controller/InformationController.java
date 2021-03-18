@@ -25,4 +25,15 @@ public class InformationController {
     public CommonResult updateInformation(@PathVariable String username,@PathVariable String email){
         return restTemplate.getForObject(INFORMATION_URL+"/provider/information/update/"+username+"/"+email,CommonResult.class);
     }
+
+    @GetMapping(value = "/information/showAllUsers/{currentPage}/{pageSize}")
+    public CommonResult showAllUsers(@PathVariable int currentPage,@PathVariable int pageSize){
+        return restTemplate.getForObject(INFORMATION_URL+"/provider/information/showAllUsers/"+currentPage+"/"+pageSize,CommonResult.class);
+    }
+
+    @GetMapping(value = "/information/countAllUsers")
+    public CommonResult countAllUsers(){
+        return restTemplate.getForObject(INFORMATION_URL+"/provider/information/countAllUsers",CommonResult.class);
+    }
+
 }

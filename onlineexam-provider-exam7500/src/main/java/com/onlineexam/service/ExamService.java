@@ -1,6 +1,7 @@
 package com.onlineexam.service;
 
 import com.onlineexam.entities.Exam;
+import com.onlineexam.entities.SubmitQuestion;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -15,4 +16,5 @@ public interface ExamService {
     String getUserName(@Param("email") String email);
     Integer countMyExam(@Param("email") String email);
     List<Exam> showMyExam(int currentPage,int pageSize,String email);
+    Integer submit(SubmitQuestion[] question,String email,String examId);
 }

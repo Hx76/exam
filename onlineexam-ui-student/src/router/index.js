@@ -12,7 +12,10 @@ import Question from "@/views/Question";
 import MyExam from "@/views/MyExam";
 import MyCreatedExam from "@/views/MyCreatedExam";
 import Rank from "@/views/Rank";
+import ExamPaper from "@/views/ExamPaper";
 Vue.use(VueRouter)
+
+
 
 const routes = [
   {
@@ -78,6 +81,11 @@ const routes = [
     component: Register
   },
   {
+    path: '/examPaper',
+    name: 'examPaper',
+    component: ExamPaper
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -94,3 +102,4 @@ const router = new VueRouter({
 })
 
 export default router
+

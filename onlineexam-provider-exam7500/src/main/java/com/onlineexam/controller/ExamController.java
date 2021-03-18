@@ -1,6 +1,8 @@
 package com.onlineexam.controller;
 
+import com.onlineexam.entities.ClientInfo;
 import com.onlineexam.entities.Exam;
+import com.onlineexam.entities.SubmitQuestion;
 import com.onlineexam.service.ExamService;
 import com.onlineexam.utils.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,12 @@ public class ExamController {
     public CommonResult getUserName(@PathVariable String email){
         String userName = service.getUserName(email);
         return new CommonResult(12,"yes",userName);
+    }
+
+    @PostMapping(value = "/provider/exam/submit/{examId}/{email}")
+    public CommonResult submit(@PathVariable String examId,@PathVariable String email,@RequestBody SubmitQuestion[] question){
+        service.submit(question, email, examId);
+        return new CommonResult(12,"yes",0);
     }
 
 }

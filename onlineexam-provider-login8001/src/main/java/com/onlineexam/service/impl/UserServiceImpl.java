@@ -29,4 +29,17 @@ public class UserServiceImpl implements UserService {
     public User queryByEmail(String email) {
         return userDao.queryByEmail(email);
     }
+
+    @Override
+    public String updateClientInfo(User user) {
+        String ip = user.getIp();
+        String address = user.getAddress();
+        String os = user.getOs();
+        String device = user.getDevice();
+        String browser = user.getBrowser();
+        String email = user.getEmail();
+        System.out.println(ip+address+os+device+browser+email);
+        userDao.renewalClientInfo(ip,address,os,device,browser,email);
+        return "更新完成";
+    }
 }

@@ -78,10 +78,12 @@ export default {
   name: "ExamList",
   components: {Navigation},
   created() {
+    this.userInfo.email = this.$route.params.email
+    this.userInfo.userName = this.$route.params.userName
     console.log(sessionStorage.getItem('token'))
     const _this = this
     axios.get(
-          'http://localhost:9527/provider/exam/countAll',
+          'http://localhost:9527/exam/countAll',
         {
           params: {
             token: sessionStorage.getItem('token')
@@ -105,6 +107,10 @@ export default {
   },
   data() {
     return {
+      userInfo: {
+        userName: '用户',
+        email: '',
+      },
       currentDate: new Date(),
       total: 0,
       dialogVisible: false,
@@ -154,7 +160,7 @@ export default {
           _this.$router.push({
             path: "/exam",
             name: "exam",
-            params: { examId: _this.exam_id}
+            params: { examId: _this.exam_id,username: _this.userInfo.userName,email: _this.userInfo.email}
           });
           _this.$router.replace('/exam')
         }else {

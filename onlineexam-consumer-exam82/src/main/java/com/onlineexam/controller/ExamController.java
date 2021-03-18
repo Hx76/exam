@@ -1,6 +1,7 @@
 package com.onlineexam.controller;
 
 import com.onlineexam.entities.Exam;
+import com.onlineexam.entities.SubmitQuestion;
 import com.onlineexam.utils.CommonResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -58,5 +59,11 @@ public class ExamController {
     @GetMapping(value = "/exam/getUserName/{email}")
     public CommonResult getUserName(@PathVariable String email){
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/getUserName/"+email,CommonResult.class);
+    }
+
+    @PostMapping(value = "/exam/submit/{examId}/{email}")
+    public CommonResult submit(@PathVariable String examId,@PathVariable String email,@RequestBody SubmitQuestion[] question){
+        System.out.println("haha");
+        return restTemplate.postForObject(EXAM_URL+"/provider/exam/submit/"+examId+"/"+email,question,CommonResult.class);
     }
 }

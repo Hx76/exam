@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.onlineexam.dao.ScoreDao">
+
+
+    <select id="countScores" resultType="java.lang.Integer">
+        select count(*) from exam where state='已结束'
+    </select>
+    <select id="showAllScore" resultType="com.onlineexam.entities.Score">
+        select * from exam where state='已结束'
+    </select>
+
+    <select id="getExamInfoByExamId" resultType="com.onlineexam.entities.UserScore">
+        SELECT * from score where exam_id=#{examId}
+    </select>
+    <select id="getUserScore" resultType="com.onlineexam.entities.UserScore">
+        select * from score where exam_id=#{examId} and email=#{email}
+    </select>
+</mapper>

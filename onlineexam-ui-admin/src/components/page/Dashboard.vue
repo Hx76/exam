@@ -13,11 +13,11 @@
                     </div>
                     <div class="user-info-list">
                       上次登录时间：
-                      <span>2019-11-01</span>
+                      <span>2020-3-16</span>
                     </div>
                     <div class="user-info-list">
                       上次登录地点：
-                      <span>东莞</span>
+                      <span>内蒙古</span>
                     </div>
                   </el-card>
                 </el-col>
@@ -48,38 +48,9 @@
                         </el-card>
                     </el-col>
                 </el-row>
-              <el-row :gutter="20" class="mgb20" style="margin-top: 6%">
-                <el-col :span="8">
-                  <el-card shadow="hover" :body-style="{padding: '0px'}">
-                    <div class="grid-content grid-con-3">
-                      <i class="el-icon-lx-goods grid-con-icon"></i>
-                      <div class="grid-cont-right">
-                        <div class="grid-num">5000</div>
-                        <div>消息</div>
-                      </div>
-                    </div>
-                  </el-card>
-                </el-col>
-                <el-col :span="8" style="margin-left: 3%">
-                  <el-card shadow="hover" :body-style="{padding: '0px'}">
-                    <div class="grid-content grid-con-3">
-                      <i class="el-icon-lx-goods grid-con-icon"></i>
-                      <div class="grid-cont-right">
-                        <div class="grid-num">5000</div>
-                        <div>消息</div>
-                      </div>
-                    </div>
-                  </el-card>
-                </el-col>
 
-              </el-row>
 
             </el-col>
-        </el-row>
-        <el-row :gutter="20" style="margin-left: 2%">
-              <div class="schart-box">
-                <schart class="schart" canvasId="line" :options="options2"></schart>
-              </div>
         </el-row>
     </div>
 </template>
