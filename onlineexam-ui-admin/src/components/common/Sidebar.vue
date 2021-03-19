@@ -88,11 +88,11 @@ export default {
                     subs: [
                         {
                             index: 'permission',
-                            title: '流量监控'
+                            title: '服务治理'
                         },
                         {
                             index: '404',
-                            title: '服务监控'
+                            title: '服务配置'
                         },
                       {
                         index: '403',

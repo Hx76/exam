@@ -16,51 +16,67 @@ public class ExamController {
     @Resource
     private RestTemplate restTemplate;
 
+    //查询考试时间
     @GetMapping(value = "/exam/showExamTime/{examId}")
     public CommonResult showExamTime(@PathVariable int examId){
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/showExamTime/"+examId,CommonResult.class);
     }
 
+    //分页展示全部考试
     @GetMapping(value = "/exam/showAll/{currentPage}/{pageSize}")
     public CommonResult showAllExam(@PathVariable int currentPage,@PathVariable int pageSize){
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/showAll/"+currentPage+"/"+pageSize,CommonResult.class);
     }
 
-    @GetMapping(value = "/exam/showMyExam/{currentPage}/{pageSize}/{email}")
-    public CommonResult showMyExam(@PathVariable int currentPage,@PathVariable int pageSize,@PathVariable String email){
-        return restTemplate.getForObject(EXAM_URL+"/provider/exam/showMyExam/"+currentPage+"/"+pageSize+"/"+email,CommonResult.class);
+    //分页展示我参加的考试
+    @GetMapping(value = "/exam/showMyJoinExam/{currentPage}/{pageSize}/{email}")
+    public CommonResult showMyJoinExam(@PathVariable int currentPage,@PathVariable int pageSize,@PathVariable String email){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/showMyJoinExam/"+currentPage+"/"+pageSize+"/"+email,CommonResult.class);
     }
 
+    //查询一共多少考试
     @GetMapping(value = "/exam/countAll")
-    public CommonResult countQuestion(){
+    public CommonResult countAllExam(){
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/countAll",CommonResult.class);
     }
 
-    @GetMapping(value = "/exam/countMyExam/{email}")
-    public CommonResult countQuestion(@PathVariable String email){
-        return restTemplate.getForObject(EXAM_URL+"/provider/exam/countMyExam/"+email,CommonResult.class);
+    //查询我参加过的考试
+    @GetMapping(value = "/exam/countMyJoinExam/{email}")
+    public CommonResult countMyJoinExam(@PathVariable String email){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/countMyJoinExam/"+email,CommonResult.class);
     }
 
+    //
     @PostMapping(value = "/exam/update")
     public CommonResult updateInformation(@RequestBody Exam exam){
         return restTemplate.postForObject(EXAM_URL+"/provider/exam",exam,CommonResult.class);
     }
 
+    //
     @PostMapping(value = "/exam/create")
     public CommonResult showInformation(@RequestBody Exam exam){
         return restTemplate.postForObject(EXAM_URL+"/provider/exam/create",exam,CommonResult.class);
     }
 
-    @GetMapping(value = "/exam/showByUser/{email}")
-    public CommonResult updateInformation(@PathVariable String email){
-        return restTemplate.getForObject(EXAM_URL+"/provider/information/show/"+email,CommonResult.class);
+    //分页显示我创建的考试
+    @GetMapping(value = "/exam/showMyCreatedExam/{currentPage}/{pageSize}/{email}")
+    public CommonResult showMyCreatedExam(@PathVariable int currentPage,@PathVariable int pageSize,@PathVariable String email){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/showMyCreatedExam/"+currentPage+"/"+pageSize+"/"+email,CommonResult.class);
     }
 
+    //查询我创建的考试次数
+    @GetMapping(value = "/exam/countMyCreatedExam/{email}")
+    public CommonResult countMyCreatedExam(@PathVariable String email){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/countMyCreatedExam/"+email,CommonResult.class);
+    }
+
+    //获取用户名
     @GetMapping(value = "/exam/getUserName/{email}")
     public CommonResult getUserName(@PathVariable String email){
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/getUserName/"+email,CommonResult.class);
     }
 
+    //提交试卷
     @PostMapping(value = "/exam/submit/{examId}/{email}")
     public CommonResult submit(@PathVariable String examId,@PathVariable String email,@RequestBody SubmitQuestion[] question){
         System.out.println("haha");

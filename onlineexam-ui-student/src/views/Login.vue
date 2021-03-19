@@ -1,32 +1,31 @@
 <template>
-  <div style="background-image: url('~@/assets/background.png')">
-    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"
-             label-width="100px" class="demo-ruleForm" >
-      <h1 align="center" style="font-size: 40px;margin-top: 5%">线上考试系统</h1>
-      <div style="width: 30%;margin-left: 35%;margin-top: 5%">
-        <el-form-item label="邮箱:" prop="email" :rules="[
+    <div>
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"
+               label-width="100px" class="demo-ruleForm" >
+        <h1 align="center" style="font-size: 40px;margin-top: 5%">线上考试系统</h1>
+        <div style="width: 30%;margin-left: 35%;margin-top: 5%">
+          <el-form-item label="邮箱:" prop="email" :rules="[
       { required: true, message: '请输入邮箱地址', trigger: 'blur' },
       { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
     ]">
-          <el-input type="email" v-model="ruleForm.email" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="密码:" prop="pass">
-          <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="验证码:" prop="code">
-          <el-input style="width: 74%;float: left" v-model="ruleForm.code"></el-input>
-          <div>
-            <el-button style="font-size: 15px;width: 25%;text-align: center;float: right" @click="test()">{{ruleForm.codeEmail}}</el-button>
-          </div>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-          <el-button type="primary" @click="goToRegister()">注册</el-button>
-        </el-form-item>
-      </div>
-    </el-form>
-  </div>
-
+            <el-input type="email" v-model="ruleForm.email" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="密码:" prop="pass">
+            <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="验证码:" prop="code">
+            <el-input style="width: 74%;float: left" v-model="ruleForm.code"></el-input>
+            <div>
+              <el-button style="font-size: 15px;width: 25%;text-align: center;float: right" @click="test()">{{ruleForm.codeEmail}}</el-button>
+            </div>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+            <el-button type="primary" @click="goToRegister()">注册</el-button>
+          </el-form-item>
+        </div>
+      </el-form>
+    </div>
 </template>
 
 <script>
@@ -56,6 +55,18 @@ export default {
       }
     };
     return {
+      ruleForm:{
+        email:'',
+        username:'',
+        code:'',
+        codeEmail:'点击刷新',
+        test:'',
+        device:'',
+        ip:'',
+        address:'',
+        os:'',
+        password:'',
+      },
       rules: {
         email: [
           { validator: checkEmail, trigger: 'blur' }

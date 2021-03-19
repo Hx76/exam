@@ -3,6 +3,22 @@
 <mapper namespace="com.onlineexam.dao.UserDao">
 
     <select id="checkPassword" resultType="java.lang.String">
-        select password from user where email = #{email};
+        select AES_DECRYPT(UNHEX(password),'hx76') from user where email = #{email};
     </select>
+
+    <select id="queryByEmail" resultType="com.onlineexam.entities.User">
+        select * from user where email = #{email};
+    </select>
+
+    <select id="getPassword" resultType="java.lang.String">
+        select AES_DECRYPT(UNHEX(password),'hx76') from user where email = #{email};
+    </select>
+
+    <update id="renewalClientInfo">
+        update user set ip=#{param1},address=#{param2},browser=#{param5},
+                        device=#{param4},os=#{param3}
+        where email=#{param6}
+    </update>
+
+
 </mapper>

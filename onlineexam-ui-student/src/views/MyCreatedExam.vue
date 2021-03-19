@@ -14,21 +14,21 @@
           <el-checkbox></el-checkbox>
         </el-table-column>
         <el-table-column
-            prop="id"
-            label="序号"
+            prop="exam_serial_number"
+            label="邀请码"
             width="80">
         </el-table-column>
         <el-table-column
-            prop="question_body"
+            prop="name"
             label="考试名称"
             width="180">
         </el-table-column>
         <el-table-column
-            prop="type_id"
+            prop="state"
             label="状态">
         </el-table-column>
         <el-table-column
-            prop="type_id"
+            prop="number_of_people"
             label="参加人数">
         </el-table-column>
         <el-table-column
@@ -124,8 +124,10 @@ export default {
   name: "MyCreatedExam",
   components: {Footer, Navigation},
   created() {
+    this.userInfo.email = this.$route.params.email
+    this.userInfo.userName = this.$route.params.userName
     const _this = this
-    axios.get('http://localhost:9527/exam/countMyExam'+_this.userInfo.email,
+    axios.get('http://localhost:9527/exam/countMyCreatedExam/'+_this.userInfo.email,
         {
           params: {
             token: sessionStorage.getItem('token')
@@ -134,7 +136,7 @@ export default {
       _this.total = resp.data['data']
       console.log(resp.data)
     })
-    axios.get('http://localhost:9527/exam/showMyExam/1/8'+_this.userInfo.email,
+    axios.get('http://localhost:9527/exam/showMyCreatedExam/1/8/'+_this.userInfo.email,
         {
           params: {
             token: sessionStorage.getItem('token')
@@ -182,11 +184,10 @@ export default {
         answer: '7'
       }],
       tableData: [{
-        id: '',
-        question_body: '',
-        score: '',
-        creator: '',
-        type_id: '',
+        exam_serial_number: '',
+        name: '',
+        state: '',
+        number_of_people: '',
       }]
     }
   },
@@ -199,14 +200,23 @@ export default {
           .catch(_ => {
           });
     },
-
     page(currentPage) {
       const _this = this
-      axios.get('http://localhost:84/question/countAll').then(function (resp) {
+      axios.get('http://localhost:9527/exam/countMyCreatedExam/'+_this.userInfo.email,
+          {
+            params: {
+              token: sessionStorage.getItem('token')
+            }
+          }).then(function (resp) {
         _this.total = resp.data['data']
         console.log(resp.data)
       })
-      axios.get('http://localhost:84/question/showAll/' + currentPage + '/8').then(function (resp) {
+      axios.get('http://localhost:9527/exam/showMyCreatedExam/'+currentPage+'/8/'+_this.userInfo.email,
+          {
+            params: {
+              token: sessionStorage.getItem('token')
+            }
+          }).then(function (resp) {
         _this.tableData = resp.data['data']
       })
     },

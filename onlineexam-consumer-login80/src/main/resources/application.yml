@@ -1,14 +1,3 @@
-server:
-  port: 80
-
 spring:
-  application:
-    name: nacos-login-consumer
-  cloud:
-    nacos:
-      discovery:
-        server-addr: localhost:8848
-
-#消费者将要去访问的服务名称
-service-url:
-  nacos-user-service: http://nacos-login-provider
+  profiles:
+    active: dev #开发环境

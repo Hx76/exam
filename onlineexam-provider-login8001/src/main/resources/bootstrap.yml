@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: nacos-login-provider
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
+    sentinel:
+      transport:
+        dashboard: localhost:9999
+        port: 8719
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://81.70.169.162:3306/onlineexam?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: hx947769582
+    type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: com.onlineexam.entities
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

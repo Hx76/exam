@@ -10,11 +10,6 @@
           :data="tableData"
           style="width: 100%">
         <el-table-column
-            prop="id"
-            label="序号"
-            width="80">
-        </el-table-column>
-        <el-table-column
             prop="question_body"
             label="考试名称"
             width="180">
@@ -26,10 +21,6 @@
         <el-table-column
             prop="creator"
             label="创建人">
-        </el-table-column>
-        <el-table-column
-            prop="type_id"
-            label="时长">
         </el-table-column>
         <el-table-column
             prop="type_id"
@@ -72,7 +63,6 @@ export default {
   name: "MyExam",
   components: {Footer, Navigation},
   created() {
-
     const _this = this
     axios.get('http://localhost:84/question/countAll').then(function (resp) {
       _this.total = resp.data['data']

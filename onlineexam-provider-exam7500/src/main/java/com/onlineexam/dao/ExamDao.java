@@ -2,6 +2,7 @@ package com.onlineexam.dao;
 
 import com.onlineexam.entities.Exam;
 import com.onlineexam.entities.SubmitQuestion;
+import com.onlineexam.entities.UserScore;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,5 +24,11 @@ public interface ExamDao {
     Integer countMyExam(@Param("email") String email);
     Integer submit(Integer id,String answer, @Param("email") String email, @Param("examId") String examId);
     Integer submitScore(@Param("email") String email, @Param("examId") String examId,Integer score,Integer sumScore);
+    //我创建的考试
+    Integer countMyCreatedExam(@Param("email") String email);
+    List<Exam> showMyCreatedExam(@Param("email") String email);
+    //我参加的考试
+    Integer countMyJoinExam(@Param("email") String email);
+    List<UserScore> showMyJoinExam(@Param("email") String email);
 
 }

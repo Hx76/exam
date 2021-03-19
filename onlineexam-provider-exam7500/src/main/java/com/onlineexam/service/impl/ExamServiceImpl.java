@@ -1,15 +1,25 @@
 package com.onlineexam.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.onlineexam.dao.ExamDao;
 import com.onlineexam.entities.Exam;
 import com.onlineexam.entities.Question;
 import com.onlineexam.entities.SubmitQuestion;
+import com.onlineexam.entities.UserScore;
 import com.onlineexam.service.ExamService;
 import com.onlineexam.utils.PageBean;
+import org.apache.ibatis.annotations.Param;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +27,9 @@ import java.util.List;
 public class ExamServiceImpl implements ExamService {
     @Resource
     private ExamDao dao;
+
+    @Resource
+    private RestHighLevelClient client;
 
     @Override
     public List<Exam> showAllExam(int currentPage,int pageSize) {
@@ -56,22 +69,6 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public Integer countMyExam(String email) {
-        return dao.countMyExam(email);
-    }
-
-    @Override
-    public List<Exam> showMyExam(int currentPage, int pageSize, String email) {
-        PageHelper.startPage(currentPage, pageSize);
-        List<Exam> exams = dao.showExamByUser(email);
-        System.out.println(exams);
-        int countNums = dao.countExams();
-        PageBean<Exam> pageData = new PageBean<>(currentPage, pageSize, countNums);
-        pageData.setItems(exams);
-        return pageData.getItems();
-    }
-
-    @Override
     public Integer submit(SubmitQuestion[] question, String email, String examId) {
         int sumScore=0;
         int score=0;
@@ -86,5 +83,54 @@ public class ExamServiceImpl implements ExamService {
         System.out.println("总得分："+sumScore);
         dao.submitScore(email,examId,score,sumScore);
         return 0;
+    }
+
+    @Override
+    public Integer countMyCreatedExam(String email) {
+        return dao.countMyCreatedExam(email);
+    }
+
+    @Override
+    public List<Exam> showMyCreatedExam(int currentPage, int pageSize,@Param("email") String email) {
+        PageHelper.startPage(currentPage, pageSize);
+        List<Exam> exams = dao.showMyCreatedExam(email);
+        System.out.println("我创建的考试"+exams);
+        int countNums = dao.countMyCreatedExam(email);
+        PageBean<Exam> pageData = new PageBean<>(currentPage, pageSize, countNums);
+        pageData.setItems(exams);
+        return pageData.getItems();
+    }
+
+    @Override
+    public Integer countMyJoinExam(String email) {
+        return dao.countMyJoinExam(email);
+    }
+
+    @Override
+    public List<UserScore> showMyJoinExam(int currentPage, int pageSize, @Param("email") String email) {
+        PageHelper.startPage(currentPage, pageSize);
+        List<UserScore> exams = dao.showMyJoinExam(email);
+        System.out.println("所有我参加过的考试"+exams);
+        int countNums = dao.countMyJoinExam(email);
+        PageBean<UserScore> pageData = new PageBean<>(currentPage, pageSize, countNums);
+        pageData.setItems(exams);
+        return pageData.getItems();
+    }
+
+    @Override
+    public Void createExam(Exam exam) throws IOException {
+        parseContent(exam.getName());
+        return null;
+    }
+
+    //解析数据放入索引中
+    public boolean parseContent(String key) throws IOException {
+        BulkRequest bulkRequest = new BulkRequest();
+        bulkRequest.timeout("20m");
+        bulkRequest.add(new IndexRequest("exams")
+                 .source(JSON.toJSONString(key), XContentType.JSON)
+        );
+        BulkResponse bulk = client.bulk(bulkRequest, RequestOptions.DEFAULT);
+        return !bulk.hasFailures();
     }
 }

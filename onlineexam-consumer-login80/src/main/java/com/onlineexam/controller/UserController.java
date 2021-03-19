@@ -5,12 +5,14 @@ import com.onlineexam.utils.CommonResult;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 
 @RestController
+@RefreshScope //支持Nacos的动态刷新功能
 public class UserController {
     @Value("${service-url.nacos-user-service}")
     public String LOGIN_URL;
