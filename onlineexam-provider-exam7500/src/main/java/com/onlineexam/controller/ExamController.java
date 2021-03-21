@@ -1,11 +1,12 @@
 package com.onlineexam.controller;
 
-import com.onlineexam.entities.ClientInfo;
-import com.onlineexam.entities.Exam;
-import com.onlineexam.entities.SubmitQuestion;
-import com.onlineexam.entities.UserScore;
+import com.onlineexam.entities.*;
 import com.onlineexam.service.ExamService;
 import com.onlineexam.utils.CommonResult;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,9 @@ import java.util.List;
 public class ExamController {
     @Resource
     private ExamService service;
+
+    @Resource
+    private RestHighLevelClient client;
 
     //获取考试时间
     @GetMapping(value = "/provider/exam/showExamTime/{examId}")
@@ -61,13 +65,7 @@ public class ExamController {
 //
 //    }
 //
-    @GetMapping(value = "/provider/exam/create")
-    public CommonResult createExam() throws IOException {
-        Exam exam = new Exam();
-        exam.setName("第一次考试");
-        service.createExam(exam);
-        return new CommonResult(10,"","exams");
-    }
+
 
     //分页展示我创建的考试
     @GetMapping(value = "/provider/exam/showMyCreatedExam/{currentPage}/{pageSize}/{email}")
@@ -95,6 +93,16 @@ public class ExamController {
     @PostMapping(value = "/provider/exam/submit/{examId}/{email}")
     public CommonResult submit(@PathVariable String examId,@PathVariable String email,@RequestBody SubmitQuestion[] question){
         service.submit(question, email, examId);
+        return new CommonResult(12,"yes",0);
+    }
+
+    @GetMapping("/add/{name}")
+    public CommonResult add(@PathVariable String name) throws IOException {
+        ExamElasticsearch exam = new ExamElasticsearch(name);
+        IndexRequest indexRequest = new IndexRequest("exams")
+                .id("1")
+                .source("user", exam.getName());
+        IndexResponse response = client.index(indexRequest, RequestOptions.DEFAULT);
         return new CommonResult(12,"yes",0);
     }
 

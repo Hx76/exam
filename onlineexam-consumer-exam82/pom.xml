@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>onlineexam-consumer-examlist82</artifactId>
+    <artifactId>onlineexam-consumer-exam82</artifactId>
 
     <dependencies>
         <dependency>

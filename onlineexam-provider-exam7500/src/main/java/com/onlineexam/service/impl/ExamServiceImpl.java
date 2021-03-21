@@ -1,25 +1,18 @@
 package com.onlineexam.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.onlineexam.dao.ExamDao;
 import com.onlineexam.entities.Exam;
-import com.onlineexam.entities.Question;
 import com.onlineexam.entities.SubmitQuestion;
 import com.onlineexam.entities.UserScore;
 import com.onlineexam.service.ExamService;
 import com.onlineexam.utils.PageBean;
 import org.apache.ibatis.annotations.Param;
-import org.elasticsearch.action.bulk.BulkRequest;
-import org.elasticsearch.action.bulk.BulkResponse;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,8 +21,6 @@ public class ExamServiceImpl implements ExamService {
     @Resource
     private ExamDao dao;
 
-    @Resource
-    private RestHighLevelClient client;
 
     @Override
     public List<Exam> showAllExam(int currentPage,int pageSize) {
@@ -119,18 +110,8 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public Void createExam(Exam exam) throws IOException {
-        parseContent(exam.getName());
         return null;
     }
 
-    //解析数据放入索引中
-    public boolean parseContent(String key) throws IOException {
-        BulkRequest bulkRequest = new BulkRequest();
-        bulkRequest.timeout("20m");
-        bulkRequest.add(new IndexRequest("exams")
-                 .source(JSON.toJSONString(key), XContentType.JSON)
-        );
-        BulkResponse bulk = client.bulk(bulkRequest, RequestOptions.DEFAULT);
-        return !bulk.hasFailures();
-    }
+
 }
