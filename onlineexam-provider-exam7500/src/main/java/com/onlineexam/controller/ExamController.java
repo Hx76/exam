@@ -1,5 +1,7 @@
 package com.onlineexam.controller;
 
+import com.alibaba.druid.pool.DataSourceClosedException;
+import com.alibaba.druid.pool.ha.DataSourceCreator;
 import com.onlineexam.entities.*;
 import com.onlineexam.service.ExamService;
 import com.onlineexam.utils.CommonResult;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -103,7 +106,10 @@ public class ExamController {
                 .id("1")
                 .source("user", exam.getName());
         IndexResponse response = client.index(indexRequest, RequestOptions.DEFAULT);
+
         return new CommonResult(12,"yes",0);
     }
+
+
 
 }
