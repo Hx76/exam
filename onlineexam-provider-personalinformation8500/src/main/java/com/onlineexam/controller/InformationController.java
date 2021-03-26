@@ -3,6 +3,7 @@ package com.onlineexam.controller;
 import com.onlineexam.entities.User;
 import com.onlineexam.utils.CommonResult;
 import com.onlineexam.service.InformationService;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,8 @@ import java.util.List;
 public class InformationController {
     @Resource
     InformationService service;
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
 
     @GetMapping(value = "/provider/information/show/{email}")
     public CommonResult showUserInformation(@PathVariable String email){
@@ -40,5 +43,10 @@ public class InformationController {
     @GetMapping(value = "/provider/information/countAllUsers")
     public CommonResult countAllUsers(){
         return new CommonResult(510,"查询成功",service.countAll());
+    }
+
+    @GetMapping(value = "/provider/information/pageView")
+    public CommonResult pageView(){
+        return new CommonResult(510,"查询成功",stringRedisTemplate.opsForValue().get("views"));
     }
 }

@@ -18,4 +18,8 @@ public interface QuestionDao {
     List<Question> showFillingQuestion(@Param("examId") Integer examId);
     String getAnswer(Integer questionId);
     String getPerm(@Param("email") String email);
+    Integer addQuestion(String question_body,String type_id,String creator,Integer score,String answer);
+    Integer getQuestionMaxId();
+    Integer addOptions(String option,String option_number,Integer question_id);
+    Question getQuestionById(Integer id);
 }

@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div style="width: 70%;margin-left: 15%;margin-top: 1%;background: #fff;height: 900px">
       <label style="width: 10%;margin-top: 2%;margin-left: 5%">问题编号：</label>
-      <el-input style="width: 37%;margin-top: 2%;margin-left: 1%"></el-input>
+      <el-input style="width: 37%;margin-top: 2%;margin-left: 1%" v-model="searchKey"></el-input>
       <el-button style="width: 10%;margin-left: 1%">搜索</el-button>
       <el-button style="margin-left: 1%;margin-top: 2%;background: #00aeff;color: #e4f0ef;width: 10%"
                  @click="dialogVisible = true">+ 新建
@@ -17,14 +17,14 @@
         <div>
           <el-form :model="dialogData">
             <el-form-item label="题干:">
-              <el-input autocomplete="off" v-model="dialogData.body"></el-input>
+              <el-input autocomplete="off" v-model="dialogData.question_body"></el-input>
             </el-form-item>
           </el-form>
         </div>
         <div>
           <el-form>
             <el-form-item label="题目类型:">
-              <el-select v-model="dialogData.type" placeholder="请选择题目类型">
+              <el-select v-model="dialogData.type_id" placeholder="请选择题目类型">
                 <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -40,33 +40,35 @@
             <el-form-item
                 v-for="item in dialogData.option"
                 :key="item.option_id"
-                :value="item.option_body">
-              <el-input v-model="item.option_body" v-bind:disabled="item.disable">
+                :value="item.option">
+              <el-input v-model="item.option" v-bind:disabled="item.disable">
                 <template slot="prepend">{{item.value}}</template>
               </el-input>
             </el-form-item>
           </el-form>
           <el-form :model="dialogData">
             <el-form-item label="答案:" :label-width="formLabelWidth">
-              <el-select placeholder="请选择答案" v-model="dialogData.answers">
+              <el-select placeholder="请选择答案" v-model="dialogData.answer" v-if="selectIfShow">
                 <el-option
                     v-for="item in answer_options"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
-                    :disabled="item.disabled">
+                    :disabled="item.disabled"
+                    >
                 </el-option>
               </el-select>
+              <el-input label="请输入答案" v-model="dialogData.answer" v-if="inputIfShow"></el-input>
             </el-form-item>
             <el-form-item label="分值:">
-              <el-input autocomplete="off" v-model="dialogData.scores"></el-input>
+              <el-input autocomplete="off" v-model="dialogData.score"></el-input>
             </el-form-item>
           </el-form>
         </div>
 
         <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = true">确 定</el-button>
+    <el-button type="primary" @click="createQuestion()">确 定</el-button>
   </span>
       </el-dialog>
       <el-divider style="margin-top: 1%"></el-divider>
@@ -142,7 +144,7 @@
                 </el-form>
                 <el-form :model="dialogData">
                   <el-form-item label="答案:" :label-width="formLabelWidth">
-                    <el-select placeholder="请选择答案" v-model="dialogData.answers">
+                    <el-select placeholder="请选择答案" v-model="dialogData.answer">
                       <el-option
                           v-for="item in answer_options"
                           :key="item.value"
@@ -233,6 +235,9 @@ export default {
         userName: '用户',
         email: '',
       },
+      searchKey:'',
+      selectIfShow: true,
+      inputIfShow: false,
       formLabelWidth: 10,
       test: true,
       updateDialogVisible: false,
@@ -282,62 +287,74 @@ export default {
         creator: '',
         type_id: '',
       }],
+      questionId: 0,
       dialogData:{
-        body: '123456',
-        type: '',
+        question_body: '',
+        type_id: '',
+        creator: '',
         option: [{
             value: '选项1',
             option_id:'',
-            option_body: '',
+            option: '',
+            option_number:'A',
+            question_id: 0,
             disable: false
           },
           {
             value: '选项2',
             option_id:'',
-            option_body: '',
+            option: '',
+            option_number:'B',
+            question_id: 0,
             disable: false
           },
           {
             value: '选项3',
             option_id:'',
-            option_body: '',
+            option: '',
+            option_number:'C',
+            question_id: 0,
             disable: false
           },
           {
             value: '选项4',
             option_id:'',
-            option_body: '',
+            option: '',
+            option_number:'D',
+            question_id: 0,
             disable: false
           }],
-        answers: '',
-        scores: ''
-      }
+        answer: '',
+        score: ''
+      },
     }
   },
   watch: {
-    'dialogData.answers'(val,oldVal){
+    'dialogData.answer'(val,oldVal){
       if (val!==""){
-        if (this.dialogData.type===""){
+        if (this.dialogData.type_id===""){
           alert("请先选择题目类型！");
-          this.dialogData.answers = "";
+          this.dialogData.answer = "";
         }
       }
     },
-    'dialogData.type'(val, oldVal) {
+    'dialogData.type_id'(val, oldVal) {
       console.log("inputVal = " + val + " , oldValue = " + oldVal)
       if (val==='判断题'){
-        this.dialogData.option[0].option_body="对"
-        this.dialogData.option[1].option_body="错"
+        this.dialogData.option[0].option="对"
+        this.dialogData.option[1].option="错"
         this.dialogData.option[1].disable=false;
         this.dialogData.option[2].disable=true;
         this.dialogData.option[3].disable=true;
         this.answer_options[2].disabled=true
         this.answer_options[3].disabled=true
         this.answer_options[1].disabled=false
+        this.selectIfShow=true
+        this.inputIfShow=false
       }else if(val==='选择题'){
         this.dialogData.body = '456'
-        this.dialogData.option[0].option_body=""
-        this.dialogData.option[1].option_body=""
+        this.dialogData.option[0].option=""
+        this.dialogData.option[1].option=""
         this.dialogData.option[2].disable=false;
         this.dialogData.option[3].disable=false;
         this.dialogData.option[0].disable=false;
@@ -346,10 +363,12 @@ export default {
         this.answer_options[3].disabled=false
         this.answer_options[1].disabled=false
         this.answer_options[0].disabled=false
+        this.selectIfShow=true
+        this.inputIfShow=false
       }else{
         this.dialogData.body = '789'
-        this.dialogData.option[0].option_body=""
-        this.dialogData.option[1].option_body=""
+        this.dialogData.option[0].option=""
+        this.dialogData.option[1].option=""
         this.dialogData.option[1].disable=true;
         this.dialogData.option[2].disable=true;
         this.dialogData.option[3].disable=true;
@@ -357,6 +376,8 @@ export default {
         this.answer_options[3].disabled=true
         this.answer_options[1].disabled=true
         this.answer_options[0].disabled=true
+        this.selectIfShow=false
+        this.inputIfShow=true
       }
     }
   },
@@ -389,11 +410,47 @@ export default {
       var json = eval('(' + rowInfo + ')');
       console.log(json.question_body)
       this.dialogData.body=json.question_body;
-      this.dialogData.type=json.type_id;
+      this.dialogData.type_id=json.type_id;
       this.dialogData.scores=json.score;
     },
     createQuestion(){
+      console.log("选项："+this.dialogData.option[0].option)
+      if (this.dialogData.answer==='选项1'){
+        this.dialogData.answer==='0'
+      }else if (this.dialogData.answer==='选项2'){
+        this.dialogData.answer==='1'
+      }else if (this.dialogData.answer==='选项3'){
+        this.dialogData.answer==='2'
+      }else if (this.dialogData.answer==='选项4'){
+        this.dialogData.answer==='3'
+      }else {
 
+      }
+      this.dialogData.option.option=this.answer_options.option
+
+      this.dialogData.creator=this.userInfo.userName;
+      this.dialogData.option[0].question_id=this.questionId
+      this.dialogData.option[1].question_id=this.questionId
+      this.dialogData.option[2].question_id=this.questionId
+      this.dialogData.option[3].question_id=this.questionId
+      const _this = this
+      axios.post('http://localhost:84//question/addQuestion',this.dialogData).then(function (resp) {
+        _this.questionId = resp.data['data']
+        console.log("zhelizheli"+resp.data)
+      })
+      if (_this.dialogData.type_id === '选择题'){
+        axios.post('http://localhost:84/question/addOptions',this.dialogData.option).then(function (resp) {
+          console.log("zhelizheli"+resp.data)
+        })
+      }
+      this.dialogVisible = false
+    },
+    search(){
+      const _this = this
+      axios.get('http://localhost:84/question/search/'+this.searchKey+"/"+1+"/"+8).then(function (resp) {
+        _this.total = Number(resp.data['message'])
+        _this.tableData=resp.data['data']
+      })
     }
 
   }

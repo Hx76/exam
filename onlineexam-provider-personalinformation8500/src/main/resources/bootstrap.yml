@@ -18,6 +18,10 @@ spring:
     username: root
     password: hx947769582
     type: com.alibaba.druid.pool.DruidDataSource
+  redis:
+    host: 81.68.225.241
+    port: 6379
+    password: 123456
 
 mybatis:
   mapperLocations: classpath:mapper/*.xml

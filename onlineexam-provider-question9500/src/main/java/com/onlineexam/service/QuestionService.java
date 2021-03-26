@@ -1,5 +1,6 @@
 package com.onlineexam.service;
 
+import com.onlineexam.entities.Options;
 import com.onlineexam.entities.Question;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,4 +16,7 @@ public interface QuestionService {
     List<Question> showJudgeQuestion(@Param("examId") Integer examId);
     List<Question> showFillingQuestion(@Param("examId") Integer examId);
     String getPerm(@Param("email") String email);
+    Integer addQuestion(String question_body,String type_id,String creator,Integer score,String answer);
+    Integer addOptions(List<Options> options);
+    List<Question> search(List<Integer> ids,int currentPage,int pageSize);
 }

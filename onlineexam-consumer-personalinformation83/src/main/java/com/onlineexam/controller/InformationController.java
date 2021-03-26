@@ -36,4 +36,9 @@ public class InformationController {
         return restTemplate.getForObject(INFORMATION_URL+"/provider/information/countAllUsers",CommonResult.class);
     }
 
+    @GetMapping(value = "/information/pageView")
+    public CommonResult pageView(){
+        return restTemplate.getForObject(INFORMATION_URL+"/provider/information/pageView",CommonResult.class);
+    }
+
 }

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.onlineexam.dao.QuestionDao">
+    <insert id="addQuestion">
+        insert into question(question_body, type_id, creator, score, answer)
+        values (#{param1},#{param2},#{param3},#{param4},#{param5})
+    </insert>
+    <insert id="addOptions">
+        insert into options(`option`, option_number, question_id) values (#{param1},#{param2},#{param3})
+    </insert>
     <update id="updateQuestion"></update>
     <delete id="deleteQuestion">
         delete
@@ -39,5 +46,11 @@
     </select>
     <select id="getPerm" resultType="java.lang.String">
         select perm from user where email=#{email}
+    </select>
+    <select id="getQuestionMaxId" resultType="java.lang.Integer">
+        select max(id) from question
+    </select>
+    <select id="getQuestionById" resultType="com.onlineexam.entities.Question">
+        select * from question where id=#{id}
     </select>
 </mapper>

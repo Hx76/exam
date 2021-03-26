@@ -13,4 +13,5 @@ public class Options implements Serializable {
     private Integer id;
     private String option;
     private String option_number;
+    private Integer question_id;
 }

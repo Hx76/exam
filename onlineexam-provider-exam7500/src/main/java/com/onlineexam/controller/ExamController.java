@@ -10,6 +10,7 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,6 +23,8 @@ import java.util.List;
 public class ExamController {
     @Resource
     private ExamService service;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @Resource
     private RestHighLevelClient client;
@@ -50,6 +53,7 @@ public class ExamController {
     //查询全部考试的数量
     @GetMapping(value = "/provider/exam/countAll")
     public CommonResult countAllExam(){
+        stringRedisTemplate.opsForValue().increment("views");
         Integer num = service.countAll();
         System.out.println(num);
         return new CommonResult(12,"yes",num);

@@ -19,6 +19,7 @@ spring:
     password: hx947769582
     type: com.alibaba.druid.pool.DruidDataSource
 
+
 mybatis:
   mapperLocations: classpath:mapper/*.xml
   type-aliases-package: com.onlineexam.entities
