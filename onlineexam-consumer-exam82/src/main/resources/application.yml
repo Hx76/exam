@@ -1,5 +1,5 @@
 server:
-  port: 822
+  port: 82
   max-http-header-size: 65536
 
 spring:
