@@ -10,37 +10,23 @@
           :data="tableData"
           style="width: 100%">
         <el-table-column
-            prop="question_body"
-            label="考试名称"
+            prop="exam_id"
+            label="考试编号"
             width="180">
         </el-table-column>
         <el-table-column
-            prop="score"
-            label="开始时间">
-        </el-table-column>
-        <el-table-column
-            prop="creator"
-            label="创建人">
-        </el-table-column>
-        <el-table-column
-            prop="type_id"
+            prop="sum_score"
             label="总分">
         </el-table-column>
         <el-table-column
-            prop="type_id"
+            prop="score"
             label="成绩">
         </el-table-column>
         <el-table-column
-            prop="type_id"
-            label="参加人数">
-        </el-table-column>
-        <el-table-column
-            prop="type_id"
-            label="名次">
-        </el-table-column>
-        <el-table-column
             label="操作">
-          <el-button type="text" @click="updateDialogVisible = true">详情</el-button>
+          <template slot-scope="scope">
+          <el-button type="text" @click="goToExamPaper(scope.row)">详情</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <el-pagination style="margin-top: 2%"
@@ -63,12 +49,14 @@ export default {
   name: "MyExam",
   components: {Footer, Navigation},
   created() {
+    this.userInfo.email = this.$route.params.email
+    this.userInfo.userName = this.$route.params.userName
     const _this = this
-    axios.get('http://localhost:84/question/countAll').then(function (resp) {
+    axios.get('http://localhost:82/exam/countMyJoinExam/'+this.userInfo.email).then(function (resp) {
       _this.total = resp.data['data']
       console.log(resp.data)
     })
-    axios.get('http://localhost:84/question/showAll/1/8').then(function (resp) {
+    axios.get('http://localhost:82/exam/showMyJoinExam/1/8/'+this.userInfo.email).then(function (resp) {
       _this.tableData = resp.data['data']
     })
   },
@@ -111,11 +99,9 @@ export default {
         answer: '7'
       }],
       tableData: [{
-        id: '',
-        question_body: '',
+        exam_id: '',
         score: '',
-        creator: '',
-        type_id: '',
+        sum_score: '',
       }]
     }
   },
@@ -131,25 +117,29 @@ export default {
 
     page(currentPage) {
       const _this = this
-      axios.get('http://localhost:84/question/countAll').then(function (resp) {
+      axios.get('http://localhost:82/exam/countMyJoinExam/'+this.userInfo.email).then(function (resp) {
         _this.total = resp.data['data']
         console.log(resp.data)
       })
-      axios.get('http://localhost:84/question/showAll/' + currentPage + '/8').then(function (resp) {
+      axios.get('http://localhost:82/exam/showMyJoinExam/'+currentPage+'/8/'+this.userInfo.email).then(function (resp) {
         _this.tableData = resp.data['data']
-
-        if (resp.data['data']['type_id'] === 1) {
-
-          _this.tableData.type_id = '选择题'
-        } else if (_this.tableData.type_id === 2) {
-          _this.tableData.type_id = '判断题'
-        } else {
-          _this.tableData.type_id = '填空题'
-        }
       })
     },
     deleteQuestion(){
       this.centerDialogVisible = false
+    },
+    goToExamPaper(e){
+      var rowInfo = JSON.stringify(e);
+      var json = eval('(' + rowInfo + ')');
+      console.log(json)
+      this.exam_id = json.exam_id
+      console.log(this.exam_id)
+      this.$router.push({
+        path: "/examPaper",
+        name: "examPaper",
+        params: {email: this.userInfo.email,exam_id: this.exam_id}
+      });
+      _this.$router.replace('/examPaper')
     }
   }
 }

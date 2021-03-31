@@ -16,4 +16,20 @@
     <select id="getUserScore" resultType="com.onlineexam.entities.UserScore">
         select * from score where exam_id=#{examId} and email=#{email}
     </select>
+    <select id="getExamName" resultType="java.lang.String">
+        select name from exam where exam_serial_number=#{examId}
+    </select>
+    <select id="getNumberOfPeople" resultType="java.lang.Integer">
+        select number_of_people from exam where exam_serial_number=#{examId}
+    </select>
+    <select id="getRank" resultType="java.lang.Integer">
+        SELECT rownum
+        from
+            (select @rownum:=@rownum+1 AS rownum,email
+             from
+                 score,(SELECT @rownum:=0) r
+             ORDER BY score DESC)b
+        where email=#{email}
+    </select>
+
 </mapper>

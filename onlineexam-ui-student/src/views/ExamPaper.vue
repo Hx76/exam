@@ -9,15 +9,22 @@
         active-text-color="#ffd04b">
       <el-menu-item index="1" class="logo"></el-menu-item>
       <el-menu-item index="2">
-        <template slot="title">第一次考试</template>
+        <template slot="title">{{this.examInfo.name}}</template>
       </el-menu-item>
       <el-menu-item index="3" style="float: right"><el-button v-on:click="submitPaper()">退出</el-button></el-menu-item>
-      <el-menu-item index="4" style="float: right">
-        <el-button type="text" style="color: #e4f0ef">交卷时间：{{this.submitTime}}</el-button>
-      </el-menu-item>
       <el-menu-item index="5" style="float: right">
-        <el-button type="text" style="color: #ff0000;font-size: large">得分：{{this.source}}分</el-button>
+        <el-button type="text" style="color: #ff0000;font-size: large">得分：{{this.userScore.score}}分</el-button>
       </el-menu-item>
+      <el-menu-item index="6" style="float: right">
+        <el-button type="text" style="color: #ff0000;font-size: large">满分：{{this.userScore.sum_score}}分</el-button>
+      </el-menu-item>
+      <el-menu-item index="7" style="float: right">
+        <el-button type="text" style="color: #ff0000;font-size: large">排名：{{this.examInfo.rank}}名</el-button>
+      </el-menu-item>
+      <el-menu-item index="8" style="float: right">
+        <el-button type="text" style="color: #ff0000;font-size: large">参加人数：{{this.examInfo.number_of_people}}名</el-button>
+      </el-menu-item>
+
     </el-menu>
     <el-container style="border: 0px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
@@ -28,7 +35,7 @@
               <span>选择题</span>
             </template>
             <el-menu-item v-for="(item2,index1) in this.selectionQuestionNumber" v-on:click="test(index1)">
-              {{isCorrect}} 第{{index1+1}}题
+              第{{index1+1}}题
             </el-menu-item>
           </el-submenu>
           <el-submenu index="2">
@@ -37,7 +44,7 @@
               <span>判断题</span>
             </template>
             <el-menu-item v-for="(item2,index2) in this.judgeQuestionNumber" v-on:click="test1(index2)">
-              {{isCorrect}} 第{{index2+1}}题
+              第{{index2+1}}题
             </el-menu-item>
           </el-submenu>
           <el-submenu index="3">
@@ -46,7 +53,7 @@
               <span>填空题</span>
             </template>
             <el-menu-item v-for="(item2,index3) in this.fillingQuestionNumber" v-on:click="test2(index3)">
-              {{isCorrect}} 第{{index3+1}}题
+              第{{index3+1}}题
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -56,19 +63,19 @@
         <label>题目：{{this.question_body}}</label>
         <br>
         <br>
-       <el-radio-group v-if="selectionQuestionShow" v-model="selectionQuestionNumber[indexOfQuestion].submitAnswer">
-         <el-radio :label="0">A.{{this.selectionQuestionOptions.A}}</el-radio>
-         <el-radio :label="1" >B.{{this.selectionQuestionOptions.B}}</el-radio>
-         <el-radio :label="2">C.{{this.selectionQuestionOptions.C}}</el-radio>
-         <el-radio :label="3">D.{{this.selectionQuestionOptions.D}}</el-radio>
-       </el-radio-group>
+        <el-radio-group v-if="selectionQuestionShow" v-model="selectionQuestionNumber[indexOfQuestion].submitAnswer">
+          <el-radio :label="0">A.{{this.selectionQuestionOptions.A}}</el-radio>
+          <el-radio :label="1" >B.{{this.selectionQuestionOptions.B}}</el-radio>
+          <el-radio :label="2">C.{{this.selectionQuestionOptions.C}}</el-radio>
+          <el-radio :label="3">D.{{this.selectionQuestionOptions.D}}</el-radio>
+        </el-radio-group>
         <el-radio-group v-if="judgeQuestionShow" v-model="judgeQuestionNumber[indexOfQuestion].submitAnswer">
           <el-radio label="✔"></el-radio>
           <el-radio label="✖"></el-radio>
         </el-radio-group>
         <input v-model="fillingQuestionNumber[indexOfQuestion].submitAnswer" v-if="fillingQuestionShow"></input>
       </div>
-      </el-container>
+    </el-container>
     <h2 style="width: 60%">答案：{{answer}}</h2>
   </div>
 </template>
@@ -77,7 +84,9 @@
 export default {
   name: "Exam",
   created() {
-    this.exam_id = this.$route.params.examId
+    this.userInfo.email = this.$route.params.email
+    this.userInfo.userName = this.$route.params.userName
+    this.exam_id = this.$route.params.exam_id
     console.log(this.exam_id)
     const _this = this
     axios.get('http://localhost:82/exam/showExamTime/'+_this.exam_id).then(function (resp) {
@@ -94,9 +103,23 @@ export default {
     axios.get('http://localhost:84/question/showFillingQuestion/'+_this.exam_id).then(function (resp) {
       _this.fillingQuestionNumber = resp.data['data']
     })
+    axios.get('http://localhost:85/score/getUserScore/'+this.userInfo.email+'/'+_this.exam_id).then(function (resp) {
+      _this.userScore = resp.data['data']
+    })
+    axios.get('http://localhost:85/score/getExamInfo/'+_this.exam_id+'/'+this.userInfo.email).then(function (resp) {
+      _this.examInfo = resp.data['data']
+    })
+
   },
   data() {
     return {
+      userInfo: {
+        userName: '用户',
+        email: '',
+      },
+      ranking: 0,
+      sum_people: 0,
+      sum_score: 0,
       color: "#00aeff",
       isCorrect: "✔",
       answer: "C",
@@ -120,6 +143,12 @@ export default {
         C: '3',
         D: '4'
       },
+      question:[{
+        question_id: 1,
+        answer: '',
+        score: 0,
+        submitAnswer: ''
+      }],
       selectionQuestionNumber: [{
         id: 1,
         question_body: '',
@@ -133,8 +162,19 @@ export default {
       ],
       fillingQuestionNumber: [
         {id: 1,question_body: '',options:{A: ''},answer: '',score:0,submitAnswer: 0},
-        ],
-      desc: '距离考试开始还有10：'
+      ],
+      desc: '距离考试开始还有10：',
+      userScore: {
+        exam_id: 0,
+        email: '',
+        score: 0,
+        sum_score: 0,
+      },
+      examInfo:{
+        number_of_people:0,
+        rank:0,
+        name:''
+      }
     };
   },
   methods:{

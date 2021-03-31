@@ -12,4 +12,5 @@ public class UserScore {
     private Integer exam_id;
     private String email;
     private Integer score;
+    private Integer sum_score;
 }

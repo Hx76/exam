@@ -1,5 +1,6 @@
 package com.onlineexam.controller;
 
+import com.onlineexam.entities.ExamInfo;
 import com.onlineexam.utils.CommonResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,12 @@ public class ScoreController {
     @GetMapping(value = "/score/countAllExam")
     public CommonResult countAllExam(){
         return restTemplate.getForObject(Score_URL+"/provider/score/countAllExam",CommonResult.class);
+    }
+
+    //获取考试参赛人数，排名，考试名称
+    @GetMapping(value = "/score/getEamInfo/{examId}/{email}")
+    public CommonResult getEamInfo(@PathVariable Integer examId,@PathVariable String email){
+        return restTemplate.getForObject(Score_URL+"/provider/score/getEamInfo/"+examId+"/"+email,CommonResult.class);
     }
 
 

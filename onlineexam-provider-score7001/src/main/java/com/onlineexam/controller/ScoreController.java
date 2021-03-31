@@ -1,6 +1,7 @@
 package com.onlineexam.controller;
 
 import com.onlineexam.entities.Exam;
+import com.onlineexam.entities.ExamInfo;
 import com.onlineexam.entities.Score;
 import com.onlineexam.entities.UserScore;
 import com.onlineexam.service.ScoreService;
@@ -38,6 +39,13 @@ public class ScoreController {
     public CommonResult getUserScore(@PathVariable String email,@PathVariable int examId){
         UserScore score = service.getUserScore(email,examId);
         return new CommonResult(10,"yes",score);
+    }
+
+    //获取考试参赛人数，排名，考试名称
+    @GetMapping(value = "/provider/score/getEamInfo/{examId}/{email}")
+    public CommonResult getEamInfo(@PathVariable Integer examId,@PathVariable String email){
+        final ExamInfo examInfo = service.getExamInfo(examId,email);
+        return new CommonResult(10,"yes",examInfo);
     }
 
 

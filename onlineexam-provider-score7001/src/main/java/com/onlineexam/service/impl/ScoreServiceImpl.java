@@ -3,6 +3,7 @@ package com.onlineexam.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.onlineexam.dao.ScoreDao;
 import com.onlineexam.entities.Exam;
+import com.onlineexam.entities.ExamInfo;
 import com.onlineexam.entities.Score;
 import com.onlineexam.entities.UserScore;
 import com.onlineexam.service.ScoreService;
@@ -42,6 +43,15 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public UserScore getUserScore(String email, int examId) {
         return dao.getUserScore(email, examId);
+    }
+
+    @Override
+    public ExamInfo getExamInfo(Integer examId,String email) {
+        final ExamInfo examInfo = new ExamInfo();
+        examInfo.setName(dao.getExamName(examId));
+        examInfo.setNumber_of_people(dao.getNumberOfPeople(examId));
+        examInfo.setRank(dao.getRank(email));
+        return examInfo;
     }
 
 }
