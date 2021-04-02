@@ -19,4 +19,5 @@ public interface QuestionService {
     Integer addQuestion(String question_body,String type_id,String creator,Integer score,String answer);
     Integer addOptions(List<Options> options);
     List<Question> search(List<Integer> ids,int currentPage,int pageSize);
+    List<Question> showAll();
 }

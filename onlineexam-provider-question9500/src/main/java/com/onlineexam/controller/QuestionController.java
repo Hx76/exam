@@ -164,4 +164,11 @@ public class QuestionController {
         List<Question> questions = service.search(question_ids,currentPage,pageSize);
         return new CommonResult(12,String.valueOf(questions.size()),questions);
     }
+
+    // 选择所有题目
+    @GetMapping(value = "/provider/question/showAll")
+    public CommonResult showAll(){
+        List<Question> questions = service.showAll();
+        return new CommonResult(12,"123",questions);
+    }
 }

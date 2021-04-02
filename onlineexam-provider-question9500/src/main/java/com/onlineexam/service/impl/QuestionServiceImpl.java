@@ -127,4 +127,9 @@ public class QuestionServiceImpl implements QuestionService {
         return pageData.getItems();
     }
 
+    @Override
+    public List<Question> showAll() {
+        return dao.showAll();
+    }
+
 }

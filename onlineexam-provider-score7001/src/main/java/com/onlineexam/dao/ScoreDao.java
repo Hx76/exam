@@ -17,4 +17,5 @@ public interface ScoreDao {
     String getExamName(@Param("examId") Integer examId);
     Integer getNumberOfPeople(@Param("examId") Integer examId);
     Integer getRank(@Param("email") String email);
+    String getAnswer(Integer id);
 }

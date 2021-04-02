@@ -31,5 +31,8 @@
              ORDER BY score DESC)b
         where email=#{email}
     </select>
+    <select id="getAnswer" resultType="java.lang.String">
+        select correct_option from answer where question_id=#{id}
+    </select>
 
 </mapper>

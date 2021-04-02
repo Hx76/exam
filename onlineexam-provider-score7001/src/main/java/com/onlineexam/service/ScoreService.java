@@ -14,4 +14,5 @@ public interface ScoreService {
     List<UserScore> getExamInfoByExamId(@Param("examId") String examId);
     UserScore getUserScore(@Param("email") String email, @Param("examId") int examId);
     ExamInfo getExamInfo(@Param("examId") Integer examId,@Param("email") String email);
+    String getAnswer(Integer id);
 }

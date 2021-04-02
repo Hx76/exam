@@ -87,4 +87,9 @@ public class QuestionController {
     public CommonResult search(@PathVariable String key,@PathVariable int currentPage,@PathVariable int pageSize){
         return restTemplate.getForObject(QUESTION_URL+"/provider/question/search/"+key+"/"+currentPage+"/"+pageSize,CommonResult.class);
     }
+
+    @GetMapping("/question/showAll")
+    public CommonResult showAll(){
+        return restTemplate.getForObject(QUESTION_URL+"/provider/question/showAll",CommonResult.class);
+    }
 }

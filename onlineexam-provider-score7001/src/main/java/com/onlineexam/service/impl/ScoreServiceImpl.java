@@ -54,4 +54,9 @@ public class ScoreServiceImpl implements ScoreService {
         return examInfo;
     }
 
+    @Override
+    public String getAnswer(Integer id) {
+        return dao.getAnswer(id);
+    }
+
 }

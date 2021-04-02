@@ -48,5 +48,12 @@ public class ScoreController {
         return new CommonResult(10,"yes",examInfo);
     }
 
+    //获取题目答案
+    @GetMapping(value = "/provider/score/getAnswer/{id}")
+    public CommonResult getAnswer(@PathVariable Integer id){
+        final String answer = service.getAnswer(id);
+        return new CommonResult(10,"yes",answer);
+    }
+
 
 }

@@ -22,27 +22,33 @@
       </div>
       <div>
         <el-form :model="formData">
-          <el-form-item label="考试时间:">
+          <el-form-item label="考试时长:">
             <el-input autocomplete="off" v-model="formData.options"></el-input>
           </el-form-item>
-          <el-form-item label="开始时间:" :label-width="formLabelWidth">
-            <el-input autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="选择题总分:" :label-width="formLabelWidth">
-            <el-input autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="判断题总分:" :label-width="formLabelWidth">
-            <el-input autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="填空题总分:" :label-width="formLabelWidth">
-            <el-input autocomplete="off" v-model="formData.score"></el-input>
+          <el-form-item label="开始时间:">
+              <div class="block">
+                <el-date-picker
+                    v-model="date"
+                    type="date"
+                    placeholder="选择日期">
+                </el-date-picker>
+              </div>
+              <el-time-picker
+                  v-model="time"
+                  :picker-options="{}"
+                  placeholder="选择时间"
+                  style="margin-left: 12%">
+              </el-time-picker>
           </el-form-item>
           <el-form-item label="选择题目:">
-            <el-select>
-              <el-option label="第一题" value="shanghai"></el-option>
-              <el-option label="第二题" value="beijing"></el-option>
-              <el-option label="第三题" value="beijing"></el-option>
-              <el-option label="第四题" value="beijing"></el-option>
+            <el-select v-model="value" multiple filterable placeholder="请选择">
+              <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                  >
+              </el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -50,7 +56,7 @@
 
       <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = true">确 定</el-button>
+    <el-button type="primary" @click="createExam()">确 定</el-button>
   </span>
     </el-dialog>
     <el-divider style="margin-top: 1%"></el-divider>
@@ -188,6 +194,8 @@ export default {
   name: "ExamManage",
   components: {Footer, Navigation},
   created() {
+    this.userInfo.email = this.$route.params.email
+    this.userInfo.userName = this.$route.params.userName
     const _this = this
     axios.get('http://localhost:82/exam/countAll').then(function (resp) {
       _this.total = resp.data['data']
@@ -196,24 +204,28 @@ export default {
     axios.get('http://localhost:82/exam/showAll/1/8').then(function (resp) {
       _this.tableData = resp.data['data']
     })
+    axios.get('http://localhost:84/question/showAll').then(function (resp) {
+      console.log("长度："+resp.data['data'].length)
+      for(let i=0; i<resp.data['data'].length; i++){
+        console.log(i+","+resp.data['data'].length)
+        _this.options.push({value: resp.data['data'][i].question_body,key: resp.data['data'][i].id})
+      }
+    })
   },
   data() {
     return {
+      userInfo: {
+        userName: '用户',
+        email: '',
+      },
       updateDialogVisible: false,
       dialogVisible: false,
       centerDialogVisible: false,
+      date: null,
+      time: null,
       active: 0,
       total: 0,
-      options: [{
-        value: '选项1',
-        label: '选择题'
-      }, {
-        value: '选项2',
-        label: '判断题'
-      }, {
-        value: '选项3',
-        label: '填空题'
-      }],
+      options: [],
       value: '',
       formData: [{
         question_body: '',
@@ -275,6 +287,9 @@ export default {
     },
     deleteQuestion(){
       this.centerDialogVisible = false
+    },
+    createExam(){
+      console.log("输出data："+this.value)
     }
   }
 }

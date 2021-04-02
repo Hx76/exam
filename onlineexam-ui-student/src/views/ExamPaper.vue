@@ -194,6 +194,7 @@ export default {
         _this.selectionQuestionOptions.D = resp.data['data'][3].option
         console.log(_this.selectionQuestionOptions.A)
       })
+      this.getAnswer(_this.selectionQuestionNumber[index].id);
     },
     test1(index){
       this.indexOfQuestion=index
@@ -226,6 +227,12 @@ export default {
       }).then(function (resp) {
         _this.exam_time = resp.data['data']
         console.log('that'+_this.exam_time)
+      })
+    },
+    getAnswer(id){
+      const _this = this
+      axios.get('http://localhost:85/score/getAnswer/'+id).then(function (resp) {
+        _this.answer = resp.data['data']
       })
     }
   }

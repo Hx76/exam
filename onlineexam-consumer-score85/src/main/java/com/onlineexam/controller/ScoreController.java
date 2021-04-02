@@ -41,6 +41,12 @@ public class ScoreController {
         return restTemplate.getForObject(Score_URL+"/provider/score/getEamInfo/"+examId+"/"+email,CommonResult.class);
     }
 
+    // 获取题目答案
+    @GetMapping(value = "/score/getAnswer/{id}")
+    public CommonResult getAnswer(@PathVariable Integer id){
+        return restTemplate.getForObject(Score_URL+"/provider/score/getAnswer/"+id,CommonResult.class);
+    }
+
 
 
 
