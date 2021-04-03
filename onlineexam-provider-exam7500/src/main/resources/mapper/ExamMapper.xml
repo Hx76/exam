@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.onlineexam.dao.ExamDao">
-    <insert id="addExam">
 
-    </insert>
     <insert id="submit">
         insert into examination_paper(email, exam_id, question_id, answer) values (#{email},#{examId},#{param1},#{param2})
     </insert>
     <insert id="submitScore">
         insert into score(exam_id, email, score,sum_score) VALUES (#{examId},#{email},#{param3},#{param4})
     </insert>
+    <insert id="addExamQuestion">
+        insert into exam_question(exam_serial_number, question_id) values (#{param1},#{param2})
+    </insert>
+    <insert id="addExam">
+        insert into exam(exam_serial_number, name, duration, start_time, creator, state,creation_time)
+        VALUES (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7})
+    </insert>
+
 
     <update id="updateExam">
 
+    </update>
+    <update id="updateTotal">
+        update exam set total_points=#{param2} where exam_serial_number=#{param1}
     </update>
     <select id="showAllExam" resultType="com.onlineexam.entities.Exam">
         select * from exam
@@ -48,5 +57,11 @@
     </select>
     <select id="showMyJoinExam" resultType="com.onlineexam.entities.UserScore">
         select * from score where email=#{email}
+    </select>
+    <select id="getQuestionId" resultType="java.lang.Integer">
+        select id from question where question_body=#{questionBody}
+    </select>
+    <select id="getQuestionScore" resultType="java.lang.Integer">
+        select score from question where id=#{id}
     </select>
 </mapper>

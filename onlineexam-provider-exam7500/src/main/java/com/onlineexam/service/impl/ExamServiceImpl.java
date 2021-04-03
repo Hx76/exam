@@ -2,16 +2,20 @@ package com.onlineexam.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.onlineexam.dao.ExamDao;
+import com.onlineexam.entities.AddExamInfo;
 import com.onlineexam.entities.Exam;
 import com.onlineexam.entities.SubmitQuestion;
 import com.onlineexam.entities.UserScore;
 import com.onlineexam.service.ExamService;
 import com.onlineexam.utils.PageBean;
+import com.onlineexam.utils.VerificationCodeUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,11 +46,6 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public Integer updateExam(Exam exam) {
         return dao.updateExam(exam);
-    }
-
-    @Override
-    public Integer addExam(Exam exam) {
-        return dao.addExam(exam);
     }
 
     @Override
@@ -108,9 +107,44 @@ public class ExamServiceImpl implements ExamService {
         return pageData.getItems();
     }
 
+    //创建考试
     @Override
-    public Void createExam(Exam exam) throws IOException {
-        return null;
+    public Integer createExam(AddExamInfo examInfo) throws ParseException {
+        Integer id = Integer.valueOf(VerificationCodeUtil.generateVerifyCode(7));
+        String s1 = examInfo.getDate();
+        String s2 = examInfo.getTime();
+        System.out.println(s1+","+s2);
+        String date = s1+" "+s2;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        System.out.println(date);
+        Date date1 = simpleDateFormat.parse(date);
+        System.out.println("日期："+date1);
+        dao.addExam(id,examInfo.getName(),examInfo.getDuration(),date1,examInfo.getCreator(), "未开始",new Date());
+        System.out.println("编号："+id);
+        return id;
+    }
+
+    //添加考试题目
+    @Override
+    public void addExamQuestion(Integer id, List<String> value) {
+        System.out.println("外面id:"+id);
+        Integer total = 0;
+        for (int i = 0; i < value.size(); i++) {
+            String s = value.get(i);
+            int len = s.length();
+            if (i==0){
+                s=s.substring(1,len);
+            }
+            if (i== value.size()-1){
+                s=s.substring(0,len-1);
+            }
+            System.out.println("题目："+s);
+            System.out.println("题目编号："+dao.getQuestionId(s));
+            System.out.println("id:"+id);
+            dao.addExamQuestion(id,dao.getQuestionId(s));
+            total += dao.getQuestionScore(dao.getQuestionId(s));
+        }
+        dao.updateTotal(id,total);
     }
 
 

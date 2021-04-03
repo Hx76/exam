@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -103,16 +104,23 @@ public class ExamController {
         return new CommonResult(12,"yes",0);
     }
 
-    @GetMapping("/add/{name}")
-    public CommonResult add(@PathVariable String name) throws IOException {
-        ExamElasticsearch exam = new ExamElasticsearch(name);
-        IndexRequest indexRequest = new IndexRequest("exams")
-                .id("1")
-                .source("user", exam.getName());
-        IndexResponse response = client.index(indexRequest, RequestOptions.DEFAULT);
-
-        return new CommonResult(12,"yes",0);
+    //添加考试
+    @PostMapping("/provider/exam/addExam/{value}")
+    public CommonResult addExam(@RequestBody AddExamInfo examInfo,@PathVariable List<String> value) throws ParseException {
+        Integer id = service.createExam(examInfo);
+        System.out.println("id"+id);
+        service.addExamQuestion(id,value);
+        return new CommonResult(12,"yes",id);
     }
+
+    //添加题目到考试里面
+    @GetMapping("/provider/exam/addExamQuestion/{examIds}/{value}")
+    public CommonResult addExamQuestion(@PathVariable Integer examIds,@PathVariable List<String> value){
+        System.out.println("examID: "+examIds);
+        service.addExamQuestion(examIds,value);
+        return new CommonResult(12,"题目添加成功",0);
+    }
+
 
 
 

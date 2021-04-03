@@ -17,7 +17,7 @@ public interface ExamDao {
     int countExams();
     List<Exam> showExamByUser(@Param("email") String email);
     Integer updateExam(Exam exam);
-    Integer addExam(Exam exam);
+    Integer addExam(Integer id,String name,String duration,Date date1,String creator,String state,Date date);
     List<Integer> showExamQuestion(int serialNumber);
     Date showExamTime(@Param("examId") int examId);
     String getUserName(@Param("email") String email);
@@ -30,5 +30,8 @@ public interface ExamDao {
     //我参加的考试
     Integer countMyJoinExam(@Param("email") String email);
     List<UserScore> showMyJoinExam(@Param("email") String email);
-
+    Integer addExamQuestion(Integer id,Integer questionId);
+    Integer getQuestionId(String questionBody);
+    Integer getQuestionScore(Integer id);
+    void updateTotal(Integer id,Integer total);
 }

@@ -14,27 +14,27 @@
         width="40%"
         :before-close="handleClose">
       <div>
-        <el-form :model="formData">
+        <el-form :model="examInfo">
           <el-form-item label="考试名称:">
-            <el-input autocomplete="off" v-model="formData.question_body"></el-input>
+            <el-input autocomplete="off" v-model="examInfo.name"></el-input>
           </el-form-item>
         </el-form>
       </div>
       <div>
-        <el-form :model="formData">
+        <el-form :model="examInfo">
           <el-form-item label="考试时长:">
-            <el-input autocomplete="off" v-model="formData.options"></el-input>
+            <el-input autocomplete="off" v-model="examInfo.duration"></el-input>
           </el-form-item>
           <el-form-item label="开始时间:">
               <div class="block">
                 <el-date-picker
-                    v-model="date"
+                    v-model="examInfo.date"
                     type="date"
                     placeholder="选择日期">
                 </el-date-picker>
               </div>
               <el-time-picker
-                  v-model="time"
+                  v-model="examInfo.time"
                   :picker-options="{}"
                   placeholder="选择时间"
                   style="margin-left: 12%">
@@ -44,7 +44,7 @@
             <el-select v-model="value" multiple filterable placeholder="请选择">
               <el-option
                   v-for="item in options"
-                  :key="item.value"
+                  :key="item.key"
                   :label="item.label"
                   :value="item.value"
                   >
@@ -196,6 +196,7 @@ export default {
   created() {
     this.userInfo.email = this.$route.params.email
     this.userInfo.userName = this.$route.params.userName
+    console.log("用户名："+this.userInfo.userName)
     const _this = this
     axios.get('http://localhost:82/exam/countAll').then(function (resp) {
       _this.total = resp.data['data']
@@ -221,12 +222,19 @@ export default {
       updateDialogVisible: false,
       dialogVisible: false,
       centerDialogVisible: false,
-      date: null,
-      time: null,
       active: 0,
       total: 0,
+      examIds: 0,
+      examInfo:{
+        name: '',
+        duration: '',
+        date: '',
+        time: '',
+        creator: '',
+        },
       options: [],
-      value: '',
+      value: [],
+      values: [],
       formData: [{
         question_body: '',
         score: '',
@@ -290,7 +298,24 @@ export default {
     },
     createExam(){
       console.log("输出data："+this.value)
-    }
+      this.examInfo.creator=this.userInfo.email
+      let dates=this.examInfo.date.getFullYear()+"-"+(this.examInfo.date.getMonth()+1)+"-"+this.examInfo.date.getDate()
+      this.examInfo.date=dates.toString()
+      let times=this.examInfo.time.getHours()+":"+(this.examInfo.time.getMinutes())+":"+this.examInfo.time.getSeconds()
+      this.examInfo.time=times.toString()
+      const _this = this
+      console.log(_this.examId)
+      console.log(typeof this.examInfo.date)
+      console.log(typeof this.examInfo.time)
+      console.log(typeof this.examInfo.name)
+      console.log(typeof this.examInfo.duration)
+      console.log(typeof this.examInfo.creator)
+      axios.post('http://localhost:82/exam/addExam/'+this.value,this.examInfo).then(function (resp) {
+        console.log("进这里了")
+      })
+      _this.dialogVisible=false
+
+    },
   }
 }
 </script>

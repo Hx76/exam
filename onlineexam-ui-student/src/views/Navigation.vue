@@ -32,6 +32,7 @@ export default {
   created() {
     this.activeIndex=this.$route.params.activeIndex
     this.userInfo.email = this.$route.params.email
+    this.userInfo.userName = this.$route.params.userName
     console.log(this.userInfo.email)
     const _this = this
     console.log(_this.userInfo.email)

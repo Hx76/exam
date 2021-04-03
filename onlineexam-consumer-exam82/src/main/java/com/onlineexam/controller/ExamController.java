@@ -1,5 +1,6 @@
 package com.onlineexam.controller;
 
+import com.onlineexam.entities.AddExamInfo;
 import com.onlineexam.entities.Exam;
 import com.onlineexam.entities.SubmitQuestion;
 import com.onlineexam.utils.CommonResult;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.util.List;
 
 @RestController
 public class ExamController {
@@ -81,5 +84,18 @@ public class ExamController {
     public CommonResult submit(@PathVariable String examId,@PathVariable String email,@RequestBody SubmitQuestion[] question){
         System.out.println("haha");
         return restTemplate.postForObject(EXAM_URL+"/provider/exam/submit/"+examId+"/"+email,question,CommonResult.class);
+    }
+
+    //添加考试
+    @PostMapping("/exam/addExam/{value}")
+    public CommonResult addExam(@RequestBody AddExamInfo examInfo,@PathVariable List<String> value){
+        System.out.println("来这了啊");
+        return restTemplate.postForObject(EXAM_URL+"/provider/exam/addExam/"+value,examInfo,CommonResult.class);
+    }
+
+    //添加题目到考试里面
+    @GetMapping("/exam/addExamQuestion/{examIds}/{value}")
+    public CommonResult addExamQuestion(@PathVariable Integer examIds,@PathVariable List<String> value){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/addExamQuestion/"+examIds+"/"+value,CommonResult.class);
     }
 }
