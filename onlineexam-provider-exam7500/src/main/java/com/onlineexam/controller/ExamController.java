@@ -101,7 +101,7 @@ public class ExamController {
     @PostMapping(value = "/provider/exam/submit/{examId}/{email}")
     public CommonResult submit(@PathVariable String examId,@PathVariable String email,@RequestBody SubmitQuestion[] question){
         service.submit(question, email, examId);
-        return new CommonResult(12,"yes",0);
+        return new CommonResult(12,"yes",1);
     }
 
     //添加考试
