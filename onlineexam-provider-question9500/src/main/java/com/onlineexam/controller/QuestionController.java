@@ -1,6 +1,5 @@
 package com.onlineexam.controller;
 
-import com.onlineexam.entities.ClientInfo;
 import com.onlineexam.entities.Options;
 import com.onlineexam.entities.Question;
 import com.onlineexam.service.QuestionService;
@@ -16,11 +15,9 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;

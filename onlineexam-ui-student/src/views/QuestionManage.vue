@@ -113,21 +113,21 @@
               <div>
                 <el-form :model="dialogData">
                   <el-form-item label="题干:">
-                    <el-input autocomplete="off" v-model="dialogData.body"></el-input>
+                    <el-input autocomplete="off" v-model="dialogData.question_body"></el-input>
                   </el-form-item>
                 </el-form>
               </div>
               <div>
                 <el-form>
                   <el-form-item label="题目类型:">
-                    <el-select v-model="dialogData.type" placeholder="请选择题目类型">
+                    <el-input v-model="dialogData.type_id" placeholder="请选择题目类型">
                       <el-option
                           v-for="item in options"
                           :key="item.value"
                           :label="item.label"
                           :value="item.value">
                       </el-option>
-                    </el-select>
+                    </el-input>
                   </el-form-item>
                 </el-form>
               </div>
@@ -136,23 +136,16 @@
                   <el-form-item
                       v-for="item in dialogData.option"
                       :key="item.option_id"
-                      :value="item.option_body">
-                    <el-input v-model="item.option_body" v-bind:disabled="item.disable">
+                      :value="item.option">
+                    <el-input v-model="item.option" v-bind:disabled="item.disable">
                       <template slot="prepend">{{item.value}}</template>
                     </el-input>
                   </el-form-item>
                 </el-form>
                 <el-form :model="dialogData">
                   <el-form-item label="答案:" :label-width="formLabelWidth">
-                    <el-select placeholder="请选择答案" v-model="dialogData.answer">
-                      <el-option
-                          v-for="item in answer_options"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value"
-                          :disabled="item.disabled">
-                      </el-option>
-                    </el-select>
+                    <el-input placeholder="请选择答案" v-model="dialogData.answer" v-if="selectIfShow">
+                    </el-input>
                   </el-form-item>
                   <el-form-item label="分值:">
                     <el-input autocomplete="off" v-model="dialogData.scores"></el-input>
@@ -161,11 +154,11 @@
               </div>
 
               <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = true">确 定</el-button>
-              </span>
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogVisible = true">确 定</el-button>
+  </span>
             </el-dialog>
-          <el-button type="text" @click="centerDialogVisible = true">删除</el-button>
+
           </template>
           <el-dialog
               title="提示"
@@ -409,9 +402,11 @@ export default {
       var rowInfo = JSON.stringify(e);
       var json = eval('(' + rowInfo + ')');
       console.log(json.question_body)
-      this.dialogData.body=json.question_body;
+      this.dialogData.question_body=json.question_body;
       this.dialogData.type_id=json.type_id;
+      this.dialogData.answer=json.answer;
       this.dialogData.scores=json.score;
+      this.dialogData.option=json.option
     },
     createQuestion(){
       console.log("选项："+this.dialogData.option[0].option)

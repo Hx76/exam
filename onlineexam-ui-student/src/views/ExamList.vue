@@ -117,6 +117,7 @@ export default {
       key: 0,
       inputKey: 0,
       exam_id: '',
+      time: '',
       question_length: 0,
       tableData: [{
         id: '',

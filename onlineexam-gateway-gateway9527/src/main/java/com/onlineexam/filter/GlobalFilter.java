@@ -3,7 +3,6 @@ package com.onlineexam.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.onlineexam.entities.ClientInfo;
 import com.onlineexam.utils.GetClientInfo;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -40,12 +39,6 @@ public class GlobalFilter implements org.springframework.cloud.gateway.filter.Gl
         String browser = userAgent.getBrowser().toString();
         System.out.println(clientType+os+browser);
         //浏览器类型
-        ClientInfo.getInstance().setIp(ip);
-        ClientInfo.getInstance().setOS(os);
-        ClientInfo.getInstance().setClientType(clientType);
-        System.out.println(ClientInfo.getInstance().getOS());
-        System.out.println(ClientInfo.getInstance().getIp());
-        System.out.println(ClientInfo.getInstance().getClientType());
         System.out.println(request.getMethod());
         if (request.getMethod() == HttpMethod.POST) {
             System.out.println("是POST啊");
