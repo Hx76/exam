@@ -80,9 +80,10 @@ public class ExamController {
     }
 
     //查询我创建的考试次数
-    @ApiOperation("查询我创建的考试次数")
+    @ApiOperation("查询我创建的考试数量")
     @GetMapping(value = "/exam/countMyCreatedExam/{email}")
     public CommonResult countMyCreatedExam(@PathVariable @ApiParam("用户邮箱") String email){
+        System.out.println("查询邮箱为"+email+"的用户创建的考试数量");
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/countMyCreatedExam/"+email,CommonResult.class);
     }
 

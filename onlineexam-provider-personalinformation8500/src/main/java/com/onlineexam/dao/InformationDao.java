@@ -13,4 +13,5 @@ public interface InformationDao {
     int updateInformation(@Param("username") String username, @Param("email") String email);
     List<User> showAllUsers();
     Integer countAll();
+    String getUserName(String email);
 }

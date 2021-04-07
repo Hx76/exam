@@ -4,7 +4,7 @@
     <div style="width: 70%;margin-left: 15%;margin-top: 1%;background: #fff;height: 900px">
       <label style="width: 10%;margin-top: 2%;margin-left: 5%">问题编号：</label>
       <el-input style="width: 37%;margin-top: 2%;margin-left: 1%" v-model="searchKey"></el-input>
-      <el-button style="width: 10%;margin-left: 1%">搜索</el-button>
+      <el-button style="width: 10%;margin-left: 1%" @click="search()">搜索</el-button>
       <el-button style="margin-left: 1%;margin-top: 2%;background: #00aeff;color: #e4f0ef;width: 10%"
                  @click="dialogVisible = true">+ 新建
       </el-button>
@@ -75,9 +75,8 @@
       <el-table
           :data="tableData"
           style="width: 100%">
-        <el-table-column
-            type="selection">
-          <el-checkbox></el-checkbox>
+        <el-table-column>
+          <h1> </h1>
         </el-table-column>
         <el-table-column
             prop="id"
@@ -441,11 +440,39 @@ export default {
       this.dialogVisible = false
     },
     search(){
-      const _this = this
-      axios.get('http://localhost:84/question/search/'+this.searchKey+"/"+1+"/"+8).then(function (resp) {
-        _this.total = Number(resp.data['message'])
-        _this.tableData=resp.data['data']
-      })
+      if (this.searchKey!==''){
+        const _this = this
+        axios.get('http://localhost:84/question/search/'+this.searchKey+"/"+1+"/"+8).then(function (resp) {
+          _this.total = Number(resp.data['message'])
+          _this.tableData=resp.data['data']
+        })
+      }else {
+        console.log("搜索为空")
+        const _this = this
+        axios.get('http://localhost:9527/question/countAll',
+            {
+              params:{
+                token: sessionStorage.getItem('token')
+              }
+            }).then(function (resp) {
+          if (resp.data['message']!=="没有权限"){
+            console.log(resp.data['message'])
+            _this.total = resp.data['data']
+          }else {
+            alert("没有权限！")
+          }
+          console.log(resp.data)
+        })
+        axios.get('http://localhost:9527/question/showAll/1/8',
+            {
+              params:{
+                token: sessionStorage.getItem('token')
+              }
+            }).then(function (resp) {
+          _this.tableData = resp.data['data']
+        })
+      }
+
     }
 
   }

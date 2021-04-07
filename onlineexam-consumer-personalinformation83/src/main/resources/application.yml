@@ -12,3 +12,5 @@ spring:
 #消费者将要去访问的服务名称
 service-url:
   nacos-user-service: http://nacos-infromation-provider
+
+ifCloseSwagger: true

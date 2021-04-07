@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: nacos-score-provider
+    name: nacos-score-consumer
   cloud:
     nacos:
       discovery:

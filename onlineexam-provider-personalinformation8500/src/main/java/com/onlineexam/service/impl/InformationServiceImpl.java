@@ -44,4 +44,9 @@ public class InformationServiceImpl implements InformationService {
         return dao.countAll();
     }
 
+    @Override
+    public String getUserName(String email) {
+        return dao.getUserName(email);
+    }
+
 }

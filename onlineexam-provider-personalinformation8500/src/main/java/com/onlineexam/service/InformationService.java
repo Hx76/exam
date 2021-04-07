@@ -11,4 +11,5 @@ public interface InformationService {
     String updateInformation(@Param("username") String username, @Param("email") String email);
     List<User> showAllUsers(int currentPage, int pageSize);
     Integer countAll();
+    String getUserName(String email);
 }

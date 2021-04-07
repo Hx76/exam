@@ -14,5 +14,8 @@
     <select id="countAll" resultType="java.lang.Integer">
         select COUNT(*) from user
     </select>
+    <select id="getUserName" resultType="java.lang.String">
+        select username from user where email=#{email}
+    </select>
 
 </mapper>

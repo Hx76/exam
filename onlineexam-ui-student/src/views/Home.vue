@@ -1,7 +1,7 @@
 <template>
   <div style="background: #e4f0ef">
     <Navigation></Navigation>
-    <Search></Search>
+    <br>
     <ExamList></ExamList>
     <Footer></Footer>
   </div>
@@ -21,7 +21,16 @@ export default {
   components: {Footer, Search, Login, ExamList, Navigation},
   methods:{
     create(){
-
+      this.userInfo.email = this.$route.params.email
+      this.userInfo.userName = this.$route.params.userName
+    },
+    data(){
+      return {
+        userInfo: {
+          userName: '用户',
+          email: '',
+        },
+      }
     },
     student(){
       const _this = this

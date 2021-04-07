@@ -39,6 +39,7 @@ export default {
     axios.get('http://localhost:82/exam/getUserName/'+_this.userInfo.email).then(function (resp) {
       _this.userInfo.userName = resp.data['data']
     })
+    console.log("用户名用："+this.userInfo.userName)
   },
   data() {
     return {
@@ -57,7 +58,7 @@ export default {
       this.$router.push({
         path: "/userInfo",
         name: "userInfo",
-        params: { username: this.userInfo.userName,email: this.userInfo.email}
+        params: { userName: this.userInfo.userName,email: this.userInfo.email}
       });
       this.$router.replace('/userInfo')
     },
@@ -89,7 +90,7 @@ export default {
           _this.$router.push({
             path: "/questionManage",
             name: "questionManage",
-            params: { activeIndex: '4',username: _this.userInfo.userName,email: _this.userInfo.email}
+            params: { activeIndex: '4',userName: _this.userInfo.userName,email: _this.userInfo.email}
           });
           _this.$router.replace('/questionManage')
         }else {
@@ -102,7 +103,7 @@ export default {
       this.$router.push({
         path: "/myExam",
         name: "myExam",
-        params: { activeIndex: '5',username: this.userInfo.userName,email: this.userInfo.email}
+        params: { activeIndex: '5',userName: this.userInfo.userName,email: this.userInfo.email}
       });
       this.$router.replace('/myExam')
     },
@@ -110,7 +111,7 @@ export default {
       this.$router.push({
         path: "/home",
         name: "home",
-        params: { activeIndex: '2',username: this.userInfo.userName,email: this.userInfo.email}
+        params: { activeIndex: '2',userName: this.userInfo.userName,email: this.userInfo.email}
       });
       this.$router.replace('/home')
     },
@@ -127,7 +128,7 @@ export default {
           _this.$router.push({
             path: "/myCreatedExam",
             name: "myCreatedExam",
-            params: { activeIndex: '6',username: _this.userInfo.userName,email: _this.userInfo.email}
+            params: { activeIndex: '6',userName: _this.userInfo.userName,email: _this.userInfo.email}
           });
           _this.$router.replace('/myCreatedExam')
         }else {

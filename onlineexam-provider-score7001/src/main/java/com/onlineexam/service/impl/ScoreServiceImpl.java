@@ -2,10 +2,7 @@ package com.onlineexam.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.onlineexam.dao.ScoreDao;
-import com.onlineexam.entities.Exam;
-import com.onlineexam.entities.ExamInfo;
-import com.onlineexam.entities.Score;
-import com.onlineexam.entities.UserScore;
+import com.onlineexam.entities.*;
 import com.onlineexam.service.ScoreService;
 import com.onlineexam.utils.PageBean;
 import org.springframework.stereotype.Service;
@@ -42,7 +39,10 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public UserScore getUserScore(String email, int examId) {
-        return dao.getUserScore(email, examId);
+        int rank = dao.getRank(email);
+        UserScore userScore = dao.getUserScore(email, examId);
+        userScore.setRank(rank);
+        return userScore;
     }
 
     @Override
@@ -57,6 +57,16 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public String getAnswer(Integer id) {
         return dao.getAnswer(id);
+    }
+
+    @Override
+    public List<Report> getReport(Integer examId) {
+        return dao.getReport(examId);
+    }
+
+    @Override
+    public String getUserAnswer(Integer questionId, String email, Integer examId) {
+        return dao.getUserAnswer(questionId, email, examId);
     }
 
 }

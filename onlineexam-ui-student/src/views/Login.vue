@@ -34,6 +34,8 @@ import request from "../../../onlineexam-ui-admin/src/utils/request";
 
 export default {
   name: "Login",
+  created() {
+  },
   data() {
     var checkEmail = (rule, value, callback) => {
       if (value === '') {
@@ -55,6 +57,7 @@ export default {
       }
     };
     return {
+      time: null,
       ruleForm:{
         email:'',
         username:'',
@@ -87,6 +90,9 @@ export default {
         return false
       }
           const _this = this
+      axios.get('http://localhost:83/information/getUserName/'+this.ruleForm.email).then(function (resp) {
+        _this.ruleForm.username = resp.data['data']
+      })
           axios.post('http://localhost:80/login',this.ruleForm).then(function (resp) {
             _this.ruleForm.test = resp.data['message']
             sessionStorage.setItem("token",resp.data['data']);
@@ -100,7 +106,8 @@ export default {
                 path: "/home",
                 name: "home",
                 params: { activeIndex: '2',
-                          email: _this.ruleForm.email}
+                          email: _this.ruleForm.email,
+                userName: _this.ruleForm.username}
               });
               _this.$router.replace('/home')
             }

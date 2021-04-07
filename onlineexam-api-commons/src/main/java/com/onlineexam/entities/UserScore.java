@@ -21,4 +21,6 @@ public class UserScore {
     private Integer score;
     @ApiModelProperty("考试总分")
     private Integer sum_score;
+    @ApiModelProperty("排名")
+    private Integer rank;
 }

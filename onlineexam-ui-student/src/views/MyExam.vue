@@ -1,11 +1,9 @@
 <template>
   <div>
     <Navigation></Navigation>
+    <br>
     <div style="width: 70%;margin-left: 15%;margin-top: 1%;background: #fff;height: 900px">
-      <label style="width: 10%;margin-top: 2%;margin-left: 5%">考试编号：</label>
-      <el-input style="width: 37%;margin-top: 2%;margin-left: 1%"></el-input>
-      <el-button style="width: 10%;margin-left: 1%">搜索</el-button>
-      <el-divider style="margin-top: 1%"></el-divider>
+
       <el-table
           :data="tableData"
           style="width: 100%">

@@ -104,6 +104,15 @@ export default {
         }).then(function (resp) {
       _this.tableData = resp.data['data']
     })
+    axios.get('http://localhost:83/information/getUserName/'+this.userInfo.email,
+        {
+          params: {
+            token: sessionStorage.getItem('token')
+          }
+        }).then(function (resp) {
+      _this.userInfo.userName = resp.data['data']
+    })
+    console.log("用户名用户名啊用户名："+this.userInfo.userName)
   },
   data() {
     return {

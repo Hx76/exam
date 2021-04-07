@@ -49,4 +49,11 @@ public class InformationController {
     public CommonResult pageView(){
         return new CommonResult(510,"查询成功",stringRedisTemplate.opsForValue().get("views"));
     }
+
+    @GetMapping(value = "/provider/information/getUserName/{email}")
+    public CommonResult getUserName(@PathVariable String email){
+        return new CommonResult(200,"查询成功",service.getUserName(email));
+    }
+
+
 }

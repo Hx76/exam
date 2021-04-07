@@ -20,7 +20,7 @@
      
           <div style="margin-top: 10%">
             <p style="margin-top: 1%;float: left">姓名</p>
-            <el-input v-model="userInfo.name"></el-input>
+            <el-input v-model="userInfo.userName"></el-input>
             <p style="float: left;margin-top: 1%">邮箱</p>
             <el-input v-model="userInfo.email" disabled="disabled"></el-input>
             <el-button style="margin-top: 1%" @click="save()">保存</el-button>
@@ -44,13 +44,13 @@ export default {
   data() {
     return {
       userInfo: {
-        name: '用户',
+        userName: '用户',
         email: '邮箱'
       }
     };
   },
   created(){
-    this.userInfo.name = this.$route.params.username
+    this.userInfo.userName = this.$route.params.userName
     this.userInfo.email = this.$route.params.email
   },
   methods: {
@@ -58,7 +58,6 @@ export default {
       const _this = this
       axios.post('http://localhost:83/information/update/'+_this.userInfo.name+'/'+
       _this.userInfo.email).then(function (resp) {
-
       })
     }
   }

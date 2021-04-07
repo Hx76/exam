@@ -34,5 +34,17 @@
     <select id="getAnswer" resultType="java.lang.String">
         select correct_option from answer where question_id=#{id}
     </select>
+    <select id="getReport" resultType="com.onlineexam.entities.Report">
+        SELECT rank,email,score,name
+        from
+            (select @rank:=@rank+1 AS rank,email,score,name
+             from
+                 score,(SELECT @rank:=0) r
+             WHERE exam_id=#{examId}
+             ORDER BY score DESC)b
+    </select>
+    <select id="getUserAnswer" resultType="java.lang.String">
+        select answer from examination_paper where question_id=#{param1} and email=#{param2} and exam_id=#{param3}
+    </select>
 
 </mapper>

@@ -1,18 +1,11 @@
 <template>
   <div>
     <Navigation></Navigation>
+    <br>
     <div style="width: 70%;margin-left: 15%;margin-top: 1%;background: #fff;height: 900px">
-      <label style="width: 10%;margin-top: 2%;margin-left: 5%">考试编号：</label>
-      <el-input style="width: 37%;margin-top: 2%;margin-left: 1%"></el-input>
-      <el-button style="width: 10%;margin-left: 1%">搜索</el-button>
-      <el-divider style="margin-top: 1%"></el-divider>
       <el-table
           :data="tableData"
           style="width: 100%">
-        <el-table-column
-            type="selection">
-          <el-checkbox></el-checkbox>
-        </el-table-column>
         <el-table-column
             prop="exam_serial_number"
             label="邀请码"
@@ -33,62 +26,55 @@
         </el-table-column>
         <el-table-column
             label="操作">
-          <el-button type="text" @click="updateDialogVisible = true">详情</el-button>
-          <el-dialog title="题目详情" :visible.sync="updateDialogVisible" append-to-body>
+          <template slot-scope="scope">
+          <el-button type="text" @click="viewReport(scope.row)">详情</el-button>
+          <el-dialog
+              title="考试详情"
+              :visible.sync="updateDialogVisible"
+              width="80%"
+              :before-close="handleClose">
             <div>
               <el-form :model="dialogData">
-                <el-form-item  label="题干:">
-                  <el-input autocomplete="off" v-model="dialogVisible.question_body"></el-input>
+                <el-form-item label="成绩单:">
                 </el-form-item>
               </el-form>
             </div>
-            <div>
-              <el-form>
-                <el-form-item label="题目类型:">
-                  <el-select v-model="dialogData.type_id" placeholder="请选择题目类型">
-                    <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-form>
-            </div>
-            <div>
-              <el-form :model="dialogData">
-                <el-form-item label="选项1:">
-                  <el-input autocomplete="off" v-model="dialogData.options"></el-input>
-                </el-form-item>
-                <el-form-item label="选项2:" :label-width="formLabelWidth">
-                  <el-input autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="选项3:" :label-width="formLabelWidth">
-                  <el-input autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="选项4:" :label-width="formLabelWidth">
-                  <el-input autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="答案:" :label-width="formLabelWidth">
-                  <el-select placeholder="请选择答案">
-                    <el-option label="选项1" value="shanghai"></el-option>
-                    <el-option label="选项2" value="beijing"></el-option>
-                    <el-option label="选项3" value="beijing"></el-option>
-                    <el-option label="选项4" value="beijing"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="分值:">
-                  <el-input autocomplete="off" v-model="dialogData.score"></el-input>
-                </el-form-item>
-              </el-form>
-            </div>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="updateDialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="updateDialogVisible = false">确 定</el-button>
-            </div>
+            <el-table
+                :data="tableData1"
+                style="width: 100%">
+              <el-table-column
+                  prop="rank"
+                  label="名次"
+                  width="180">
+              </el-table-column>
+              <el-table-column
+                  prop="name"
+                  label="用户名"
+                  width="180">
+              </el-table-column>
+              <el-table-column
+                  prop="email"
+                  label="邮箱">
+              </el-table-column>
+              <el-table-column
+                  prop="score"
+                  label="分数">
+              </el-table-column>
+              <el-table-column
+                  label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" @click="viewExamPaper(scope.row)">查看试卷</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = true">确 定</el-button>
+              </span>
           </el-dialog>
           <el-button type="text" @click="centerDialogVisible = true">删除</el-button>
+          </template>
 
           <el-dialog
               title="提示"
@@ -144,6 +130,7 @@ export default {
         }).then(function (resp) {
       _this.tableData = resp.data['data']
     })
+    console.log("用户名用户名啊用户名："+this.userInfo.userName)
   },
   data() {
     return {
@@ -154,6 +141,7 @@ export default {
       updateDialogVisible: false,
       dialogVisible: false,
       centerDialogVisible: false,
+      examNumber: 0,
       active: 0,
       total: 0,
       options: [{
@@ -182,6 +170,12 @@ export default {
         type_id: '5',
         option: [],
         answer: '7'
+      }],
+      tableData1: [{
+        rank: '',
+        name: '',
+        email: '',
+        score: '',
       }],
       tableData: [{
         exam_serial_number: '',
@@ -222,6 +216,31 @@ export default {
     },
     deleteQuestion(){
       this.centerDialogVisible = false
+    },
+    viewReport(e){
+      this.updateDialogVisible = true
+      var rowInfo = JSON.stringify(e);
+      var json = eval('(' + rowInfo + ')');
+      console.log("邀请码"+json.exam_serial_number)
+      this.examNumber=json.exam_serial_number
+      const _this = this
+      axios.get('http://localhost:85/score/getReport/'+json.exam_serial_number).then(function (resp) {
+        _this.tableData1 = resp.data['data']
+        console.log(resp.data)
+      })
+    },
+    viewExamPaper(e){
+      var rowInfo = JSON.stringify(e);
+      var json = eval('(' + rowInfo + ')');
+      this.$router.push({
+        path: "/examPaper",
+        name: "examPaper",
+        params: {email: this.userInfo.email,
+          email1: json.email,
+          userName: this.userInfo.userName,
+          exam_id: this.examNumber}
+      });
+      _this.$router.replace('/examPaper')
     }
   }
 }
