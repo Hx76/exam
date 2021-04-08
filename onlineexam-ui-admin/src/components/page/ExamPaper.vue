@@ -3,7 +3,6 @@
     <el-menu
         class="el-menu-demo"
         mode="horizontal"
-        @select="handleSelect"
         background-color="#00aeff"
         text-color="#fff"
         active-text-color="#ffd04b">
@@ -75,18 +74,16 @@
         </el-radio-group>
         <input v-model="fillingQuestionNumber[indexOfQuestion].submitAnswer" v-if="fillingQuestionShow"></input>
       </div>
+
     </el-container>
-    <h2 style="width: 60%">答案：{{this.answer}}</h2>
+    <h2 style="margin-left: 30%">答案：{{this.answer}}</h2>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Exam",
   created() {
     this.email = this.$route.params.email1
-    this.userInfo.email = this.$route.params.email1
-    this.userInfo.userName = this.$route.params.userName
     this.exam_id = this.$route.params.exam_id
     console.log(this.exam_id)
     const _this = this
@@ -202,7 +199,7 @@ export default {
         _this.selectionQuestionOptions.D = resp.data['data'][3].option
         console.log(_this.selectionQuestionOptions.A)
       })
-      axios.get('http://localhost:85/score/getUserAnswer/'+this.selectionQuestionNumber[index].id+'/'+this.userInfo.email+"/"+this.exam_id).then(function (resp) {
+      axios.get('http://localhost:85/score/getUserAnswer/'+this.selectionQuestionNumber[index].id+'/'+this.email+"/"+this.exam_id).then(function (resp) {
         _this.selectionSubmitAnswer = parseInt(resp.data['data'])
         console.log( resp.data['data'])
         console.log("ssss"+_this.selectionSubmitAnswer)
@@ -232,7 +229,8 @@ export default {
       this.judgeQuestionShow = true
       console.log(this.judgeQuestionNumber[index].id)
       const _this = this
-      axios.get('http://localhost:85/score/getUserAnswer/'+this.judgeQuestionNumber[index].id+'/'+this.userInfo.email+"/"+this.exam_id).then(function (resp) {
+      console.log("邮箱："+this.judgeQuestionNumber[index].id)
+      axios.get('http://localhost:85/score/getUserAnswer/'+this.judgeQuestionNumber[index].id+'/'+this.email+"/"+this.exam_id).then(function (resp) {
           _this.judgeSubmitAnswer=resp.data['data']
         console.log("大难啊"+resp.data['data']+_this.judgeSubmitAnswer)
       })
@@ -254,7 +252,7 @@ export default {
       this.fillingQuestionShow = true
       this.judgeQuestionShow = false
       const _this = this
-      axios.get('http://localhost:85/score/getUserAnswer/'+this.fillingQuestionNumber[index].id+'/'+this.userInfo.email+"/"+this.exam_id).then(function (resp) {
+      axios.get('http://localhost:85/score/getUserAnswer/'+this.fillingQuestionNumber[index].id+'/'+this.email+"/"+this.exam_id).then(function (resp) {
         _this.fillingQuestionNumber[index].submitAnswer = resp.data['data']
       })
       axios.get('http://localhost:85/score/getAnswer/'+this.fillingQuestionNumber[index].id).then(function (resp) {
@@ -269,7 +267,7 @@ export default {
           email: this.userInfo.email,
           userName: this.userInfo.userName}
       });
-      this.$router.replace('/home')
+      this.$router.replace('/index')
     },
   }
 }

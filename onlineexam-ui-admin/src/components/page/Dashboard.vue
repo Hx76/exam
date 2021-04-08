@@ -12,12 +12,12 @@
                       </div>
                     </div>
                     <div class="user-info-list">
-                      上次登录时间：
-                      <span>2020-3-16</span>
+                      上次登录ip：
+                      <span>{{ip}}</span>
                     </div>
                     <div class="user-info-list">
                       上次登录地点：
-                      <span>内蒙古</span>
+                      <span>{{address}}</span>
                     </div>
                   </el-card>
                 </el-col>
@@ -30,23 +30,13 @@
                             <div class="grid-content grid-con-1">
                                 <i class="el-icon-lx-people grid-con-icon"></i>
                                 <div class="grid-cont-right">
-                                    <div class="grid-num">1234</div>
+                                    <div class="grid-num">{{this.view}}</div>
                                     <div>用户访问量</div>
                                 </div>
                             </div>
                         </el-card>
                     </el-col>
-                    <el-col :span="8" style="margin-left: 3%">
-                        <el-card shadow="hover" :body-style="{padding: '0px'}">
-                            <div class="grid-content grid-con-2">
-                                <i class="el-icon-lx-notice grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">321</div>
-                                    <div>在线人数</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
+
                 </el-row>
 
 
@@ -61,10 +51,22 @@ import bus from '../common/bus';
 export default {
     name: 'dashboard',
     created() {
-
+      const _this = this
+      axios.get('http://localhost:83/information/pageView').then(function (resp) {
+        _this.view = resp.data['data']
+        console.log(resp.data)
+      })
+      axios.get('http://localhost:83/information/getAdminInfo').then(function (resp) {
+        _this.ip = resp.data['data'].ip
+        _this.address = resp.data['data'].address
+        console.log(resp.data)
+      })
     },
   data() {
         return {
+          ip:'',
+          address:'',
+          view: 0,
             name: localStorage.getItem('ms_username'),
             data: [
                 {

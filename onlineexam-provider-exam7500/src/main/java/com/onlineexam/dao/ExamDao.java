@@ -34,4 +34,6 @@ public interface ExamDao {
     Integer getQuestionId(String questionBody);
     Integer getQuestionScore(Integer id);
     void updateTotal(Integer id,Integer total);
+
+    Exam getExamById(Integer examId);
 }

@@ -1,7 +1,9 @@
 <template>
     <div class="login-wrap">
+      <h1 align="center">&nbsp; </h1>
+      <h1 align="center" style="margin-top: 5%">线上考试后台管理系统</h1>
         <div class="ms-login">
-            <div class="ms-title">后台管理系统</div>
+
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
                     <el-input v-model="param.username" placeholder="username">
@@ -47,7 +49,7 @@ export default {
                 if (valid) {
                     this.$message.success('登录成功');
                     localStorage.setItem('ms_username', this.param.username);
-                    this.$router.push('/');
+                    this.$router.push('/index');
                 } else {
                     this.$message.error('请输入账号和密码');
                     console.log('error submit!!');

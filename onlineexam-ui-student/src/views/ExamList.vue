@@ -1,5 +1,11 @@
 <template>
   <div style="width: 70%;margin-left: 15%" >
+    <label style="width: 10%;margin-top: 2%;margin-left: 5%">考试名称：</label>
+    <el-input style="width: 37%;margin-top: 2%;margin-left: 1%" v-model="searchKey"></el-input>
+    <el-button style="width: 10%;margin-left: 1%" @click="search()">搜索</el-button>
+    <br>
+    <br>
+
             <el-table
                 :data="tableData"
                 style="width: 100%">
@@ -116,6 +122,7 @@ export default {
   },
   data() {
     return {
+      searchKey: '',
       userInfo: {
         userName: '用户',
         email: '',
@@ -216,6 +223,25 @@ export default {
         }
       })
     },
+    search(){
+      if (this.searchKey!==''){
+        const _this = this
+        axios.get('http://localhost:82/exam/searchExam/'+this.searchKey+"/"+1+"/"+8).then(function (resp) {
+          _this.total = Number(resp.data['message'])
+          _this.tableData=resp.data['data']
+        })
+      }else {
+        console.log("搜索为空")
+        const _this = this
+        axios.get('http://localhost:82/exam/countAll').then(function (resp) {
+          _this.total = resp.data['data']
+          console.log(resp.data)
+        })
+        axios.get('http://localhost:82/exam/showAll/1/8').then(function (resp) {
+          _this.tableData = resp.data['data']
+        })
+      }
+    }
   }
 }
 </script>

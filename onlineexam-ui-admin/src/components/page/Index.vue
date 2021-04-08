@@ -1,8 +1,16 @@
 <template>
-  <div style="height: 900px;width: 1200px">
-    <iframe src="http://192.168.191.1:8848/nacos/index.html#/configurationManagement?dataId=&group=&appName=&namespace=" style="height: 900px;width: 1000px"></iframe>
+  <div>
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>
+          <i class="el-icon-lx-cascades"></i> 索引管理
+        </el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <div class="container">
+    <iframe src="http://49.232.4.183:9100/" style="height: 800px;width: 100%"></iframe>
   </div>
-
+  </div>
 </template>
 
 <script>
@@ -31,7 +39,7 @@ export default {
         line-height: 1;
         font-size: 250px;
         font-weight: bolder;
-        color: #2d8cf0;
+        color: #f02d2d;
     }
     .error-code span{
         color: #00a854;

@@ -64,4 +64,7 @@
     <select id="getQuestionScore" resultType="java.lang.Integer">
         select score from question where id=#{id}
     </select>
+    <select id="getExamById" resultType="com.onlineexam.entities.Exam">
+        select * from exam where exam_serial_number=#{examId}
+    </select>
 </mapper>

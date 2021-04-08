@@ -151,11 +151,13 @@ public class QuestionController {
 
         List<Integer> question_ids = new ArrayList<Integer>();
         //解析结果
+        int i=0;
         ArrayList<Map<String, Object>> list = new ArrayList<>();
         for (SearchHit hit : response.getHits().getHits()) {
             list.add(hit.getSourceAsMap());
             question_ids.add((Integer) list.get(0).get("question_id"));
             System.out.println(list);
+            i+=1;
         }
 
         List<Question> questions = service.search(question_ids,currentPage,pageSize);

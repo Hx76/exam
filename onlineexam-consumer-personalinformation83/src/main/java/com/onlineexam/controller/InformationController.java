@@ -56,4 +56,18 @@ public class InformationController {
         return restTemplate.getForObject(INFORMATION_URL+"/provider/information/getUserName/"+email,CommonResult.class);
     }
 
+    @ApiOperation("获取管理员信息")
+    @GetMapping(value = "/information/getAdminInfo")
+    public CommonResult getAdminInfo(){
+        return restTemplate.getForObject(INFORMATION_URL+"/provider/information/getAdminInfo",CommonResult.class);
+    }
+
+    @ApiOperation("搜索用户信息")
+    @GetMapping(value = "/information/searchUserInfo/{key}/{currentPage}/{pageSize}")
+    public CommonResult searchUserInfo(@PathVariable @ApiParam("关键字") String key,
+                                       @PathVariable @ApiParam("当前页") int currentPage,
+                                       @PathVariable @ApiParam("页面容量") int pageSize){
+        return restTemplate.getForObject(INFORMATION_URL+"/provider/information/searchUserInfo/"+key+"/"+currentPage+"/"+pageSize,CommonResult.class);
+    }
+
 }

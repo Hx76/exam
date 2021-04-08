@@ -14,4 +14,6 @@ public interface InformationDao {
     List<User> showAllUsers();
     Integer countAll();
     String getUserName(String email);
+    User getAdminInfo();
+    User getUserByEmail(String email);
 }

@@ -26,5 +26,5 @@ public interface ExamService {
     List<UserScore> showMyJoinExam(int currentPage, int pageSize, @Param("email") String email);
     Integer createExam(AddExamInfo examInfo) throws ParseException;
     void addExamQuestion(Integer id,List<String> value);
-
+    List<Exam> search(List<Integer> examIds, int currentPage, int pageSize);
 }

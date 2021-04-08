@@ -17,5 +17,11 @@
     <select id="getUserName" resultType="java.lang.String">
         select username from user where email=#{email}
     </select>
+    <select id="getAdminInfo" resultType="com.onlineexam.entities.User">
+        select * from user where username='admin'
+    </select>
+    <select id="getUserByEmail" resultType="com.onlineexam.entities.User">
+        select * from user where email=#{email}
+    </select>
 
 </mapper>

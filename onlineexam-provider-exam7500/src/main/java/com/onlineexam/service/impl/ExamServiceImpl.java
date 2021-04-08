@@ -2,10 +2,7 @@ package com.onlineexam.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.onlineexam.dao.ExamDao;
-import com.onlineexam.entities.AddExamInfo;
-import com.onlineexam.entities.Exam;
-import com.onlineexam.entities.SubmitQuestion;
-import com.onlineexam.entities.UserScore;
+import com.onlineexam.entities.*;
 import com.onlineexam.service.ExamService;
 import com.onlineexam.utils.PageBean;
 import com.onlineexam.utils.VerificationCodeUtil;
@@ -145,6 +142,20 @@ public class ExamServiceImpl implements ExamService {
             total += dao.getQuestionScore(dao.getQuestionId(s));
         }
         dao.updateTotal(id,total);
+    }
+
+    @Override
+    public List<Exam> search(List<Integer> examIds, int currentPage, int pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
+        List<Exam> exams = new ArrayList<Exam>();
+        for (Integer examId : examIds) {
+            System.out.println("考试编号："+examId);
+            exams.add(dao.getExamById(examId));
+        }
+        int countNums = exams.size();
+        PageBean<Exam> pageData = new PageBean<>(currentPage, pageSize, countNums);
+        pageData.setItems(exams);
+        return pageData.getItems();
     }
 
 

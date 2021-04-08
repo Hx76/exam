@@ -120,4 +120,12 @@ public class ExamController {
                                         @PathVariable @ApiParam("题目") List<String> value){
         return restTemplate.getForObject(EXAM_URL+"/provider/exam/addExamQuestion/"+examIds+"/"+value,CommonResult.class);
     }
+
+    @ApiOperation("搜索考试")
+    @GetMapping(value = "/exam/searchExam/{key}/{currentPage}/{pageSize}")
+    public CommonResult searchUserInfo(@PathVariable @ApiParam("关键字") String key,
+                                       @PathVariable @ApiParam("当前页") int currentPage,
+                                       @PathVariable @ApiParam("页面容量") int pageSize){
+        return restTemplate.getForObject(EXAM_URL+"/provider/exam/searchExam/"+key+"/"+currentPage+"/"+pageSize,CommonResult.class);
+    }
 }

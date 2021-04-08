@@ -21,7 +21,7 @@ spring:
   redis:
     host: 81.68.225.241
     port: 6379
-    password: 123456
+    password: Hx947769582
 
 mybatis:
   mapperLocations: classpath:mapper/*.xml

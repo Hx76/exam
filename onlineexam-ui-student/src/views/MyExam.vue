@@ -135,9 +135,9 @@ export default {
       this.$router.push({
         path: "/examPaper",
         name: "examPaper",
-        params: {email: this.userInfo.email,exam_id: this.exam_id}
+        params: {email1: this.userInfo.email,exam_id: this.exam_id}
       });
-      _this.$router.replace('/examPaper')
+      this.$router.replace('/examPaper')
     }
   }
 }

@@ -8,18 +8,8 @@
             </el-breadcrumb>
         </div>
         <div class="container">
-            <div class="handle-box">
-                <el-button
-                    type="primary"
-                    icon="el-icon-delete"
-                    class="handle-del mr10"
-                    @click="delAllSelection"
-                >批量删除</el-button>
-                <el-select v-model="query.address" placeholder="ip地址" class="handle-select mr10">
-                    <el-option key="1" label="广东省" value="广东省"></el-option>
-                    <el-option key="2" label="湖南省" value="湖南省"></el-option>
-                </el-select>
-                <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
+            <div class="handle-box" align="center">
+                <el-input v-model="searchKey" placeholder="用户名" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
             </div>
             <el-table
@@ -48,12 +38,6 @@
                             icon="el-icon-edit"
                             @click="handleEdit(scope.$index, scope.row)"
                         >编辑</el-button>
-                        <el-button
-                            type="text"
-                            icon="el-icon-delete"
-                            class="red"
-                            @click="handleDelete(scope.$index, scope.row)"
-                        >删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -72,7 +56,7 @@
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px">
                 <el-form-item label="用户名">
-                    <el-input v-model="form.name"></el-input>
+                    <el-input v-model="name"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -89,6 +73,7 @@ export default {
     data() {
         return {
           total: 0,
+          searchKey: '',
           user: {
             id: 0,
             email: '',
@@ -113,6 +98,7 @@ export default {
             delList: [],
             editVisible: false,
             form: {},
+          name: '',
             idx: -1,
             id: -1
         };
@@ -134,9 +120,25 @@ export default {
         },
         // 触发搜索按钮
         handleSearch() {
-            this.$set(this.query, 'pageIndex', 1);
-            this.getData();
+          if (this.searchKey!==''){
+            const _this = this
+            axios.get('http://localhost:83/information/searchUserInfo/'+this.searchKey+"/"+1+"/"+4).then(function (resp) {
+              _this.total = Number(resp.data['message'])
+              _this.user=resp.data['data']
+            })
+          }else {
+            console.log("搜索为空")
+            const _this = this
+            axios.get('http://localhost:83/information/countAllUsers').then(function (resp) {
+              _this.total = resp.data['data']
+              console.log(resp.data)
+            })
+            axios.get('http://localhost:83/information/showAllUsers/1/4').then(function (resp) {
+              _this.user = resp.data['data']
+            })
+        }
         },
+
         // 删除操作
         handleDelete(index, row) {
             // 二次确认删除
@@ -168,12 +170,18 @@ export default {
             this.idx = index;
             this.form = row;
             this.editVisible = true;
+
         },
         // 保存编辑
         saveEdit() {
+          console.log("youxiang a "+this.form.email)
+          console.log(this.name)
+          const _this = this
+          axios.get('http://localhost:83/information/update/'+this.name+"/"+this.form.email).then(function (resp) {
+            console.log(resp.data)
+          })
             this.editVisible = false;
-            this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-            this.$set(this.tableData, this.idx, this.form);
+
         },
       page(currentPage) {
         const _this = this
@@ -186,7 +194,7 @@ export default {
         })
       },
     }
-};
+}
 </script>
 
 <style scoped>

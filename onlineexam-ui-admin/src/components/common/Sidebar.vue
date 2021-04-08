@@ -77,27 +77,35 @@ export default {
                     title: '题库管理'
                 },
                 {
-                    icon: 'el-icon-lx-global',
-                    index: 'scoreManage',
-                    title: '成绩管理'
-                },
-                {
                     icon: 'el-icon-lx-warn',
                     index: '7',
                     title: '系统监控',
                     subs: [
                         {
-                            index: 'permission',
-                            title: '服务治理'
-                        },
-                        {
-                            index: '404',
+                            index: 'nacos',
                             title: '服务配置'
                         },
+                        {
+                            index: 'sentinel',
+                            title: '服务治理'
+                        },
                       {
-                        index: '403',
+                        index: 'indexManage',
                         title: '索引管理'
-                      }
+                      },
+                      {
+                        index: 'swagger',
+                        title: '接口文档'
+                      },
+                      {
+                        index: 'kibana',
+                        title: 'kibana'
+                      },
+                      {
+                        index: 'druid',
+                        title: '数据源管理'
+                      },
+
                     ]
                 },
             ]

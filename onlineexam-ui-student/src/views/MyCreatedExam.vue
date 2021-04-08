@@ -241,7 +241,26 @@ export default {
           exam_id: this.examNumber}
       });
       _this.$router.replace('/examPaper')
-    }
+    },
+    createExam(){
+      console.log("输出data："+this.value)
+      this.examInfo.creator=this.userInfo.email
+      let dates=this.examInfo.date.getFullYear()+"-"+(this.examInfo.date.getMonth()+1)+"-"+this.examInfo.date.getDate()
+      this.examInfo.date=dates.toString()
+      let times=this.examInfo.time.getHours()+":"+(this.examInfo.time.getMinutes())+":"+this.examInfo.time.getSeconds()
+      this.examInfo.time=times.toString()
+      const _this = this
+      console.log(_this.examId)
+      console.log(typeof this.examInfo.date)
+      console.log(typeof this.examInfo.time)
+      console.log(typeof this.examInfo.name)
+      console.log(typeof this.examInfo.duration)
+      console.log(typeof this.examInfo.creator)
+      axios.post('http://localhost:82/exam/addExam/'+this.value,this.examInfo).then(function (resp) {
+        console.log("进这里了")
+      })
+      _this.dialogVisible=false
+    },
   }
 }
 </script>

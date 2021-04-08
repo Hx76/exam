@@ -12,4 +12,6 @@ public interface InformationService {
     List<User> showAllUsers(int currentPage, int pageSize);
     Integer countAll();
     String getUserName(String email);
+    User getAdminInfo();
+    List<User> search(List<String> emails,int currentPage,int pageSize);
 }

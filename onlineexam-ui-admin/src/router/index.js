@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import ExamPaper from "@/components/page/ExamPaper";
 
 Vue.use(Router);
 
@@ -8,6 +9,17 @@ export default new Router({
         {
             path: '/index',
             redirect: '/dashboard'
+        },
+        {
+            path: '/',
+            component: () => import(/* webpackChunkName: "login" */ '../components/page/Login.vue'),
+            meta: { title: '登录' }
+        },
+        {
+            path: '/examPaper',
+            name: 'examPaper',
+            component: ExamPaper,
+            meta: { title: '试卷' }
         },
         {
             path: '/',
@@ -42,28 +54,44 @@ export default new Router({
                 },
                 {
                     // 权限页面
-                    path: '/permission',
-                    component: () => import(/* webpackChunkName: "permission" */ '../components/page/Permission.vue'),
-                    meta: { title: '权限测试', permission: true }
+                    path: '/nacos',
+                    component: () => import(/* webpackChunkName: "nacos" */ '../components/page/Nacos.vue'),
+                    meta: { title: '服务配置', permission: true }
                 },
                 {
-                    path: '/404',
-                    component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),
-                    meta: { title: '404' }
+                    path: '/sentinel',
+                    component: () => import(/* webpackChunkName: "sentinel" */ '../components/page/Sentinel.vue'),
+                    meta: { title: '服务治理' }
                 },
                 {
-                    path: '/403',
-                    component: () => import(/* webpackChunkName: "403" */ '../components/page/403.vue'),
-                    meta: { title: '403' }
+                    path: '/indexManage',
+                    component: () => import(/* webpackChunkName: "index" */ '../components/page/Index'),
+                    meta: { title: '索引管理' }
+                },
+                {
+                    path: '/kibana',
+                    component: () => import(/* webpackChunkName: "kibana" */ '../components/page/Kibana.vue'),
+                    meta: { title: 'kibana' }
+                },
+                {
+                    path: '/swagger',
+                    component: () => import(/* webpackChunkName: "swagger" */ '../components/page/Swagger.vue'),
+                    meta: { title: '接口文档' }
+                },
+                {
+                    path: '/druid',
+                    component: () => import(/* webpackChunkName: "druid" */ '../components/page/Druid.vue'),
+                    meta: { title: '数据源管理' }
+                },
+                {
+                    path: '/activemq',
+                    component: () => import(/* webpackChunkName: "activemq" */ '../components/page/ActiveMq.vue'),
+                    meta: { title: '消息队列管理' }
                 },
 
             ]
         },
-        {
-            path: '/',
-            component: () => import(/* webpackChunkName: "login" */ '../components/page/Login.vue'),
-            meta: { title: '登录' }
-        },
+
         {
             path: '*',
             redirect: '/404'

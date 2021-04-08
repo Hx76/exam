@@ -7,8 +7,15 @@ import com.onlineexam.service.ExamService;
 import com.onlineexam.utils.CommonResult;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +24,8 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class ExamController {
@@ -119,6 +126,42 @@ public class ExamController {
         System.out.println("examID: "+examIds);
         service.addExamQuestion(examIds,value);
         return new CommonResult(12,"题目添加成功",0);
+    }
+
+    @GetMapping(value = "/provider/exam/searchExam/{key}/{currentPage}/{pageSize}")
+    public CommonResult searchUserInfo(@PathVariable String key,
+                                       @PathVariable int currentPage,
+                                       @PathVariable int pageSize) throws IOException {
+        SearchRequest searchRequest = new SearchRequest("exams");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+        //分页,currentPage从0开始
+        searchSourceBuilder.from(currentPage-1);
+        searchSourceBuilder.size(pageSize);
+
+        //精准匹配
+        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("name", key);
+        searchSourceBuilder.query(termQueryBuilder);
+        searchSourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+
+        //执行搜索
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
+        System.out.println("aaaa"+ Arrays.toString(response.getHits().getHits()));
+
+        List<Integer> examIds = new ArrayList<Integer>();
+        //解析结果
+        ArrayList<Map<String, Object>> list = new ArrayList<>();
+        int i=0;
+        for (SearchHit hit : response.getHits().getHits()) {
+            list.add(hit.getSourceAsMap());
+            examIds.add((Integer) list.get(i).get("serial_number"));
+            i+=1;
+            System.out.println();
+        }
+
+        List<Exam> exams = service.search(examIds,currentPage,pageSize);
+        return new CommonResult(12,String.valueOf(exams.size()),exams);
     }
 
 
