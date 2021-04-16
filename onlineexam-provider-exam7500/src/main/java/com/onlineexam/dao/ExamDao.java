@@ -1,6 +1,7 @@
 package com.onlineexam.dao;
 
 import com.onlineexam.entities.Exam;
+import com.onlineexam.entities.ExamState;
 import com.onlineexam.entities.SubmitQuestion;
 import com.onlineexam.entities.UserScore;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
@@ -16,7 +17,7 @@ public interface ExamDao {
     List<Exam> showAllExam();
     int countExams();
     List<Exam> showExamByUser(@Param("email") String email);
-    Integer updateExam(Exam exam);
+    Integer updateExam(String name,Integer id);
     Integer addExam(Integer id,String name,String duration,Date date1,String creator,String state,Date date);
     List<Integer> showExamQuestion(int serialNumber);
     Date showExamTime(@Param("examId") int examId);
@@ -36,4 +37,10 @@ public interface ExamDao {
     void updateTotal(Integer id,Integer total);
 
     Exam getExamById(Integer examId);
+
+    List<ExamState> getAllTime();
+
+    void updateStateToUnderway(Integer exam_serial_number);
+
+    void updateExamStateToFinish(Integer exam_serial_number);
 }

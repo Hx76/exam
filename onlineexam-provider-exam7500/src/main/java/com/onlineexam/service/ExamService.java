@@ -14,7 +14,7 @@ import java.util.List;
 public interface ExamService {
     List<Exam> showAllExam(int currentPage,int pageSize);
     Integer countAll();
-    Integer updateExam(Exam exam);
+    Integer updateExam(String name,Integer id);
     Date showExamTime(@Param("examId") int examId);
     String getUserName(@Param("email") String email);
     Integer submit(SubmitQuestion[] question,String email,String examId);
@@ -27,4 +27,5 @@ public interface ExamService {
     Integer createExam(AddExamInfo examInfo) throws ParseException;
     void addExamQuestion(Integer id,List<String> value);
     List<Exam> search(List<Integer> examIds, int currentPage, int pageSize);
+    void updateState();
 }

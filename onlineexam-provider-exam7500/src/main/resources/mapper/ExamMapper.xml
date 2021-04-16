@@ -18,10 +18,16 @@
 
 
     <update id="updateExam">
-
+        update exam set name=#{param1} where id=#{param2}
     </update>
     <update id="updateTotal">
         update exam set total_points=#{param2} where exam_serial_number=#{param1}
+    </update>
+    <update id="updateStateToUnderway">
+        update exam set state='进行中' where id=#{exam_serial_number}
+    </update>
+    <update id="updateExamStateToFinish">
+        update exam set state='已结束' where id=#{exam_serial_number}
     </update>
     <select id="showAllExam" resultType="com.onlineexam.entities.Exam">
         select * from exam
@@ -66,5 +72,8 @@
     </select>
     <select id="getExamById" resultType="com.onlineexam.entities.Exam">
         select * from exam where exam_serial_number=#{examId}
+    </select>
+    <select id="getAllTime" resultType="com.onlineexam.entities.ExamState">
+        select * from exam
     </select>
 </mapper>

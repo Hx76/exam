@@ -33,5 +33,5 @@ public class Exam implements Serializable {
     @ApiModelProperty("考试创建时间")
     private String creation_time;
     @ApiModelProperty("参加考试人数")
-    private String number_of_people;
+    private Integer number_of_people;
 }

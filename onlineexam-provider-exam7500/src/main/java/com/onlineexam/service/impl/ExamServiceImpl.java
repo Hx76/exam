@@ -41,8 +41,8 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public Integer updateExam(Exam exam) {
-        return dao.updateExam(exam);
+    public Integer updateExam(String name,Integer id) {
+        return dao.updateExam(name,id);
     }
 
     @Override
@@ -156,6 +156,29 @@ public class ExamServiceImpl implements ExamService {
         PageBean<Exam> pageData = new PageBean<>(currentPage, pageSize, countNums);
         pageData.setItems(exams);
         return pageData.getItems();
+    }
+
+    @Override
+    public void updateState() {
+        List<ExamState> list=dao.getAllTime();
+        for (ExamState examState : list) {
+            Date date = examState.getStart_time();
+            System.out.println("date: "+date);
+            Date date1=date;
+            int hours = date.getHours();
+            int minutes = date.getMinutes();
+            if(minutes+Integer.valueOf(examState.getDuration())>=60){
+                minutes=(minutes+Integer.valueOf(examState.getDuration()))%60;
+                hours+=(minutes+Integer.valueOf(examState.getDuration()))/60;
+            }
+            date1.setHours(hours);
+            date1.setMinutes(minutes);
+            if (date.after(new Date())&&date.before(date1)&& !examState.getState().equals("进行中")){
+                dao.updateStateToUnderway(examState.getExam_serial_number());
+            }else if (date.after(date1)&& !examState.getState().equals("已结束")){
+                dao.updateExamStateToFinish(examState.getExam_serial_number());
+            }
+        }
     }
 
 

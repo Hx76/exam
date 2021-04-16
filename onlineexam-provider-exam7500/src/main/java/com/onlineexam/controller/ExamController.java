@@ -24,6 +24,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -46,9 +47,33 @@ public class ExamController {
 
     //分页展示全部考试
     @GetMapping(value = "/provider/exam/showAll/{currentPage}/{pageSize}")
-    public CommonResult showAllExam(@PathVariable int currentPage, @PathVariable int pageSize){
-        List<Exam> exams = service.showAllExam(currentPage,pageSize);
-        return new CommonResult(10,"yes",exams);
+    public CommonResult showAllExam(@PathVariable int currentPage, @PathVariable int pageSize) throws ParseException {
+        if (currentPage==1){
+            List<Exam> exams = new ArrayList<>();
+            for (int i=1;i<=8;i++){
+                System.out.println(i);
+                Map<Object, Object> pages = stringRedisTemplate.opsForHash().entries("exam:"+i);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                System.out.println(pages.get("startDate").toString()+" "+pages.get("startTime").toString());
+                Date date = simpleDateFormat.parse(pages.get("startDate").toString()+" "+pages.get("startTime").toString());
+                System.out.println(date);
+                Exam exam = new Exam(i,Integer.valueOf(pages.get("exam_serial_number").toString()),pages.get("name").toString(),
+                        pages.get("duration").toString(),date,pages.get("creator").toString(),
+                        pages.get("state").toString(),pages.get("totalPoints").toString(),"2020-10-03",
+                        0);
+                exams.add(exam);
+            }
+            if(exams!=null){
+                return new CommonResult(10,"yes",exams);
+            }else{
+                List<Exam> exams1 = service.showAllExam(currentPage,pageSize);
+                return new CommonResult(10,"yes",exams1);
+            }
+        }else {
+            List<Exam> exams1 = service.showAllExam(currentPage,pageSize);
+            return new CommonResult(10,"yes",exams1);
+        }
+
     }
 
     //分页展示我参加的考试
@@ -74,13 +99,6 @@ public class ExamController {
         System.out.println(num);
         return new CommonResult(12,"yes",num);
     }
-
-//    @PostMapping(value = "/provider/exam/update")
-//    public CommonResult updateInformation(@RequestBody Exam exam){
-//
-//    }
-//
-
 
     //分页展示我创建的考试
     @GetMapping(value = "/provider/exam/showMyCreatedExam/{currentPage}/{pageSize}/{email}")
@@ -162,6 +180,19 @@ public class ExamController {
 
         List<Exam> exams = service.search(examIds,currentPage,pageSize);
         return new CommonResult(12,String.valueOf(exams.size()),exams);
+    }
+
+    @GetMapping("/provider/exam/updateExam/{examId}/{name}/{id}")
+    public CommonResult updateExam(@PathVariable String name,@PathVariable Integer id){
+        if (id<=8){
+            Map<Object, Object> pages = stringRedisTemplate.opsForHash().entries("exam:"+id);
+            stringRedisTemplate.opsForHash().put("exam:"+id,"name",name);
+            service.updateExam(name,id);
+            return new CommonResult(200,"yes");
+        }else {
+            service.updateExam(name,id);
+            return new CommonResult(200,"yes");
+        }
     }
 
 
