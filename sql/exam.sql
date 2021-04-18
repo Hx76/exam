@@ -12,3 +12,4 @@ CREATE TABLE `exam` (
                         PRIMARY KEY (`id`,`exam_serial_number`),
                         KEY `exam_serial_number` (`exam_serial_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+3
